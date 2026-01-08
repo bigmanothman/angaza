@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANGAZA | Find Work Connections</title>
+  <style>
+    /* ===== Additions for Worker Page ===== */
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #f8f9fa;
+  min-height: 100vh;
+  background-attachment: fixed;
+  transition: background 1s ease-in-out;
+}
+body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f8f9fa;
+      min-height: 100vh;
+      background-attachment: fixed;
+      transition: background 1s ease-in-out;
+    }
+
+     /* ====== Header ====== */
+    header {
+      background: rgba(10, 61, 98, 0.95);
+      backdrop-filter: blur(8px);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 40px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+
+   .top-nav, .auth-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+
+    .logo {
+      font-size: 1.7rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #ffd32a;
+      text-shadow: 0 0 10px #ffd32a;
+    }
+
+    .top-nav a, .auth-nav a {
+      color: #f1f1f1;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .top-nav a:hover, .top-nav a.active,
+    .auth-nav a:hover, .auth-nav a.active {
+      color: #ffd32a;
+      text-shadow: 0 0 10px #ffd32a;
+    }
+
+    .auth-nav {
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .auth-nav a {
+      padding: 6px 18px;
+      border-radius: 25px;
+      background: gold;
+      color: #000;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .auth-nav a:hover {
+      box-shadow: 0 0 15px gold;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 20px;
+      }
+      .top-nav, .auth-nav {
+        justify-content: center;
+        margin: 5px 0;
+      }
+      .top-nav a, .auth-nav a {
+        margin: 5px 10px;
+      }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 80px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: gold;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    .hero p {
+      color: #e0e0e0;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+
+    .btn-group {
+      margin-top: 25px;
+    }
+
+    .btn, .btn-outline {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s;
+      margin: 8px;
+    }
+
+    .btn {
+      background: gold;
+      color: #000;
+      box-shadow: 0 0 10px gold;
+    }
+
+    .btn:hover {
+      box-shadow: 0 0 20px gold;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      border: 2px solid gold;
+      color: gold;
+    }
+
+    .btn-outline:hover {
+      background: gold;
+      color: #000;
+      box-shadow: 0 0 20px gold;
+    }
+
+    /* ===== Sections ===== */
+    section {
+      padding: 80px 10%;
+      text-align: center;
+    }
+
+    h2 {
+      color: gold;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card .btn{
+      color: #000;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+    }
+
+    .card h3 {
+      color: gold;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+      nav a {
+        display: inline-block;
+        margin: 10px;
+      }
+    }
+  
+  </style>
+</head>
+
+<body>
+   <header>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <div class="logo">💡 ANGAZA</div>
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="works.html">Find Work</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="shining_zone.html">Shining Zone</a>
+      </nav>
+    </div>
+
+    <!-- Authentication Navigation -->
+    <div class="auth-nav">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+  </header>
+  <section class="hero">
+    <h1>Connect with Companies & Grow Your Career</h1>
+    <p>ANGAZA helps you find real job opportunities that match your skills and goals. Explore verified employers and send your requests directly!</p>
+
+    <div class="btn-group">
+      <a href="#companies" class="btn">View Companies</a>
+      <a href="#steps" class="btn-outline">How It Works</a>
+    </div>
+  </section>
+
+  <section id="companies">
+    <h2>💼 Companies Currently Hiring</h2>
+    <p>Explore verified companies actively seeking skilled workers.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>BIGMAN OTHMAN Tech Ltd</h3>
+        <p><b>Looking for:</b> Software Engineers</p>
+        <p><b>Requirements:</b> Bachelor’s Degree + Project Experience</p>
+        <a href="bigman.html" class="btn">Request Position</a>
+      </div>
+
+      <div class="card">
+        <h3>SmartVision AI</h3>
+        <p><b>Looking for:</b> Data Analysts & Python Developers</p>
+        <p><b>Requirements:</b> GitHub portfolio + analytical projects</p>
+        <a href="#" class="btn">Request Position</a>
+      </div>
+
+      <div class="card">
+        <h3>BlueNova Digital</h3>
+        <p><b>Looking for:</b> UI/UX Designers</p>
+        <p><b>Requirements:</b> Creative design portfolio + tool mastery</p>
+        <a href="#" class="btn">Request Position</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="steps">
+    <h2>🔗 How Work Connection Works</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Step 1: Choose Your Field</h3>
+        <p>Select your career path and find matching companies.</p>
+      </div>
+      <div class="card">
+        <h3>Step 2: Submit Proofs</h3>
+        <p>Upload valid documents like certificates and project samples.</p>
+      </div>
+      <div class="card">
+        <h3>Step 3: Get Connected</h3>
+        <p>Receive notifications once your profile is verified and approved.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero">
+    <h2>Join the Shining Zone 🌟</h2>
+    <p>Stand out from other job seekers. Create your digital CV automatically and get noticed faster by employers.</p>
+    <a href="shining_zone.html" class="btn">Join Now</a>
+  </section>
+
+  <footer>
+    <p><a href="platform_owner.html" style="color: white;">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
+  </footer>
+</body>
+</html>

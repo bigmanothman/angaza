@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANGAZA | Employment Connection</title>
+  <style>
+    /* ====== General Styles ====== */
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f8f9fa;
+      min-height: 100vh;
+      background-attachment: fixed;
+      transition: background 1s ease-in-out;
+    }
+
+    /* ====== Header ====== */
+    header {
+      background: rgba(10, 61, 98, 0.95);
+      backdrop-filter: blur(8px);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 40px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .top-nav, .auth-nav {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 5px;
+    }
+
+    .logo {
+      font-size: 1.7rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #ffd32a;
+      text-shadow: 0 0 10px #ffd32a;
+    }
+
+    .top-nav a, .auth-nav a {
+      color: #f1f1f1;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .top-nav a:hover, .top-nav a.active,
+    .auth-nav a:hover, .auth-nav a.active {
+      color: #ffd32a;
+      text-shadow: 0 0 10px #ffd32a;
+    }
+
+    .auth-nav {
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .auth-nav a {
+      padding: 6px 18px;
+      border-radius: 25px;
+      background: gold;
+      color: #000;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .auth-nav a:hover {
+      box-shadow: 0 0 15px gold;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 20px;
+      }
+      .top-nav, .auth-nav {
+        justify-content: center;
+        margin: 5px 0;
+      }
+      .top-nav a, .auth-nav a {
+        margin: 5px 10px;
+      }
+    }
+
+    /* ====== Hero Section ====== */
+    .hero {
+      text-align: center;
+      padding: 90px 20px;
+      background: linear-gradient(120deg, rgba(15, 32, 39, 0.9), rgba(32, 58, 67, 0.9), rgba(44, 83, 100, 0.9));
+      color: #fff;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5) inset;
+      border-bottom: 2px solid rgba(255, 211, 42, 0.3);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: gold;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+      color: #e3e3e3;
+    }
+
+    .btn-group {
+      margin-top: 35px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #ffd32a, #ffc312);
+      color: #0a3d62;
+      padding: 14px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 5px;
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 20px rgba(255, 211, 42, 0.4);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 25px rgba(255, 211, 42, 0.6);
+    }
+
+    .btn-outline {
+      border: 2px solid #ffd32a;
+      background: transparent;
+      color: #ffd32a;
+    }
+
+    .btn-outline:hover {
+      background: #ffd32a;
+      color: #0a3d62;
+    }
+
+    /* ====== Info Section ====== */
+    .info {
+      text-align: center;
+      padding: 70px 20px;
+      color: #f1f1f1;
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      width: 300px;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      transition: 0.4s;
+      color: #fff;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: white;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 6px 35px rgba(255, 211, 42, 0.5);
+    }
+
+    /* ====== Footer ====== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #f1f1f1;
+      opacity: 0.8;
+      margin-top: 40px;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <div class="logo">💡 ANGAZA</div>
+      <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="works.html">Find Work</a>
+        <a href="workers.html">Find Workers</a>
+        <a href="shining_zone.html">Shining Zone</a>
+      </nav>
+    </div>
+
+    <!-- Authentication Navigation -->
+    <div class="auth-nav">
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Karibu ANGAZA 🌍</h1>
+      <p>
+        Your trusted platform connecting <b>Job Seekers</b> and <b>Employers</b> —
+        create, connect, and shine in your career journey!
+      </p>
+      <div class="btn-group">
+        <a href="shining_zone.html" class="btn">Join Shining Zone</a>
+        <a href="works.html" class="btn btn-outline">Find Jobs</a>
+      </div>
+    </section>
+
+    <section class="info">
+      <h2>Why Choose ANGAZA?</h2>
+      <div class="cards">
+        <div class="card">
+          <a href="works.html"><h3>For Job Seekers</h3>
+          <p>Upload your details and get discovered by top employers quickly and easily.</p>
+          </a>
+        </div>
+        <div class="card">
+          <a href="workers.html"><h3>For Employers</h3>
+          <p>Find verified, skilled workers that match your company’s needs efficiently.</p></a>
+        </div>
+        <div class="card">
+          <a href="shining_zone.html"><h3>Shining Zone</h3>
+          <p>Get a personal brand profile that makes you visible and stand out professionally.</p></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><a href="platform_owner.html" style="color: white;">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
+  </footer>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
+  authDomain: "angazasystem.firebaseapp.com",
+  projectId: "angazasystem",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+// 🧭 SAVE CURRENT PAGE FOR REDIRECT AFTER LOGIN
+localStorage.setItem("redirectAfterLogin", window.location.href);
+
+// 🔁 CHECK LOGIN STATUS
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // user tayari yupo logged in
+    window.location.href = "dashboard.html";
+  }
+});
+</script>
+
+</body>
+</html>

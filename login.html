@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login to Angaza</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Firebase v9 Modular SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } 
+    from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  // 🔑 Firebase Config (replace with your config)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
+    authDomain: "angazasystem.firebaseapp.com",
+    projectId: "angazasystem",
+    storageBucket: "angazasystem.firebasestorage.app",
+    messagingSenderId: "191988119746",
+    appId: "1:191988119746:web:aa050634bc5d57b1bde35b",
+    measurementId: "G-2RN3CLME03"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+
+  // Login Function
+  window.logIn = function() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPass").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredential => {
+  // chukua page ya awali kama ipo
+    const redirect = localStorage.getItem("redirectAfterLogin");
+
+    if (redirect) {
+      localStorage.removeItem("redirectAfterLogin");
+      window.location.href = redirect;
+    } else {
+      window.location.href = "index.html";
+    }
+})
+
+      .catch(error => {
+        alert("❌ Login Error: " + error.message);
+      });
+  }
+
+  
+
+  // Auth state observer
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      console.log("User logged in:", user.email);
+    } else {
+      console.log("No user logged in");
+    }
+  });
+</script>
+
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+h2 {
+  color: gold;
+  text-shadow: 0 0 8px gold;
+  margin-top: 30px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 300px;
+  margin: 8px 0;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 12px 12px 38px; /* Left padding to fit icon */
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 1rem;
+  text-align: left; /* cursor starts left */
+}
+
+.input-wrapper input::placeholder {
+  color: #F7E7A9;
+  font-weight: 500;
+  text-align: left; /* placeholder aligns left */
+}
+
+/* Icon on the left inside input */
+.input-wrapper i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #F7E7A9;
+  font-size: 1rem;
+}
+
+button {
+  width: 320px;
+  padding: 12px;
+  margin-top: 12px;
+  background: gold;
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 12px gold;
+  transition: 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 20px gold;
+  transform: translateY(-2px);
+}
+
+.container {
+  position: relative; 
+  margin-top: 50px;
+  padding: 30px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+/* Cancel Button Styles */
+.cancel-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background: rgba(255, 0, 0, 0.6);
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+footer {
+      text-align: center;
+      padding: 20px;
+      color: #f1f1f1;
+      opacity: 0.8;
+      margin-top: 40px;
+    }
+
+.cancel-btn:hover {
+  background: red;
+  transform: scale(1.2);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Cancel Button -->
+  <div class="cancel-btn" onclick="cancelContainer()">×</div>
+
+  <h2>Login</h2>
+  <div class="input-wrapper">
+    <i class="fas fa-envelope"></i>
+    <input type="email" id="loginEmail" placeholder="Email">
+  </div>
+  <div class="input-wrapper">
+    <i class="fas fa-lock"></i>
+    <input type="password" id="loginPass" placeholder="Password">
+  </div>
+  <button onclick="logIn()">Login</button>
+  <p>Don't have an account? <a href="signup.html" style="color: gold;">Create</a></p>
+</div>
+<footer>
+    <p><a href="platform_owner.html" style="color: white;">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
+  </footer>
+
+<script>
+// Cancel Button Function
+function cancelContainer() {
+  const redirect = localStorage.getItem("redirectAfterLogin");
+
+  if (redirect) {
+    window.location.href = redirect;
+  } else {
+    window.location.href = "index.html"; // au home yako
+  }
+}
+
+
+</script>
+
+</body>
+</html>

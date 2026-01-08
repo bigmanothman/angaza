@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Signup in Angaza — Full System</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ========== Styles (kept your look) ========== */
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color: #f8f9fa;
+  min-height: 100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+
+footer {
+      text-align: center;
+      padding: 20px;
+      color: #f1f1f1;
+      opacity: 0.8;
+      margin-top: 40px;
+    }
+
+.container {
+  position: relative;
+  margin-top:50px;
+  padding:30px;
+  width: 360px;
+  max-width: calc(100% - 40px);
+  background: rgba(255,255,255,0.08);
+  border-radius:20px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  text-align:center;
+}
+
+h2 {
+  color: gold;
+  text-shadow: 0 0 8px gold;
+  margin-top: 10px;
+  margin-bottom: 12px;
+}
+
+/* Input wrapper */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 8px 0;
+  display:block;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+  width: 100%;
+  padding: 10px 12px 10px 36px; /* reduce padding top/bottom & left */
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  font-size: 0.9rem; /* slightly smaller text */
+  text-align: left;
+  box-sizing: border-box; /* ensures padding fits inside box */
+}
+
+.input-wrapper input::placeholder,
+.input-wrapper select::placeholder {
+  color: #F7E7A9;
+  font-weight: 400;
+  font-size: 0.8rem; /* smaller placeholder text */
+}
+
+
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  margin: 8px 0;
+  display:block;
+  box-sizing: border-box;
+}
+
+.input-wrapper i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #F7E7A9;
+  font-size: 1rem;
+}
+
+/* separate left icons & right eye icons */
+.input-wrapper i:not(.eye-icon) {
+  left: 12px;
+  pointer-events: none;
+}
+
+.eye-icon {
+  right: 12px;
+  left: auto; /* override left */
+  pointer-events: auto;
+  cursor: pointer;
+   z-index: 2; /* ensures it sits above input */
+}
+
+/* small file label */
+.file-note {
+  font-size: 0.85rem;
+  color: #e8e3b4;
+  margin-top: 6px;
+  text-align:left;
+}
+
+/* terms */
+.terms {
+  font-size: 0.95rem;
+  margin-top: 12px;
+  text-align:left;
+  color: #f1f1f1;
+}
+.terms input { transform: translateY(2px); margin-right:8px; }
+
+/* error message */
+.error-msg {
+  color: #ffb3b3;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  display:none;
+}
+
+/* button */
+button#signupBtn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 14px;
+  background: gold;
+  color: #000;
+  border: none;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 12px gold;
+  transition: 0.25s;
+}
+button#signupBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 20px gold;
+}
+
+/* cancel btn */
+.cancel-btn {
+  position:absolute;
+  top:15px;
+  right:15px;
+  font-size:1.5rem;
+  font-weight:bold;
+  color:#fff;
+  background: rgba(255,0,0,0.6);
+  width:30px;height:30px;line-height:30px;border-radius:50%;
+  cursor:pointer;
+}
+.cancel-btn:hover { background:red; transform:scale(1.1); }
+
+/* success note */
+.success-note {
+  margin-top:12px;
+  color:#bff0c7;
+  font-weight:600;
+  display:none;
+}
+/* --- Better Select Dropdown UI (no design changes to main layout) --- */
+.input-wrapper select {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+/* Dropdown arrow */
+.input-wrapper select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='gold' height='14' viewBox='0 0 20 20' width='14' xmlns='http://www.w3.org/2000/svg'><path d='M5.516 7.548l4.484 4.484 4.484-4.484L16 8.548l-6 6-6-6z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px !important;
+}
+
+/* Options styling (when the dropdown opens) */
+.input-wrapper select option {
+  background: #1c2e35;
+  color: #F7E7A9;
+  padding: 10px;
+  font-size: 0.9rem;
+  border: none;
+}
+
+
+/* responsive */
+@media (max-width:420px){
+  .container { width: 94%; padding:20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container" aria-live="polite">
+  <div class="cancel-btn" onclick="window.history.back()">×</div>
+
+  <h2>Create Angaza Account</h2>
+
+  <!-- Full Name -->
+  <div class="input-wrapper">
+    <i class="fas fa-user"></i>
+    <input id="fullName" type="text" placeholder="Full Name" autocomplete="name">
+  </div>
+
+  <!-- Username -->
+  <div class="input-wrapper">
+    <i class="fas fa-id-badge"></i>
+    <input id="username" type="text" placeholder="Username (unique)">
+  </div>
+
+  <!-- Phone -->
+  <div class="input-wrapper">
+    <i class="fas fa-phone"></i>
+    <input id="phone" type="text" placeholder="+255 700 000 000" inputmode="tel">
+  </div>
+
+  <!-- Location -->
+  <div class="input-wrapper">
+    <i class="fas fa-map-marker-alt"></i>
+    <input id="location" type="text" placeholder="Location (e.g., Dar es Salaam)">
+  </div>
+
+  <!-- Email -->
+  <div class="input-wrapper">
+    <i class="fas fa-envelope"></i>
+    <input id="email" type="email" placeholder="Email" autocomplete="email">
+  </div>
+
+  <!-- Password -->
+  <div class="input-wrapper">
+    <i class="fas fa-lock"></i>
+    <input id="password" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password">
+    <i id="togglePwd" class="fas fa-eye eye-icon" title="Show / Hide password"></i>
+  </div>
+
+  <!-- Confirm Password -->
+  <div class="input-wrapper">
+    <i class="fas fa-lock"></i>
+    <input id="confirmPassword" type="password" placeholder="Confirm Password" autocomplete="new-password">
+    <i id="toggleConfirmPwd" class="fas fa-eye eye-icon" title="Show / Hide password"></i>
+  </div>
+
+  <!-- Role -->
+  <div class="input-wrapper">
+    <i class="fas fa-user-tag"></i>
+    <select id="role" aria-label="Select Role">
+      <option value="" disabled selected>Select Role</option>
+      <option value="jobseeker">Job Seeker</option>
+      <option value="worker">Worker</option>
+      <option value="employer">Employer</option>
+    </select>
+  </div>
+
+  <!-- Profile Picture -->
+  <div class="input-wrapper">
+    <i class="fas fa-image"></i>
+    <input id="profilePic" type="file" accept="image/*">
+  </div>
+  <div class="file-note">Optional: profile image (jpg/png). Max 5MB.</div>
+
+  <!-- Terms -->
+  <div class="terms">
+    <input id="terms" type="checkbox"> I agree to the <a href="#" style="color:#F7E7A9">Terms & Conditions</a>
+  </div>
+
+  <!-- inline error -->
+  <div id="errorMsg" class="error-msg" role="alert"></div>
+  <div id="successNote" class="success-note">Signup successful — verification email sent. Redirecting…</div>
+
+  <button id="signupBtn" type="button">Signup</button>
+</div>
+<footer>
+    <p><a href="platform_owner.html" style="color: white;">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
+  </footer>
+
+<!-- Firebase + App logic -->
+<script type="module">
+/* ================== Firebase imports ================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+
+/* ================== Firebase config ================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
+  authDomain: "angazasystem.firebaseapp.com",
+  projectId: "angazasystem",
+  storageBucket: "angazasystem.appspot.com",
+  messagingSenderId: "191988119746",
+  appId: "1:191988119746:web:aa050634bc5d57b1bde35b",
+  measurementId: "G-2RN3CLME03"
+};
+
+/* ============ Initialize Firebase services ============ */
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+/* ================== Helper DOM refs ================== */
+const el = id => document.getElementById(id);
+const errorMsg = el('errorMsg');
+const successNote = el('successNote');
+const signupBtn = el('signupBtn');
+
+/* ================== Utility functions ================== */
+function showError(msg) {
+  errorMsg.style.display = 'block';
+  errorMsg.textContent = msg;
+  successNote.style.display = 'none';
+}
+
+function clearError() {
+  errorMsg.style.display = 'none';
+  errorMsg.textContent = '';
+}
+
+function showSuccess(msg) {
+  successNote.style.display = 'block';
+  successNote.textContent = msg;
+  errorMsg.style.display = 'none';
+}
+
+/* ================== Password toggle handlers ================== */
+document.getElementById('togglePwd').addEventListener('click', () => {
+  const inp = el('password');
+  const ic = document.getElementById('togglePwd');
+  if (inp.type === 'password') { inp.type = 'text'; ic.classList.replace('fa-eye', 'fa-eye-slash'); }
+  else { inp.type = 'password'; ic.classList.replace('fa-eye-slash', 'fa-eye'); }
+});
+document.getElementById('toggleConfirmPwd').addEventListener('click', () => {
+  const inp = el('confirmPassword');
+  const ic = document.getElementById('toggleConfirmPwd');
+  if (inp.type === 'password') { inp.type = 'text'; ic.classList.replace('fa-eye', 'fa-eye-slash'); }
+  else { inp.type = 'password'; ic.classList.replace('fa-eye-slash', 'fa-eye'); }
+});
+
+/* ================== Username uniqueness check ================== */
+async function isUsernameTaken(username) {
+  if (!username) return false;
+  const usersRef = collection(db, 'users');
+  const q = query(usersRef, where('username', '==', username));
+  const snap = await getDocs(q);
+  return !snap.empty;
+}
+
+/* ================== Upload profile picture to Storage ================== */
+async function uploadProfilePic(uid, file) {
+  if (!file) return null;
+  const maxBytes = 5 * 1024 * 1024;
+  if (file.size > maxBytes) throw new Error('Profile image too large (max 5MB).');
+  const ext = file.name.split('.').pop();
+  const path = `profile_pics/${uid}_${Date.now()}.${ext}`;
+  const sRef = storageRef(storage, path);
+  const snapshot = await uploadBytes(sRef, file);
+  const url = await getDownloadURL(snapshot.ref);
+  return url;
+}
+
+/* ================== Main signup handler ================== */
+signupBtn.addEventListener('click', async () => {
+  clearError();
+  signupBtn.disabled = true;
+  signupBtn.textContent = 'Creating account...';
+
+  const fullName = el('fullName').value.trim();
+  const username = el('username').value.trim();
+  const phone = el('phone').value.trim();
+  const location = el('location').value.trim();
+  const email = el('email').value.trim();
+  const password = el('password').value;
+  const confirmPassword = el('confirmPassword').value;
+  const role = el('role').value;
+  const termsAccepted = el('terms').checked;
+  const profileFile = el('profilePic').files[0] || null;
+
+  // validation
+  if (!fullName || !username || !email || !password || !confirmPassword || !role) {
+    showError('Please fill all required fields (Full name, Username, Email, Password, Role).');
+    signupBtn.disabled = false;
+    signupBtn.textContent = 'Signup';
+    return;
+  }
+  if (password.length < 8) {
+    showError('Password must be at least 8 characters.');
+    signupBtn.disabled = false;
+    signupBtn.textContent = 'Signup';
+    return;
+  }
+  if (password !== confirmPassword) {
+    showError('Passwords do not match.');
+    signupBtn.disabled = false;
+    signupBtn.textContent = 'Signup';
+    return;
+  }
+  if (!termsAccepted) {
+    showError('You must accept Terms & Conditions.');
+    signupBtn.disabled = false;
+    signupBtn.textContent = 'Signup';
+    return;
+  }
+
+  try {
+    const taken = await isUsernameTaken(username);
+    if (taken) {
+      showError('Username already taken. Choose another.');
+      signupBtn.disabled = false;
+      signupBtn.textContent = 'Signup';
+      return;
+    }
+
+    const userCred = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCred.user;
+
+    // upload profile pic (optional)
+    let photoURL = null;
+    try {
+      photoURL = await uploadProfilePic(user.uid, profileFile);
+    } catch (upErr) {
+      console.warn('Profile upload error:', upErr); // warning only
+    }
+
+    // save user profile to Firestore
+    await setDoc(doc(db, 'users', user.uid), {
+      uid: user.uid,
+      fullName,
+      username,
+      phone,
+      location,
+      email,
+      role,
+      photoURL: photoURL ?? null,
+      createdAt: serverTimestamp()
+
+    });
+
+    // update profile
+    try {
+      await updateProfile(user, {
+        displayName: fullName,
+        photoURL: photoURL || null
+      });
+    } catch (updErr) { console.warn('updateProfile error:', updErr); }
+
+    // send verification email
+    try {
+      await sendEmailVerification(user);
+    } catch (vErr) { console.warn('verification email error', vErr); }
+
+    showSuccess('✅ Account created successfully!');
+    setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+
+  } catch (err) {
+    console.error(err);
+    showError('Signup failed: ' + (err.message || err));
+    signupBtn.disabled = false;
+    signupBtn.textContent = 'Signup';
+  }
+});
+</script>
+
+</body>
+</html>
