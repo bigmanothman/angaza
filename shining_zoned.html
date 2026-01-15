@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shining Zone | ANGAZA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            transition: background 0.3s;
+            background-attachment: fixed;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1001;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* HEADER */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 61, 98, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #facc15, #fde047);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 12px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav a:hover {
+            color: #facc15;
+        }
+
+        nav a.active {
+            color: #facc15;
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, #facc15, #fde047);
+            border-radius: 2px;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification-badge {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid #facc15;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        /* Logout Styles */
+        .logout-container {
+            position: relative;
+        }
+
+        .logout-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(10, 61, 98, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            min-width: 180px;
+            margin-top: 10px;
+            z-index: 1002;
+            animation: fadeIn 0.3s;
+        }
+
+        .logout-dropdown.show {
+            display: block;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .user-email {
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(10, 61, 98, 0.3), rgba(32, 58, 67, 0.3));
+            border-radius: 20px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '✨';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 3rem;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .hero::after {
+            content: '✨';
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #facc15, #fde047);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* BUTTONS */
+        .btn {
+            background: linear-gradient(to right, #facc15, #fde047);
+            color: #000;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #facc15;
+            color: #facc15;
+            padding: 10px 23px;
+        }
+
+        .btn-outline:hover {
+            background: rgba(250, 204, 21, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(250, 204, 21, 0.2);
+        }
+
+        /* BENEFITS SECTION */
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(250, 204, 21, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: #facc15;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #facc15;
+        }
+
+        .benefit-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* FORM CONTAINER */
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        #shiningForm {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #shiningForm::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #facc15, #fde047);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        #shiningForm:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        /* FORM ELEMENTS */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        #shiningForm label {
+            display: block;
+            margin-bottom: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #shiningForm input[type="text"],
+        #shiningForm input[type="email"],
+        #shiningForm select,
+        #shiningForm textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        #shiningForm input[type="text"]:focus,
+        #shiningForm input[type="email"]:focus,
+        #shiningForm select:focus,
+        #shiningForm textarea:focus {
+            outline: none;
+            border-color: #facc15;
+            box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        #shiningForm input[type="text"]::placeholder,
+        #shiningForm input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* FILE INPUT */
+        .file-input-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px dashed rgba(250, 204, 21, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .file-input-label:hover {
+            background: rgba(250, 204, 21, 0.1);
+            border-color: #facc15;
+        }
+
+        .file-input-label i {
+            color: #facc15;
+            margin-right: 10px;
+        }
+
+        #shiningForm input[type="file"] {
+            display: none;
+        }
+
+        /* SELECT STYLING */
+        #shiningForm select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23facc15' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 50px;
+        }
+
+        /* TEXTAREA */
+        #shiningForm textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* FORM DECORATIONS */
+        .form-decoration {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(250, 204, 21, 0.1);
+            z-index: -1;
+        }
+
+        .decoration-1 {
+            top: 20px;
+            right: 20px;
+        }
+
+        .decoration-2 {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        /* SUCCESS MESSAGE */
+        .success-message {
+            display: none;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-message i {
+            font-size: 3rem;
+            color: #22c55e;
+            margin-bottom: 20px;
+        }
+
+        .success-message h3 {
+            font-size: 1.5rem;
+            color: #22c55e;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* PROGRESS TRACKER */
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .progress-tracker::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        .tracker-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tracker-step.active .step-number {
+            background: linear-gradient(to right, #facc15, #fde047);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .tracker-step.active .step-label {
+            color: #facc15;
+            font-weight: 500;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 80px;
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(10, 61, 98, 0.2);
+            border-radius: 20px 20px 0 0;
+        }
+
+        footer a {
+            color: #facc15;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #fde047;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 900px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            nav a {
+                margin: 0 8px;
+                font-size: 0.9rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .theme-toggle {
+                top: 70px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .benefits {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .hero {
+                padding: 40px 15px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn, .btn-outline {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            #shiningForm {
+                padding: 25px;
+            }
+            
+            .progress-tracker {
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            
+            .progress-tracker::before {
+                display: none;
+            }
+            
+            .tracker-step {
+                flex: none;
+                width: calc(50% - 10px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            #shiningForm {
+                padding: 20px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .benefit-card {
+                padding: 20px;
+            }
+            
+            .tracker-step {
+                width: 100%;
+            }
+        }
+
+        /* LIGHT THEME */
+        body.light-theme {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe, #bae6fd);
+            color: #0f172a;
+        }
+
+        body.light-theme header {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .hero,
+        body.light-theme .benefit-card,
+        body.light-theme #shiningForm {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #0f172a;
+        }
+
+        body.light-theme nav a {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        body.light-theme .hero p,
+        body.light-theme .benefit-card p,
+        body.light-theme #shiningForm label {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        body.light-theme #shiningForm input,
+        body.light-theme #shiningForm select,
+        body.light-theme #shiningForm textarea {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.1);
+            color: #0f172a;
+        }
+
+        body.light-theme footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+        <span>Dark</span>
+    </div>
+
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                ANGAZA
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="works.html">Find Work</a>
+                <a href="workers.html">Find Workers</a>
+                <a href="shining_zone.html" class="active">Shining Zone</a>
+            </nav>
+            <div class="user-menu">
+                <div class="notification-badge" id="notificationIcon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">3</span>
+                </div>
+                <div class="logout-container">
+                    <img class="avatar" src="https://i.pravatar.cc/100?img=12" alt="User Avatar" id="userAvatar">
+                    <div class="logout-dropdown" id="logoutDropdown">
+                        <div class="user-email" id="userEmail">user@example.com</div>
+                        <button class="logout-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>✨ Welcome to the Shining Zone ✨</h1>
+            <p>
+                Create your professional profile and stand out from the crowd. Get discovered by top employers 
+                and connect with amazing opportunities. Let your talents shine bright!
+            </p>
+            <div class="btn-group">
+                <a href="#form" class="btn">
+                    <i class="fas fa-rocket"></i>
+                    Create Your Profile
+                </a>
+                <a href="#benefits" class="btn-outline">
+                    <i class="fas fa-info-circle"></i>
+                    Learn More
+                </a>
+            </div>
+        </section>
+
+        <!-- Progress Tracker -->
+        <div class="progress-tracker">
+            <div class="tracker-step active">
+                <div class="step-number">1</div>
+                <div class="step-label">Profile Info</div>
+            </div>
+            <div class="tracker-step">
+                <div class="step-number">2</div>
+                <div class="step-label">Skills & Experience</div>
+            </div>
+            <div class="tracker-step">
+                <div class="step-number">3</div>
+                <div class="step-label">Portfolio</div>
+            </div>
+            <div class="tracker-step">
+                <div class="step-number">4</div>
+                <div class="step-label">Review & Submit</div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="benefits" id="benefits">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Increased Visibility</h3>
+                <p>Get 3x more profile views from top employers and recruiters actively searching for talent.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>Priority Matching</h3>
+                <p>Receive personalized job matches before they're publicly listed to other candidates.</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3>Premium Badge</h3>
+                <p>Stand out with a verified premium badge that shows employers you're a top candidate.</p>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-container" id="form">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #facc15;">
+                <i class="fas fa-user-plus"></i> Create Your Profile
+            </h2>
+
+            <form id="shiningForm">
+                <!-- Decorative elements -->
+                <div class="form-decoration decoration-1">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="form-decoration decoration-2">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+
+                <!-- Personal Information -->
+                <div class="form-group">
+                    <label for="fullName">
+                        <i class="fas fa-user"></i>
+                        Full Name
+                    </label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i>
+                        Email Address
+                    </label>
+                    <input type="email" id="email" placeholder="Enter your email address" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">
+                        <i class="fas fa-phone"></i>
+                        Phone Number
+                    </label>
+                    <input type="text" id="phone" placeholder="Enter your phone number" required />
+                </div>
+
+                <!-- Education & Career -->
+                <div class="form-group">
+                    <label for="universityLevel">
+                        <i class="fas fa-graduation-cap"></i>
+                        Education Level
+                    </label>
+                    <select id="universityLevel" required>
+                        <option value="" disabled selected>Select your education level</option>
+                        <option value="diploma">Diploma</option>
+                        <option value="bachelor">Bachelor's Degree</option>
+                        <option value="master">Master's Degree</option>
+                        <option value="phd">PhD</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="career">
+                        <i class="fas fa-briefcase"></i>
+                        Career Field
+                    </label>
+                    <select id="career" required>
+                        <option value="" disabled selected>Select your career field</option>
+                        <option value="software">Software Engineering</option>
+                        <option value="web">Web Development</option>
+                        <option value="design">UI/UX Design</option>
+                        <option value="data">Data Science</option>
+                        <option value="ai">Artificial Intelligence</option>
+                        <option value="devops">DevOps Engineering</option>
+                        <option value="mobile">Mobile Development</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">
+                        <i class="fas fa-chart-line"></i>
+                        Years of Experience
+                    </label>
+                    <select id="experience" required>
+                        <option value="" disabled selected>Select experience level</option>
+                        <option value="0-1">0-1 years (Entry Level)</option>
+                        <option value="1-3">1-3 years (Junior)</option>
+                        <option value="3-5">3-5 years (Mid Level)</option>
+                        <option value="5+">5+ years (Senior)</option>
+                    </select>
+                </div>
+
+                <!-- Skills & About -->
+                <div class="form-group">
+                    <label for="skills">
+                        <i class="fas fa-tools"></i>
+                        Key Skills (comma separated)
+                    </label>
+                    <input type="text" id="skills" placeholder="e.g., JavaScript, React, Node.js, Python" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="about">
+                        <i class="fas fa-file-alt"></i>
+                        Professional Summary
+                    </label>
+                    <textarea id="about" placeholder="Tell employers about yourself, your experience, and what you're looking for..." required></textarea>
+                </div>
+
+                <!-- File Upload -->
+                <div class="file-input-container">
+                    <label for="resume" class="file-input-label">
+                        <i class="fas fa-upload"></i>
+                        Upload Resume (PDF, DOC, DOCX)
+                    </label>
+                    <input type="file" id="resume" accept=".pdf,.doc,.docx" />
+                </div>
+
+                <div class="file-input-container">
+                    <label for="portfolio" class="file-input-label">
+                        <i class="fas fa-folder-open"></i>
+                        Upload Portfolio/Projects (Optional)
+                    </label>
+                    <input type="file" id="portfolio" accept=".pdf,.zip,.rar" />
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-rocket"></i>
+                    Launch Your Career Profile
+                </button>
+            </form>
+
+            <!-- Success Message -->
+            <div class="success-message" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <h3>Profile Submitted Successfully!</h3>
+                <p>Your profile is now visible to employers. We'll notify you when opportunities match your skills.</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: rgba(255,255,255,0.6);">
+                    Estimated profile review time: 24-48 hours
+                </p>
+                <button class="btn-outline" style="margin-top: 20px; width: 100%;" id="viewProfileBtn">
+                    <i class="fas fa-eye"></i>
+                    View Your Profile
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="benefits" style="margin-top: 80px;">
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>1,500+</h3>
+                <p>Active Profiles</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3>89%</h3>
+                <p>Successful Matches</p>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>250+</h3>
+                <p>Partner Companies</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><a href="platform_owner.html">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
+        <div style="margin-top:10px; font-size:0.7rem;">
+            Last updated: <span id="lastUpdated"></span>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } 
+        from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, collection, query, where, getDocs } 
+        from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
+            authDomain: "angazasystem.firebaseapp.com",
+            projectId: "angazasystem",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Check authentication
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                localStorage.setItem("redirectAfterLogin", window.location.href);
+                window.location.href = "login.html";
+                return;
+            }
+
+            // Get user data
+            const q = query(
+                collection(db, "users"),
+                where("uid", "==", user.uid)
+            );
+
+            const snap = await getDocs(q);
+            snap.forEach(doc => {
+                const data = doc.data();
+                document.getElementById("userEmail").textContent = user.email;
+                
+                // Pre-fill form if user has existing data
+                if (data.name) {
+                    document.getElementById("fullName").value = data.name;
+                }
+                if (data.career) {
+                    document.getElementById("career").value = data.career.toLowerCase();
+                }
+                if (data.location) {
+                    // Could add location field if needed
+                }
+            });
+        });
+
+        // Logout functionality
+        document.getElementById('userAvatar').addEventListener('click', function() {
+            const dropdown = document.getElementById('logoutDropdown');
+            dropdown.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('logoutDropdown');
+            const avatar = document.getElementById('userAvatar');
+            
+            if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            const confirmLogout = confirm("Are you sure you want to logout?");
+            if (confirmLogout) {
+                signOut(auth).then(() => {
+                    localStorage.setItem("redirectAfterLogin", window.location.href);
+                    window.location.href = "login.html";
+                });
+            }
+        });
+    </script>
+
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set last updated time
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = 
+                now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Theme toggle functionality
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('light-theme');
+                const icon = this.querySelector('i');
+                const text = this.querySelector('span');
+                
+                if (document.body.classList.contains('light-theme')) {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Light';
+                } else {
+                    icon.className = 'fas fa-moon';
+                    text.textContent = 'Dark';
+                }
+            });
+
+            // Form submission
+            const form = document.getElementById('shiningForm');
+            const successMessage = document.getElementById('successMessage');
+            const viewProfileBtn = document.getElementById('viewProfileBtn');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form values
+                const formData = {
+                    name: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    education: document.getElementById('universityLevel').value,
+                    career: document.getElementById('career').value,
+                    experience: document.getElementById('experience').value,
+                    skills: document.getElementById('skills').value,
+                    about: document.getElementById('about').value,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Hide form and show success message
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Log form data (in real app, send to server)
+                    console.log('Profile submitted:', formData);
+                    
+                    // Show toast notification
+                    showToast('Profile created successfully!');
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Update progress tracker
+                    const trackerSteps = document.querySelectorAll('.tracker-step');
+                    trackerSteps.forEach(step => step.classList.add('active'));
+                    
+                }, 2000);
+            });
+
+            // View profile button
+            viewProfileBtn.addEventListener('click', function() {
+                showToast('Opening your profile...');
+                // In real app: window.location.href = 'profile.html';
+            });
+
+            // File input handling
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const label = this.previousElementSibling;
+                    if (this.files.length > 0) {
+                        const fileName = this.files[0].name;
+                        label.innerHTML = `<i class="fas fa-check"></i> ${fileName}`;
+                        label.style.borderStyle = 'solid';
+                        label.style.borderColor = '#22c55e';
+                    } else {
+                        const icon = this.id === 'resume' ? 'fa-upload' : 'fa-folder-open';
+                        label.innerHTML = `<i class="fas ${icon}"></i> ${label.textContent}`;
+                        label.style.borderStyle = 'dashed';
+                        label.style.borderColor = 'rgba(250, 204, 21, 0.3)';
+                    }
+                });
+            });
+
+            // Form input focus effects
+            const formInputs = form.querySelectorAll('input, select, textarea');
+            formInputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Toast notification function
+            function showToast(message) {
+                // Create toast if it doesn't exist
+                let toast = document.getElementById('toast');
+                if (!toast) {
+                    toast = document.createElement('div');
+                    toast.id = 'toast';
+                    toast.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        right: 20px;
+                        background: rgba(255, 255, 255, 0.1);
+                        backdrop-filter: blur(10px);
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        border-radius: 10px;
+                        padding: 15px 20px;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        transform: translateY(100px);
+                        opacity: 0;
+                        transition: all 0.3s;
+                        z-index: 3000;
+                        color: white;
+                    `;
+                    document.body.appendChild(toast);
+                }
+                
+                toast.innerHTML = `<i class="fas fa-check-circle" style="color:#22c55e;"></i> ${message}`;
+                toast.style.transform = 'translateY(0)';
+                toast.style.opacity = '1';
+                
+                setTimeout(() => {
+                    toast.style.transform = 'translateY(100px)';
+                    toast.style.opacity = '0';
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
