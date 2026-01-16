@@ -99,6 +99,112 @@
             text-align: center;
         }
 
+        /* Profile Picture Upload Styles */
+        .avatar-upload-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 2px solid #facc15;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
+            color: #facc15;
+            overflow: hidden;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(10, 61, 98, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            min-width: 200px;
+            margin-top: 10px;
+            z-index: 1003;
+            animation: fadeIn 0.3s;
+        }
+
+        .avatar-options.show {
+            display: block;
+        }
+
+        .avatar-option-btn {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            color: #facc15;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .avatar-option-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .avatar-option-btn:hover {
+            background: rgba(250, 204, 21, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .avatar-option-btn.remove {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .avatar-option-btn.remove:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .avatar-option-btn.logout {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            margin-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 12px;
+        }
+
+        .avatar-option-btn.logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Hidden file input */
+        #profilePictureInput {
+            display: none;
+        }
+
         /* HEADER */
         header {
             position: sticky;
@@ -183,19 +289,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 2px solid #facc15;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .avatar:hover {
-            transform: scale(1.05);
         }
 
         /* CONTAINER */
@@ -617,7 +710,7 @@
 
         .search-input:focus {
             outline: none;
-            border-color: #facc15;
+            border-color = "#facc15";
         }
 
         /* Confirm Logout Modal */
@@ -692,7 +785,7 @@
                 <a href="#" class="active">Dashboard</a>
                 <a href="worksd.html">Find Work</a>
                 <a href="workersd.html">Find Workers</a>
-                <a href="shining_zoned.html">Shining Zone</a>
+                <a href="shining_zone.html">Shining Zone</a>
             </nav>
             <div class="user-menu">
                 <div class="notification-badge" id="notificationIcon">
@@ -700,7 +793,32 @@
                     <span class="notification-count">3</span>
                 </div>
                 <div class="logout-container">
-                    <img class="avatar" src="https://i.pravatar.cc/100?img=12" alt="User Avatar" id="userAvatar">
+                    <!-- Avatar Upload Container -->
+                    <div class="avatar-upload-container">
+                        <div class="avatar" id="userAvatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        
+                        <!-- Avatar Options Dropdown -->
+                        <div class="avatar-options" id="avatarOptions">
+                            <button class="avatar-option-btn" id="uploadPictureBtn">
+                                <i class="fas fa-camera"></i>
+                                Upload Picture
+                            </button>
+                            <button class="avatar-option-btn remove" id="removePictureBtn">
+                                <i class="fas fa-trash"></i>
+                                Remove Picture
+                            </button>
+                            <button class="avatar-option-btn logout" id="logoutFromAvatarBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </button>
+                        </div>
+                        
+                        <!-- Hidden File Input -->
+                        <input type="file" id="profilePictureInput" accept="image/*">
+                    </div>
+                    
                     <div class="logout-dropdown" id="logoutDropdown">
                         <div class="user-email" id="userEmail">user@example.com</div>
                         <button class="logout-btn" id="logoutBtn">
@@ -988,22 +1106,13 @@
             });
         });
 
-        // Logout functionality
-        document.getElementById('userAvatar').addEventListener('click', function() {
-            const dropdown = document.getElementById('logoutDropdown');
-            dropdown.classList.toggle('show');
+        // Logout functionality from avatar dropdown
+        document.getElementById('logoutFromAvatarBtn').addEventListener('click', function() {
+            document.getElementById('confirmLogoutModal').style.display = 'flex';
+            document.getElementById('avatarOptions').classList.remove('show');
         });
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('logoutDropdown');
-            const avatar = document.getElementById('userAvatar');
-            
-            if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
-
+        // Original logout button functionality
         document.getElementById('logoutBtn').addEventListener('click', function() {
             document.getElementById('confirmLogoutModal').style.display = 'flex';
             document.getElementById('logoutDropdown').classList.remove('show');
@@ -1014,22 +1123,21 @@
         });
 
         document.getElementById('confirmLogout').addEventListener('click', async function() {
-    try {
-        // Hifadhi page aliyotoka kabla ya logout
-        localStorage.setItem("redirectAfterLogin", window.location.href);
+            try {
+                // Hifadhi page aliyotoka kabla ya logout
+                localStorage.setItem("redirectAfterLogin", window.location.href);
 
-        await signOut(auth);
+                await signOut(auth);
 
-        // Badilisha hapa: reroute si login.html, bali kwenye page aliyohifadhiwa
-        const redirectPage = localStorage.getItem("redirectAfterLogin") || "home.html";
-        window.location.href = redirectPage;
+                // Badilisha hapa: reroute si login.html, bali kwenye page aliyohifadhiwa
+                const redirectPage = localStorage.getItem("redirectAfterLogin") || "home.html";
+                window.location.href = redirectPage;
 
-    } catch (error) {
-        console.error("Logout error:", error);
-        showToast('Error during logout. Please try again.');
-    }
-});
-
+            } catch (error) {
+                console.error("Logout error:", error);
+                showToast('Error during logout. Please try again.');
+            }
+        });
 
         // Close logout modal when clicking outside
         document.getElementById('confirmLogoutModal').addEventListener('click', function(event) {
@@ -1037,9 +1145,109 @@
                 this.style.display = 'none';
             }
         });
+
+        // Avatar click functionality - REMOVED DUPLICATE - This is now handled in the regular JavaScript section
+        // document.getElementById('userAvatar').addEventListener('click', function(e) {
+        //     e.stopPropagation();
+            
+        //     // Toggle both dropdowns
+        //     const avatarOptions = document.getElementById('avatarOptions');
+        //     const logoutDropdown = document.getElementById('logoutDropdown');
+            
+        //     // Show avatar options, hide logout dropdown
+        //     avatarOptions.classList.toggle('show');
+        //     logoutDropdown.classList.remove('show');
+        // });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const avatarContainer = document.querySelector('.avatar-upload-container');
+            const avatarOptions = document.getElementById('avatarOptions');
+            const logoutDropdown = document.getElementById('logoutDropdown');
+            
+            // Close avatar options if clicking outside
+            if (!avatarContainer.contains(event.target)) {
+                avatarOptions.classList.remove('show');
+            }
+            
+            // Close logout dropdown if clicking outside
+            const avatar = document.getElementById('userAvatar');
+            if (!avatar.contains(event.target) && !logoutDropdown.contains(event.target)) {
+                logoutDropdown.classList.remove('show');
+            }
+        });
     </script>
 
     <script>
+        // Profile Picture Management
+        let currentProfilePicture = null;
+        
+        // Function to handle profile picture upload
+        function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Check if file is an image
+            if (!file.type.match('image.*')) {
+                showToast('Please select an image file');
+                return;
+            }
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Save the picture data
+                currentProfilePicture = e.target.result;
+                
+                // Update the avatar display
+                const avatar = document.getElementById('userAvatar');
+                avatar.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = currentProfilePicture;
+                img.alt = 'Profile Picture';
+                avatar.appendChild(img);
+                
+                // Show success message
+                showToast('Profile picture uploaded successfully!');
+                
+                // Increase profile completion
+                if (dashboardData.user.profileComplete < 100) {
+                    dashboardData.user.profileComplete += 5;
+                    updateProfileProgress(dashboardData.user.profileComplete);
+                }
+                
+                // Close avatar options
+                document.getElementById('avatarOptions').classList.remove('show');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // Function to remove profile picture
+        function removeProfilePicture() {
+            if (!currentProfilePicture) {
+                showToast('No profile picture to remove');
+                return;
+            }
+            
+            // Reset to default icon
+            currentProfilePicture = null;
+            const avatar = document.getElementById('userAvatar');
+            avatar.innerHTML = '<i class="fas fa-user"></i>';
+            
+            // Show success message
+            showToast('Profile picture removed');
+            
+            // Close avatar options
+            document.getElementById('avatarOptions').classList.remove('show');
+        }
+        
         // Dashboard Data
         const dashboardData = {
             user: {
@@ -1112,6 +1320,11 @@
         const profileName = document.getElementById('profileName');
         const profileCareer = document.getElementById('profileCareer');
         const profileLocation = document.getElementById('profileLocation');
+        const userAvatar = document.getElementById('userAvatar');
+        const avatarOptions = document.getElementById('avatarOptions');
+        const uploadPictureBtn = document.getElementById('uploadPictureBtn');
+        const removePictureBtn = document.getElementById('removePictureBtn');
+        const profilePictureInput = document.getElementById('profilePictureInput');
 
         // Initialize Dashboard
         function initDashboard() {
@@ -1157,6 +1370,18 @@
             
             // Add event listeners
             setupEventListeners();
+            
+            // Initialize profile picture from localStorage if exists
+            const savedProfilePicture = localStorage.getItem('angazaProfilePicture');
+            if (savedProfilePicture) {
+                currentProfilePicture = savedProfilePicture;
+                const avatar = document.getElementById('userAvatar');
+                avatar.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = currentProfilePicture;
+                img.alt = 'Profile Picture';
+                avatar.appendChild(img);
+            }
         }
 
         // Animate counter
@@ -1331,6 +1556,36 @@
 
         // Setup event listeners
         function setupEventListeners() {
+            // Profile picture click - show avatar options
+            userAvatar.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent triggering logout dropdown
+                avatarOptions.classList.toggle('show');
+                
+                // Hide logout dropdown if open
+                document.getElementById('logoutDropdown').classList.remove('show');
+            });
+
+            // Upload picture button
+            uploadPictureBtn.addEventListener('click', function() {
+                profilePictureInput.click();
+            });
+
+            // Remove picture button
+            removePictureBtn.addEventListener('click', function() {
+                removeProfilePicture();
+            });
+
+            // File input change
+            profilePictureInput.addEventListener('change', handleProfilePictureUpload);
+
+            // Close avatar options when clicking outside
+            document.addEventListener('click', function(event) {
+                const avatarContainer = document.querySelector('.avatar-upload-container');
+                if (!avatarContainer.contains(event.target)) {
+                    avatarOptions.classList.remove('show');
+                }
+            });
+
             // Theme toggle
             themeToggle.addEventListener('click', function() {
                 document.body.classList.toggle('light-theme');
@@ -1462,10 +1717,12 @@
             // Update last updated time
             const now = new Date();
             lastUpdated.textContent = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Save profile picture to localStorage if it exists
+            if (currentProfilePicture) {
+                localStorage.setItem('angazaProfilePicture', currentProfilePicture);
+            }
         }, 30000); // Every 30 seconds
     </script>
 </body>
-
 </html>
-
-
