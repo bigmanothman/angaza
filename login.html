@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login to Angaza</title>
+<title>Login to ANGAZA | Employment Connection Platform</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Firebase v9 Modular SDK -->
 <script type="module">
@@ -27,36 +28,160 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-
   // Login Function
   window.logIn = function() {
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPass").value;
+    
+    // Validate inputs
+    if (!validateInputs()) {
+      return;
+    }
+    
+    // Show loading state
+    const loginBtn = document.querySelector('.login-btn');
+    const originalText = loginBtn.innerHTML;
+    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+    loginBtn.disabled = true;
+    
+    // Add loading class
+    const container = document.querySelector('.container');
+    container.classList.add('loading');
 
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredential => {
-  // chukua page ya awali kama ipo
-    const redirect = localStorage.getItem("redirectAfterLogin");
-
-    if (redirect) {
-      localStorage.removeItem("redirectAfterLogin");
-      window.location.href = redirect;
-    } else {
-      window.location.href = "index.html";
-    }
-})
-
+        // Success - show success message
+        showToast('Login successful! Redirecting...', 'success');
+        
+        // Add success animation
+        container.classList.remove('loading');
+        container.classList.add('success');
+        
+        // Redirect after delay
+        setTimeout(() => {
+          const redirect = localStorage.getItem("redirectAfterLogin");
+          
+          if (redirect) {
+            localStorage.removeItem("redirectAfterLogin");
+            window.location.href = redirect;
+          } else {
+            window.location.href = "index.html";
+          }
+        }, 1500);
+      })
       .catch(error => {
-        alert("❌ Login Error: " + error.message);
+        // Error - reset button state
+        loginBtn.innerHTML = originalText;
+        loginBtn.disabled = false;
+        container.classList.remove('loading');
+        
+        // Show error based on error code
+        let errorMessage = "Login Error: ";
+        switch(error.code) {
+          case 'auth/user-not-found':
+            errorMessage = "No account found with this email. Please sign up.";
+            break;
+          case 'auth/wrong-password':
+            errorMessage = "Incorrect password. Please try again.";
+            break;
+          case 'auth/invalid-email':
+            errorMessage = "Please enter a valid email address.";
+            break;
+          case 'auth/too-many-requests':
+            errorMessage = "Too many login attempts. Please try again later.";
+            break;
+          default:
+            errorMessage += error.message;
+        }
+        
+        showToast(errorMessage, 'error');
+        
+        // Add shake animation to form
+        container.classList.add('shake');
+        setTimeout(() => {
+          container.classList.remove('shake');
+        }, 500);
       });
   }
 
+  // Input validation
+  function validateInputs() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPass").value;
+    
+    if (!email) {
+      showToast("Please enter your email address", 'error');
+      document.getElementById("loginEmail").focus();
+      return false;
+    }
+    
+    if (!password) {
+      showToast("Please enter your password", 'error');
+      document.getElementById("loginPass").focus();
+      return false;
+    }
+    
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showToast("Please enter a valid email address", 'error');
+      document.getElementById("loginEmail").focus();
+      return false;
+    }
+    
+    return true;
+  }
+
+  // Toast notification function
+  function showToast(message, type = 'info') {
+    // Remove existing toast
+    const existingToast = document.getElementById('toastNotification');
+    if (existingToast) {
+      existingToast.remove();
+    }
+    
+    // Create new toast
+    const toast = document.createElement('div');
+    toast.id = 'toastNotification';
+    toast.className = `toast-notification ${type}`;
+    toast.innerHTML = `
+      <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+      <span>${message}</span>
+      <button class="toast-close" onclick="this.parentElement.remove()">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Show toast
+    setTimeout(() => {
+      toast.classList.add('show');
+    }, 10);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 300);
+      }
+    }, 5000);
+  }
   
+  // Make showToast globally available
+  window.showToast = showToast;
 
   // Auth state observer
   onAuthStateChanged(auth, user => {
     if (user) {
       console.log("User logged in:", user.email);
+      // If user is already logged in, redirect to home
+      const currentPage = window.location.pathname;
+      if (currentPage.includes('login.html') || currentPage.includes('signup.html')) {
+        window.location.href = "index.html";
+      }
     } else {
       console.log("No user logged in");
     }
@@ -64,155 +189,804 @@
 </script>
 
 <style>
-body {
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #f8f9fa;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
+  /* ====== General Styles ====== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-h2 {
-  color: gold;
-  text-shadow: 0 0 8px gold;
-  margin-top: 30px;
-}
+  body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+  }
 
-.input-wrapper {
-  position: relative;
-  width: 300px;
-  margin: 8px 0;
-}
+  /* Animated background elements */
+  .bg-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
 
-.input-wrapper input {
-  width: 100%;
-  padding: 12px 12px 12px 38px; /* Left padding to fit icon */
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  font-size: 1rem;
-  text-align: left; /* cursor starts left */
-}
+  .particle {
+    position: absolute;
+    background: rgba(255, 211, 42, 0.1);
+    border-radius: 50%;
+    animation: float 15s infinite linear;
+  }
 
-.input-wrapper input::placeholder {
-  color: #F7E7A9;
-  font-weight: 500;
-  text-align: left; /* placeholder aligns left */
-}
-
-/* Icon on the left inside input */
-.input-wrapper i {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #F7E7A9;
-  font-size: 1rem;
-}
-
-button {
-  width: 320px;
-  padding: 12px;
-  margin-top: 12px;
-  background: gold;
-  color: #000;
-  border: none;
-  border-radius: 25px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 0 12px gold;
-  transition: 0.3s;
-}
-
-button:hover {
-  box-shadow: 0 0 20px gold;
-  transform: translateY(-2px);
-}
-
-.container {
-  position: relative; 
-  margin-top: 50px;
-  padding: 30px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 20px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
-  text-align: center;
-}
-
-/* Cancel Button Styles */
-.cancel-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #fff;
-  background: rgba(255, 0, 0, 0.6);
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: 0.3s;
-}
-footer {
-      text-align: center;
-      padding: 20px;
-      color: #f1f1f1;
-      opacity: 0.8;
-      margin-top: 40px;
+  @keyframes float {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
     }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) translateX(100px);
+      opacity: 0;
+    }
+  }
 
-.cancel-btn:hover {
-  background: red;
-  transform: scale(1.2);
-}
+  /* ====== Main Container ====== */
+  .container {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 20px;
+    padding: 40px 35px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+  }
+
+  .container:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Loading state */
+  .container.loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffd32a, #ffc312);
+    border-radius: 24px 24px 0 0;
+    z-index: 2;
+    animation: loading 1.5s infinite;
+  }
+
+  @keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Success state */
+  .container.success {
+    animation: successPulse 0.6s ease;
+  }
+
+  @keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+
+  /* Error state */
+  .container.shake {
+    animation: shake 0.5s ease-in-out;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+
+  /* ====== Logo ====== */
+  .logo {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ffd32a;
+    text-shadow: 0 0 15px rgba(255, 211, 42, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+
+  .logo i {
+    font-size: 1.8rem;
+  }
+
+  /* ====== Form Header ====== */
+  .form-header {
+    margin-bottom: 35px;
+  }
+
+  .form-header h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .form-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* ====== Input Wrapper ====== */
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 0 25px 0;
+    transition: all 0.3s ease;
+  }
+
+  .input-wrapper:focus-within {
+    transform: translateY(-2px);
+  }
+
+  .input-wrapper input {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  .input-wrapper input:focus {
+    border-color: #ffd32a;
+    background: rgba(255, 211, 42, 0.05);
+    box-shadow: 0 0 0 3px rgba(255, 211, 42, 0.1);
+  }
+
+  .input-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 400;
+  }
+
+  /* Input icon */
+  .input-wrapper i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffd32a;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+  }
+
+  .input-wrapper:focus-within i {
+    color: #ffc312;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  /* Password toggle */
+  .password-toggle {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 5px;
+    transition: color 0.3s ease;
+  }
+
+  .password-toggle:hover {
+    color: #ffd32a;
+  }
+
+  /* ====== Button ====== */
+  .btn-group {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ffd32a, #ffc312);
+    color: #0a3d62;
+    border: none;
+    border-radius: 12px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 211, 42, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+  }
+
+  .login-btn:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+  }
+
+  @keyframes ripple {
+    0% {
+      transform: scale(0, 0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(20, 20);
+      opacity: 0;
+    }
+  }
+
+  .login-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 211, 42, 0.5);
+  }
+
+  .login-btn:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  .login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* ====== Links ====== */
+  .form-links {
+    margin-top: 25px;
+    text-align: center;
+  }
+
+  .form-links p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+  }
+
+  .form-links a {
+    color: #ffd32a;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 5px 0;
+  }
+
+  .form-links a:hover {
+    color: #ffc312;
+  }
+
+  .form-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #ffd32a, #ffc312);
+    transition: width 0.3s ease;
+  }
+
+  .form-links a:hover::after {
+    width: 100%;
+  }
+
+  .forgot-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 0.9rem;
+  }
+
+  /* ====== Cancel Button ====== */
+  .cancel-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+  }
+
+  .cancel-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+    transform: rotate(90deg) scale(1.1);
+  }
+
+  /* ====== Footer ====== */
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 30px;
+    font-size: 0.85rem;
+    max-width: 420px;
+  }
+
+  footer a {
+    color: #ffd32a;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  footer a:hover {
+    color: #ffc312;
+  }
+
+  /* ====== Toast Notifications ====== */
+  .toast-notification {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transform: translateX(150%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    max-width: 350px;
+  }
+
+  .toast-notification.show {
+    transform: translateX(0);
+  }
+
+  .toast-notification.success {
+    border-left: 4px solid #22c55e;
+  }
+
+  .toast-notification.error {
+    border-left: 4px solid #ef4444;
+  }
+
+  .toast-notification i {
+    font-size: 1.2rem;
+  }
+
+  .toast-notification.success i {
+    color: #22c55e;
+  }
+
+  .toast-notification.error i {
+    color: #ef4444;
+  }
+
+  .toast-notification span {
+    color: #0f172a;
+    font-weight: 500;
+    flex: 1;
+    font-size: 0.95rem;
+  }
+
+  .toast-close {
+    background: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 5px;
+    transition: color 0.3s ease;
+  }
+
+  .toast-close:hover {
+    color: #000;
+  }
+
+  /* ====== Responsive Design ====== */
+  @media (max-width: 768px) {
+    .container {
+      margin: 15px;
+      padding: 35px 25px;
+      max-width: 400px;
+    }
+    
+    .logo {
+      font-size: 1.9rem;
+    }
+    
+    .form-header h2 {
+      font-size: 1.6rem;
+    }
+    
+    .toast-notification {
+      top: 20px;
+      right: 20px;
+      left: 20px;
+      max-width: calc(100% - 40px);
+    }
+  }
+
+  @media (max-width: 480px) {
+    body {
+      padding: 15px;
+      justify-content: flex-start;
+      padding-top: 40px;
+    }
+    
+    .container {
+      margin: 0;
+      padding: 30px 20px;
+      max-width: 100%;
+    }
+    
+    .logo {
+      font-size: 1.7rem;
+      margin-bottom: 25px;
+    }
+    
+    .form-header h2 {
+      font-size: 1.4rem;
+    }
+    
+    .form-header p {
+      font-size: 0.9rem;
+    }
+    
+    .input-wrapper input {
+      padding: 14px 20px 14px 45px;
+      font-size: 0.95rem;
+    }
+    
+    .login-btn {
+      padding: 15px;
+      font-size: 0.95rem;
+    }
+    
+    .cancel-btn {
+      top: 15px;
+      right: 15px;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2rem;
+    }
+    
+    footer {
+      padding: 15px;
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-height: 700px) {
+    body {
+      padding-top: 20px;
+    }
+    
+    .container {
+      margin-top: 20px;
+      padding: 25px 20px;
+    }
+    
+    .logo {
+      margin-bottom: 20px;
+    }
+    
+    .form-header {
+      margin-bottom: 25px;
+    }
+    
+    .input-wrapper {
+      margin-bottom: 20px;
+    }
+  }
+
+  /* ====== Dark mode support ====== */
+  @media (prefers-color-scheme: dark) {
+    .container {
+      background: rgba(20, 30, 40, 0.95);
+    }
+    
+    .toast-notification {
+      background: rgba(30, 41, 59, 0.95);
+    }
+    
+    .toast-notification span {
+      color: #f1f5f9;
+    }
+    
+    .toast-close {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .toast-close:hover {
+      color: #fff;
+    }
+  }
+
+  /* ====== Accessibility ====== */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  input:focus-visible,
+  button:focus-visible,
+  .cancel-btn:focus-visible {
+    outline: 2px solid #ffd32a;
+    outline-offset: 2px;
+  }
+
+  /* ====== Loading animation ====== */
+  .loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffd32a;
+    animation: spin 1s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
 </style>
 </head>
 <body>
+  <!-- Animated Background Particles -->
+  <div class="bg-particles" id="particlesContainer"></div>
 
-<div class="container">
-  <!-- Cancel Button -->
-  <div class="cancel-btn" onclick="cancelContainer()">×</div>
+  <!-- Main Login Container -->
+  <div class="container">
+    <!-- Cancel Button -->
+    <button class="cancel-btn" onclick="cancelContainer()" aria-label="Close login form">
+      ×
+    </button>
 
-  <h2>Login</h2>
-  <div class="input-wrapper">
-    <i class="fas fa-envelope"></i>
-    <input type="email" id="loginEmail" placeholder="Email">
+    <!-- Logo -->
+    <div class="logo">
+      <i class="fas fa-bolt"></i>
+      ANGAZA
+    </div>
+
+    <!-- Form Header -->
+    <div class="form-header">
+      <h2>Welcome Back</h2>
+      <p>Sign in to your ANGAZA account to continue your journey</p>
+    </div>
+
+    <!-- Email Input -->
+    <div class="input-wrapper">
+      <i class="fas fa-envelope"></i>
+      <input 
+        type="email" 
+        id="loginEmail" 
+        placeholder="Email address" 
+        autocomplete="email"
+        aria-label="Email address"
+        required
+      >
+    </div>
+
+    <!-- Password Input -->
+    <div class="input-wrapper">
+      <i class="fas fa-lock"></i>
+      <input 
+        type="password" 
+        id="loginPass" 
+        placeholder="Password" 
+        autocomplete="current-password"
+        aria-label="Password"
+        required
+      >
+      <button 
+        type="button" 
+        class="password-toggle" 
+        onclick="togglePassword()"
+        aria-label="Show password"
+      >
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+
+    <!-- Login Button -->
+    <div class="btn-group">
+      <button class="login-btn" onclick="logIn()" aria-label="Sign in to account">
+        Sign In
+      </button>
+    </div>
+
+    <!-- Form Links -->
+    <div class="form-links">
+      <p>
+        Don't have an account? 
+        <a href="signup.html" aria-label="Create a new account">Create one</a>
+      </p>
+      <a href="forgot-password.html" class="forgot-link" aria-label="Reset your password">
+        Forgot your password?
+      </a>
+    </div>
   </div>
-  <div class="input-wrapper">
-    <i class="fas fa-lock"></i>
-    <input type="password" id="loginPass" placeholder="Password">
-  </div>
-  <button onclick="logIn()">Login</button>
-  <p>Don't have an account? <a href="signup.html" style="color: gold;">Create</a></p>
-</div>
-<footer>
-    <p><a href="platform_owner.html" style="color: white;">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      <a href="platform_owner.html" aria-label="Platform owner information">
+        © 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀
+      </a>
+    </p>
+    <p style="margin-top: 8px; font-size: 0.8rem; opacity: 0.7;">
+      Transforming employment connections across Africa
+    </p>
   </footer>
 
-<script>
-// Cancel Button Function
-function cancelContainer() {
-  const redirect = localStorage.getItem("redirectAfterLogin");
+  <script>
+    // Cancel Button Function
+    function cancelContainer() {
+      const redirect = localStorage.getItem("redirectAfterLogin");
+      if (redirect) {
+        window.location.href = redirect;
+      } else {
+        window.location.href = "index.html";
+      }
+    }
 
-  if (redirect) {
-    window.location.href = redirect;
-  } else {
-    window.location.href = "index.html"; // au home yako
-  }
-}
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordInput = document.getElementById('loginPass');
+      const toggleButton = document.querySelector('.password-toggle i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleButton.className = 'fas fa-eye-slash';
+        toggleButton.parentElement.setAttribute('aria-label', 'Hide password');
+      } else {
+        passwordInput.type = 'password';
+        toggleButton.className = 'fas fa-eye';
+        toggleButton.parentElement.setAttribute('aria-label', 'Show password');
+      }
+    }
 
+    // Enter key to submit form
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const activeElement = document.activeElement;
+        if (activeElement.id === 'loginEmail' || activeElement.id === 'loginPass') {
+          logIn();
+        }
+      }
+    });
 
-</script>
+    // Create animated background particles
+    function createParticles() {
+      const container = document.getElementById('particlesContainer');
+      const particleCount = Math.min(30, Math.floor(window.innerWidth / 30));
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random properties
+        const size = Math.random() * 6 + 2;
+        const left = Math.random() * 100;
+        const delay = Math.random() * 15;
+        const duration = Math.random() * 10 + 15;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${left}vw`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        container.appendChild(particle);
+      }
+    }
 
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create background particles
+      createParticles();
+      
+      // Auto-focus email input on page load
+      const emailInput = document.getElementById('loginEmail');
+      setTimeout(() => {
+        if (emailInput) emailInput.focus();
+      }, 300);
+      
+      // Add form validation on blur
+      const inputs = document.querySelectorAll('#loginEmail, #loginPass');
+      inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+          if (this.value.trim() === '') {
+            this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+          }
+        });
+      });
+      
+      // Prevent form submission on Enter in inputs (let the button handle it)
+      document.getElementById('loginPass').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+        }
+      });
+    });
+
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        const container = document.getElementById('particlesContainer');
+        container.innerHTML = '';
+        createParticles();
+      }, 250);
+    });
+  </script>
 </body>
 </html>
