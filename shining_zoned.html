@@ -133,6 +133,12 @@
             justify-content: center;
         }
 
+        /* Profile Picture Upload Styles - ADDED */
+        .avatar-upload-container {
+            position: relative;
+            display: inline-block;
+        }
+
         .avatar {
             width: 42px;
             height: 42px;
@@ -140,18 +146,26 @@
             border: 2px solid #facc15;
             cursor: pointer;
             transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 1.2rem;
+            color: #facc15;
+            overflow: hidden;
         }
 
         .avatar:hover {
             transform: scale(1.05);
         }
 
-        /* Logout Styles */
-        .logout-container {
-            position: relative;
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .logout-dropdown {
+        .avatar-options {
             display: none;
             position: absolute;
             top: 100%;
@@ -161,22 +175,22 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             padding: 10px;
-            min-width: 180px;
+            min-width: 200px;
             margin-top: 10px;
-            z-index: 1002;
+            z-index: 1003;
             animation: fadeIn 0.3s;
         }
 
-        .logout-dropdown.show {
+        .avatar-options.show {
             display: block;
         }
 
-        .logout-btn {
+        .avatar-option-btn {
             width: 100%;
             padding: 10px 15px;
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #ef4444;
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            color: #facc15;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
@@ -184,20 +198,45 @@
             gap: 10px;
             font-weight: 500;
             transition: all 0.3s;
+            margin-bottom: 8px;
+            text-align: left;
         }
 
-        .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.3);
+        .avatar-option-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .avatar-option-btn:hover {
+            background: rgba(250, 204, 21, 0.2);
             transform: translateY(-2px);
         }
 
-        .user-email {
-            padding: 10px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 10px;
-            font-size: 0.8rem;
-            opacity: 0.8;
-            text-align: center;
+        .avatar-option-btn.remove {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+
+        .avatar-option-btn.remove:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .avatar-option-btn.logout {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            margin-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 12px;
+        }
+
+        .avatar-option-btn.logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Hidden file input */
+        #profilePictureInput {
+            display: none;
         }
 
         /* MAIN CONTAINER */
@@ -577,6 +616,83 @@
             font-weight: 500;
         }
 
+        /* Confirm Logout Modal - ADDED */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2001;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .confirm-content {
+            background: linear-gradient(135deg, #0f2027, #203a43);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            animation: slideUp 0.4s;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .confirm-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .confirm-btn.cancel {
+            background: transparent;
+            border: 1px solid #facc15;
+            color: #facc15;
+        }
+
+        .confirm-btn.logout {
+            background: linear-gradient(to right, #ef4444, #dc2626);
+            color: white;
+        }
+
+        /* Toast Notification - ADDED */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         /* FOOTER */
         footer {
             margin-top: 80px;
@@ -764,6 +880,18 @@
             background: rgba(255, 255, 255, 0.9);
             color: rgba(0, 0, 0, 0.7);
         }
+
+        body.light-theme .avatar-options,
+        body.light-theme .confirm-content {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #0f172a;
+        }
+
+        body.light-theme .avatar-option-btn {
+            color: #0f172a;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -791,15 +919,30 @@
                     <i class="fas fa-bell"></i>
                     <span class="notification-count">3</span>
                 </div>
-                <div class="logout-container">
-                    <img class="avatar" src="https://i.pravatar.cc/100?img=12" alt="User Avatar" id="userAvatar">
-                    <div class="logout-dropdown" id="logoutDropdown">
-                        <div class="user-email" id="userEmail">user@example.com</div>
-                        <button class="logout-btn" id="logoutBtn">
+                <!-- Avatar Upload Container - MODIFIED -->
+                <div class="avatar-upload-container">
+                    <div class="avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <!-- Avatar Options Dropdown - ADDED -->
+                    <div class="avatar-options" id="avatarOptions">
+                        <button class="avatar-option-btn" id="uploadPictureBtn">
+                            <i class="fas fa-camera"></i>
+                            Upload Picture
+                        </button>
+                        <button class="avatar-option-btn remove" id="removePictureBtn">
+                            <i class="fas fa-trash"></i>
+                            Remove Picture
+                        </button>
+                        <button class="avatar-option-btn logout" id="logoutFromAvatarBtn">
                             <i class="fas fa-sign-out-alt"></i>
                             Logout
                         </button>
                     </div>
+                    
+                    <!-- Hidden File Input - ADDED -->
+                    <input type="file" id="profilePictureInput" accept="image/*">
                 </div>
             </div>
         </div>
@@ -969,7 +1112,7 @@
                     <input type="text" id="skills" placeholder="e.g., JavaScript, React, Node.js, Python" required />
                 </div>
 
-                <div class="form-group">
+                .form-group">
                     <label for="about">
                         <i class="fas fa-file-alt"></i>
                         Professional Summary
@@ -1052,6 +1195,25 @@
         </div>
     </footer>
 
+    <!-- Toast Notification - ADDED -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color:#22c55e;"></i>
+        <span id="toastMessage">Action completed successfully!</span>
+    </div>
+
+    <!-- Confirm Logout Modal - ADDED -->
+    <div class="confirm-modal" id="confirmLogoutModal">
+        <div class="confirm-content">
+            <i class="fas fa-sign-out-alt" style="font-size: 3rem; color: #ef4444; margin-bottom: 15px;"></i>
+            <h3>Confirm Logout</h3>
+            <p style="margin: 15px 0; opacity: 0.8;">Are you sure you want to logout from your account?</p>
+            <div class="confirm-buttons">
+                <button class="confirm-btn cancel" id="cancelLogout">Cancel</button>
+                <button class="confirm-btn logout" id="confirmLogout">Logout</button>
+            </div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } 
@@ -1086,7 +1248,6 @@
             const snap = await getDocs(q);
             snap.forEach(doc => {
                 const data = doc.data();
-                document.getElementById("userEmail").textContent = user.email;
                 
                 // Pre-fill form if user has existing data
                 if (data.name) {
@@ -1101,39 +1262,151 @@
             });
         });
 
-        // Logout functionality
-        document.getElementById('userAvatar').addEventListener('click', function() {
-            const dropdown = document.getElementById('logoutDropdown');
-            dropdown.classList.toggle('show');
+        // Logout functionality from avatar dropdown
+        document.getElementById('logoutFromAvatarBtn').addEventListener('click', function() {
+            document.getElementById('confirmLogoutModal').style.display = 'flex';
+            document.getElementById('avatarOptions').classList.remove('show');
         });
 
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('logoutDropdown');
-            const avatar = document.getElementById('userAvatar');
-            
-            if (!avatar.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.remove('show');
+        document.getElementById('cancelLogout').addEventListener('click', function() {
+            document.getElementById('confirmLogoutModal').style.display = 'none';
+        });
+
+        document.getElementById('confirmLogout').addEventListener('click', async function() {
+            try {
+                // Save current page before logout
+                localStorage.setItem("redirectAfterLogin", window.location.href);
+
+                await signOut(auth);
+
+                // Redirect to login page
+                window.location.href = "login.html";
+
+            } catch (error) {
+                console.error("Logout error:", error);
+                showToast('Error during logout. Please try again.');
             }
         });
 
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            const confirmLogout = confirm("Are you sure you want to logout?");
-            if (confirmLogout) {
-                signOut(auth).then(() => {
-                    localStorage.setItem("redirectAfterLogin", window.location.href);
-                    window.location.href = "login.html";
-                });
+        // Close logout modal when clicking outside
+        document.getElementById('confirmLogoutModal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const avatarContainer = document.querySelector('.avatar-upload-container');
+            const avatarOptions = document.getElementById('avatarOptions');
+            
+            // Close avatar options if clicking outside
+            if (!avatarContainer.contains(event.target)) {
+                avatarOptions.classList.remove('show');
             }
         });
     </script>
 
     <script>
+        // Profile Picture Management
+        let currentProfilePicture = null;
+        
+        // Function to show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Function to handle profile picture upload
+        function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            // Check if file is an image
+            if (!file.type.match('image.*')) {
+                showToast('Please select an image file');
+                return;
+            }
+            
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size should be less than 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Save the picture data
+                currentProfilePicture = e.target.result;
+                
+                // Update the avatar display
+                const avatar = document.getElementById('userAvatar');
+                avatar.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = currentProfilePicture;
+                img.alt = 'Profile Picture';
+                avatar.appendChild(img);
+                
+                // Show success message
+                showToast('Profile picture uploaded successfully!');
+                
+                // Save to localStorage
+                localStorage.setItem('angazaProfilePicture', currentProfilePicture);
+                
+                // Close avatar options
+                document.getElementById('avatarOptions').classList.remove('show');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // Function to remove profile picture
+        function removeProfilePicture() {
+            if (!currentProfilePicture) {
+                showToast('No profile picture to remove');
+                return;
+            }
+            
+            // Reset to default icon
+            currentProfilePicture = null;
+            const avatar = document.getElementById('userAvatar');
+            avatar.innerHTML = '<i class="fas fa-user"></i>';
+            
+            // Remove from localStorage
+            localStorage.removeItem('angazaProfilePicture');
+            
+            // Show success message
+            showToast('Profile picture removed');
+            
+            // Close avatar options
+            document.getElementById('avatarOptions').classList.remove('show');
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             // Set last updated time
             const now = new Date();
             document.getElementById('lastUpdated').textContent = 
                 now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Load profile picture from localStorage if exists
+            const savedProfilePicture = localStorage.getItem('angazaProfilePicture');
+            if (savedProfilePicture) {
+                currentProfilePicture = savedProfilePicture;
+                const avatar = document.getElementById('userAvatar');
+                avatar.innerHTML = '';
+                const img = document.createElement('img');
+                img.src = currentProfilePicture;
+                img.alt = 'Profile Picture';
+                avatar.appendChild(img);
+            }
             
             // Theme toggle functionality
             const themeToggle = document.getElementById('themeToggle');
@@ -1150,6 +1423,25 @@
                     text.textContent = 'Dark';
                 }
             });
+
+            // Profile picture click - show avatar options
+            document.getElementById('userAvatar').addEventListener('click', function(e) {
+                e.stopPropagation();
+                document.getElementById('avatarOptions').classList.toggle('show');
+            });
+
+            // Upload picture button
+            document.getElementById('uploadPictureBtn').addEventListener('click', function() {
+                document.getElementById('profilePictureInput').click();
+            });
+
+            // Remove picture button
+            document.getElementById('removePictureBtn').addEventListener('click', function() {
+                removeProfilePicture();
+            });
+
+            // File input change
+            document.getElementById('profilePictureInput').addEventListener('change', handleProfilePictureUpload);
 
             // Form submission
             const form = document.getElementById('shiningForm');
@@ -1240,47 +1532,7 @@
                     this.style.transform = 'translateY(0)';
                 });
             });
-
-            // Toast notification function
-            function showToast(message) {
-                // Create toast if it doesn't exist
-                let toast = document.getElementById('toast');
-                if (!toast) {
-                    toast = document.createElement('div');
-                    toast.id = 'toast';
-                    toast.style.cssText = `
-                        position: fixed;
-                        bottom: 20px;
-                        right: 20px;
-                        background: rgba(255, 255, 255, 0.1);
-                        backdrop-filter: blur(10px);
-                        border: 1px solid rgba(255, 255, 255, 0.2);
-                        border-radius: 10px;
-                        padding: 15px 20px;
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                        transform: translateY(100px);
-                        opacity: 0;
-                        transition: all 0.3s;
-                        z-index: 3000;
-                        color: white;
-                    `;
-                    document.body.appendChild(toast);
-                }
-                
-                toast.innerHTML = `<i class="fas fa-check-circle" style="color:#22c55e;"></i> ${message}`;
-                toast.style.transform = 'translateY(0)';
-                toast.style.opacity = '1';
-                
-                setTimeout(() => {
-                    toast.style.transform = 'translateY(100px)';
-                    toast.style.opacity = '0';
-                }, 3000);
-            }
         });
     </script>
 </body>
-
 </html>
-
