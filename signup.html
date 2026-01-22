@@ -869,20 +869,7 @@ select:focus-visible,
       ></i>
     </div>
 
-    <!-- Role -->
-    <div class="input-wrapper">
-      <i class="fas fa-user-tag"></i>
-      <select 
-        id="role" 
-        aria-label="Select Role"
-        required
-      >
-        <option value="" disabled selected>Select Role</option>
-        <option value="jobseeker">Job Seeker</option>
-        <option value="worker">Worker</option>
-        <option value="employer">Employer</option>
-      </select>
-    </div>
+    <input type="hidden" id="role" value="jobseeker">
 
     <!-- Profile Picture -->
     <div class="input-wrapper">
@@ -1113,7 +1100,7 @@ function validateForm() {
   const email = el('email').value.trim();
   const password = el('password').value;
   const confirmPassword = el('confirmPassword').value;
-  const role = el('role').value;
+  const role = "jobseeker";
   const termsAccepted = el('terms').checked;
   
   // Check required fields
@@ -1312,7 +1299,7 @@ signupBtn.addEventListener('click', async () => {
       phone: phone || null,
       location: location || null,
       email,
-      role,
+      role: "jobseeker",
       photoURL: photoURL || null,
       createdAt: serverTimestamp(),
       lastLogin: serverTimestamp(),
@@ -1357,7 +1344,7 @@ signupBtn.addEventListener('click', async () => {
     
     // Redirect to dashboard after delay
     setTimeout(() => {
-      window.location.href = 'dashboard.html';
+      window.location.href = 'jobseeker-dashboard.html';
     }, 2000);
     
   } catch (error) {
