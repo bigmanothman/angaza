@@ -1620,6 +1620,20 @@ signupBtn.addEventListener('click', async () => {
       verificationStatus: 'unverified', // unverified, verified
       profileComplete: 70 // Based on provided info
     });
+
+    // 🔑 CREATE MAIN USER PROFILE (IMPORTANT)
+await setDoc(doc(db, 'users', user.uid), {
+  uid: user.uid,
+  email: email,
+  username: username,
+  role: 'employer',
+  companyId: user.uid, // reference to companies collection
+  emailVerified: user.emailVerified,
+  createdAt: serverTimestamp(),
+  lastLogin: serverTimestamp(),
+  accountStatus: 'pending',
+  profileComplete: true
+});
     
     // Update Firebase auth profile
     try {
@@ -1659,7 +1673,7 @@ signupBtn.addEventListener('click', async () => {
     
     // Redirect to employer dashboard after delay
     setTimeout(() => {
-      window.location.href = 'employer_dashboard.html';
+      window.location.href = 'bigmand.html';
     }, 2000);
     
   } catch (error) {
