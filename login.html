@@ -9,6 +9,8 @@
 
 <!-- Firebase v9 Modular SDK -->
 <script type="module">
+  import { getFirestore, doc, getDoc } 
+from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } 
     from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
@@ -27,6 +29,7 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
   // Login Function
   window.logIn = function() {
@@ -58,16 +61,44 @@
         container.classList.add('success');
         
         // Redirect after delay
-        setTimeout(() => {
-          const redirect = localStorage.getItem("redirectAfterLogin");
-          
-          if (redirect) {
-            localStorage.removeItem("redirectAfterLogin");
-            window.location.href = redirect;
-          } else {
-            window.location.href = "index.html";
-          }
-        }, 1500);
+       setTimeout(async () => {
+  try {
+    const user = userCredential.user;
+
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      throw new Error("USER_DOC_MISSING");
+    }
+
+    const role = userSnap.data().role;
+
+    if (role === "jobseeker") {
+      window.location.href = "jobseeker-dashboard.html";
+    } else if (role === "employer") {
+      window.location.href = "bigmand.html";
+    } else {
+      throw new Error("INVALID_ROLE");
+    }
+
+  } catch (err) {
+    console.error(err);
+
+    showToast(
+      err.message === "USER_DOC_MISSING"
+        ? "Profile not found. Please complete signup."
+        : "Account role error. Contact support.",
+      "error"
+    );
+
+    // 🔄 RUDISHA UI
+    loginBtn.innerHTML = originalText;
+    loginBtn.disabled = false;
+    container.classList.remove("loading", "success");
+  }
+}, 1200);
+
       })
       .catch(error => {
         // Error - reset button state
@@ -174,18 +205,10 @@
   window.showToast = showToast;
 
   // Auth state observer
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      console.log("User logged in:", user.email);
-      // If user is already logged in, redirect to home
-      const currentPage = window.location.pathname;
-      if (currentPage.includes('login.html') || currentPage.includes('signup.html')) {
-        window.location.href = "index.html";
-      }
-    } else {
-      console.log("No user logged in");
-    }
-  });
+ onAuthStateChanged(auth, user => {
+  console.log(user ? "User session active" : "No user session");
+});
+
 </script>
 
 <style>
