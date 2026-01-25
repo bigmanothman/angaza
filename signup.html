@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -379,6 +380,8 @@ body {
 .btn-group {
   width: 100%;
   margin-top: 10px;
+  display: flex;
+  gap: 15px;
 }
 
 .signup-btn {
@@ -431,6 +434,12 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 211, 42, 0.5);
 }
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
 
 .signup-btn:active:not(:disabled) {
   transform: translateY(0);
@@ -911,6 +920,15 @@ select:focus-visible,
     <!-- Signup Button -->
     <div class="btn-group">
       <button 
+        id="backBtn" 
+        class="signup-btn back-btn" 
+        type="button"
+        aria-label="Go back"
+      >
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <button 
         id="signupBtn" 
         class="signup-btn" 
         type="button"
@@ -990,6 +1008,7 @@ const errorMsg = el('errorMsg');
 const errorText = el('errorText');
 const successNote = el('successNote');
 const signupBtn = el('signupBtn');
+const backBtn = el('backBtn');
 const passwordStrength = el('passwordStrength');
 const strengthFill = el('strengthFill');
 const strengthText = el('strengthText');
@@ -1386,6 +1405,11 @@ signupBtn.addEventListener('click', async () => {
     // Show toast notification
     showToast(errorMessage, 'error');
   }
+});
+
+/* ================== Back button handler ================== */
+backBtn.addEventListener('click', function() {
+  window.history.back();
 });
 </script>
 
