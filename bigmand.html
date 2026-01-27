@@ -271,6 +271,110 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
+    /* ====== Logout Confirmation Popup Styles ====== */
+    .logout-confirm-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .logout-confirm-overlay.active {
+      display: flex;
+    }
+
+    .logout-confirm-box {
+      background: linear-gradient(145deg, #162e3d, #0a3d62);
+      width: 90%;
+      max-width: 380px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .logout-confirm-overlay.active .logout-confirm-box {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .logout-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 107, 107, 0.15);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: #ff6b6b;
+      border: 3px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .logout-confirm-box h3 {
+      color: #ffd32a;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .logout-confirm-box p {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    .logout-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .logout-confirm-btn, .logout-cancel-btn {
+      padding: 12px 30px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+      min-width: 120px;
+    }
+
+    .logout-confirm-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ff4757);
+      color: white;
+    }
+
+    .logout-confirm-btn:hover {
+      background: linear-gradient(135deg, #ff4757, #ff3838);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .logout-cancel-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .logout-cancel-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+    }
+
     /* ====== Mobile Logic ====== */
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); width: 280px; }
@@ -282,6 +386,21 @@
         display: flex; position: fixed; top: 20px; left: 20px; z-index: 101;
         background: #0a3d62; border: none; color: white; width: 45px; height: 45px;
         border-radius: 10px; align-items: center; justify-content: center;
+      }
+      
+      .logout-confirm-box {
+        padding: 25px 20px;
+        max-width: 320px;
+      }
+      
+      .logout-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .logout-confirm-btn, .logout-cancel-btn {
+        min-width: 100%;
+        padding: 14px 20px;
       }
     }
     
@@ -399,6 +518,21 @@
     </div>
   </div>
 
+  <!-- Logout Confirmation Popup -->
+  <div class="logout-confirm-overlay" id="logoutConfirmOverlay">
+    <div class="logout-confirm-box">
+      <div class="logout-icon">
+        <i class="fas fa-sign-out-alt"></i>
+      </div>
+      <h3>Confirm Logout</h3>
+      <p>Are you sure you want to logout from your account? You will be redirected to the login page.</p>
+      <div class="logout-buttons">
+        <button class="logout-confirm-btn" id="confirmLogoutBtn">Yes, Logout</button>
+        <button class="logout-cancel-btn" id="cancelLogoutBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     // --- Elements ---
@@ -409,6 +543,10 @@
     const popupAvatar = document.getElementById('popupAvatar');
     const sidebarProfileImg = document.querySelector('.sidebar-profile-display');
     const deletePhoto = document.getElementById('deletePhoto');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutConfirmOverlay = document.getElementById('logoutConfirmOverlay');
+    const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+    const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
 
     // --- Popup Control ---
     profileTrigger.addEventListener('click', () => {
@@ -453,10 +591,36 @@
       imageUpload.value = "";
     });
 
-    // --- Logout Action ---
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      if(confirm("Are you sure you want to logout?")) {
-        window.location.reload();
+    // --- Logout Functionality ---
+    logoutBtn.addEventListener('click', () => {
+      // Close the profile popup
+      popupOverlay.classList.remove('active');
+      // Show the logout confirmation popup
+      logoutConfirmOverlay.classList.add('active');
+    });
+
+    // Confirm logout
+    confirmLogoutBtn.addEventListener('click', () => {
+      // Redirect to login page
+      window.location.href = "login.html";
+    });
+
+    // Cancel logout
+    cancelLogoutBtn.addEventListener('click', () => {
+      logoutConfirmOverlay.classList.remove('active');
+    });
+
+    // Close logout confirmation when clicking outside the box
+    logoutConfirmOverlay.addEventListener('click', (e) => {
+      if (e.target === logoutConfirmOverlay) {
+        logoutConfirmOverlay.classList.remove('active');
+      }
+    });
+
+    // Close logout confirmation with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && logoutConfirmOverlay.classList.contains('active')) {
+        logoutConfirmOverlay.classList.remove('active');
       }
     });
 
