@@ -532,6 +532,37 @@
       </div>
     </div>
   </div>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getAuth, signOut, onAuthStateChanged } 
+    from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
+    authDomain: "angazasystem.firebaseapp.com",
+    projectId: "angazasystem",
+    storageBucket: "angazasystem.firebasestorage.app",
+    messagingSenderId: "191988119746",
+    appId: "1:191988119746:web:aa050634bc5d57b1bde35b"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // 🔐 Guard: kama haja-login, rudi login
+  onAuthStateChanged(auth, user => {
+    if (!user) {
+      window.location.href = "/angaza/index.html";
+    }
+  });
+
+  // 🔴 REAL logout
+  window.realLogout = function () {
+    signOut(auth).then(() => {
+      window.location.href = "/angaza/index.html";
+    });
+  };
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
@@ -601,8 +632,8 @@
 
     // Confirm logout
     confirmLogoutBtn.addEventListener('click', () => {
-      // Redirect to login page
-      window.location.href = "/angaza/index.html";
+      // Redirect to home page
+     realLogout();
     });
 
     // Cancel logout
@@ -649,5 +680,3 @@
   </script>
 </body>
 </html>
-
-
