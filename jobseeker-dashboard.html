@@ -1073,38 +1073,35 @@
         const db = getFirestore(app);
 
         // 🔐 HII INAKAGUA LOGIN
-        onAuthStateChanged(auth, async (user) => {
-            if (!user) {
-                // kama hajalogin
-                window.location.href = "login.html";
-                return;
-            }
-
-            // kama yupo 👉 chukua data zake
-            const q = query(
-                collection(db, "users"),
-                where("uid", "==", user.uid)
-            );
-
-            const snap = await getDocs(q);
-
-            snap.forEach(doc => {
-                const data = doc.data();
-
-                // 🔥 JAZA DASHBOARD
-                document.getElementById("welcomeText").textContent =
-                    `Welcome back, ${data.name} 👋`;
-
-                document.getElementById("userCareer").textContent =
-                    data.career || "Software Engineering";
-
-                document.getElementById("userLocation").textContent =
-                    data.location || "Not set";
-
-                // Update user email in logout dropdown
-                document.getElementById("userEmail").textContent = user.email;
-            });
-        });
+       onAuthStateChanged(auth, async (user) => {
+           if (!user) {
+               window.location.href = "/angaza/index.html";
+               return;
+           }
+       
+           // ✅ HAPA NDANI NDIPO await INARUHUSIWA
+           const q = query(
+               collection(db, "users"),
+               where("uid", "==", user.uid)
+           );
+       
+           const snap = await getDocs(q);
+       
+           snap.forEach(doc => {
+               const data = doc.data();
+       
+               document.getElementById("welcomeText").textContent =
+                   `Welcome back, ${data.name} 👋`;
+       
+               document.getElementById("userCareer").textContent =
+                   data.career || "Software Engineering";
+       
+               document.getElementById("userLocation").textContent =
+                   data.location || "Not set";
+       
+               document.getElementById("userEmail").textContent = user.email;
+           });
+       });
 
         // Logout functionality from avatar dropdown
         document.getElementById('logoutFromAvatarBtn').addEventListener('click', function() {
@@ -1122,22 +1119,18 @@
             document.getElementById('confirmLogoutModal').style.display = 'none';
         });
 
-        document.getElementById('confirmLogout').addEventListener('click', async function() {
-            try {
-                // Hifadhi page aliyotoka kabla ya logout
-                localStorage.setItem("redirectAfterLogin", window.location.href);
+       document.getElementById('confirmLogout').addEventListener('click', async function() {
+    try {
+        await signOut(auth);
 
-                await signOut(auth);
+        // 🔥 RUDI HOME PAGE
+        window.location.href = "/angaza/index.html";
 
-                // Badilisha hapa: reroute si login.html, bali kwenye page aliyohifadhiwa
-                const redirectPage = localStorage.getItem("redirectAfterLogin") || "home.html";
-                window.location.href = redirectPage;
-
-            } catch (error) {
-                console.error("Logout error:", error);
-                showToast('Error during logout. Please try again.');
-            }
-        });
+    } catch (error) {
+        console.error("Logout error:", error);
+        showToast('Error during logout. Please try again.');
+    }
+});
 
         // Close logout modal when clicking outside
         document.getElementById('confirmLogoutModal').addEventListener('click', function(event) {
@@ -1726,5 +1719,4 @@
     </script>
 </body>
 </html>
-
 
