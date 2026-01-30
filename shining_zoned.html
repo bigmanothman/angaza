@@ -1112,7 +1112,7 @@
                     <input type="text" id="skills" placeholder="e.g., JavaScript, React, Node.js, Python" required />
                 </div>
 
-                .form-group">
+                <div class="form-group">
                     <label for="about">
                         <i class="fas fa-file-alt"></i>
                         Professional Summary
@@ -1234,8 +1234,7 @@
         // Check authentication
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                localStorage.setItem("redirectAfterLogin", window.location.href);
-                window.location.href = "login.html";
+                window.location.href = "/angaza/index.html";
                 return;
             }
 
@@ -1274,13 +1273,10 @@
 
         document.getElementById('confirmLogout').addEventListener('click', async function() {
             try {
-                // Save current page before logout
-                localStorage.setItem("redirectAfterLogin", window.location.href);
-
                 await signOut(auth);
 
-                // Redirect to login page
-                window.location.href = "login.html";
+                // 🔥 RUDI HOME PAGE
+                window.location.href = "/angaza/index.html";
 
             } catch (error) {
                 console.error("Logout error:", error);
