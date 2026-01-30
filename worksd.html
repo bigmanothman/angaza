@@ -1007,7 +1007,7 @@
                     <p>• Proficiency in JavaScript & React</p>
                 </div>
                 <p><i class="fas fa-clock"></i> Posted 2 days ago</p>
-                <button onclick="window.location.href='bigman.html'"  class="btn" style="width: 100%; margin-top: 15px;">
+                <button class="btn" style="width: 100%; margin-top: 15px;">
                     <i class="fas fa-paper-plane"></i>
                     Request Position
                 </button>
@@ -1134,7 +1134,7 @@
             <h2>Join the Shining Zone 🌟</h2>
             <p>Stand out from other job seekers. Create your digital CV automatically and get noticed faster by employers. Verified members receive priority matching.</p>
             <div class="btn-group">
-                <a href="shining_zoned.html" class="btn">
+                <a href="shining_zone.html" class="btn">
                     <i class="fas fa-star"></i>
                     Join Shining Zone
                 </a>
@@ -1190,11 +1190,10 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check authentication
+        // 🔐 HII INAKAGUA LOGIN - CHANGED TO REDIRECT TO /angaza/index.html
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                localStorage.setItem("redirectAfterLogin", window.location.href);
-                window.location.href = "login.html";
+                window.location.href = "/angaza/index.html";
                 return;
             }
 
@@ -1229,10 +1228,11 @@
 
         document.getElementById('confirmLogout').addEventListener('click', async function() {
             try {
-                localStorage.setItem("redirectAfterLogin", window.location.href);
                 await signOut(auth);
-                const redirectPage = localStorage.getItem("redirectAfterLogin") || "home.html";
-                window.location.href = redirectPage;
+
+                // 🔥 RUDI HOME PAGE - CHANGED TO /angaza/index.html
+                window.location.href = "/angaza/index.html";
+
             } catch (error) {
                 console.error("Logout error:", error);
                 showToast('Error during logout. Please try again.');
@@ -1450,5 +1450,3 @@
     </script>
 </body>
 </html>
-
-
