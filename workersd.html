@@ -581,7 +581,7 @@
         .profile-badge.premium {
             background: rgba(250, 204, 21, 0.2);
             color: #facc15;
-            border-color: rgba(250, 204, 21, 0.3);
+            border-color = "#facc15";
         }
 
         /* FOOTER */
@@ -920,7 +920,7 @@
                     <i class="fas fa-users"></i>
                     Browse Workers
                 </a>
-                <a href="shining_zoned.html" class="btn-outline">
+                <a href="shining_zone.html" class="btn-outline">
                     <i class="fas fa-star"></i>
                     Join Shining Zone
                 </a>
@@ -1397,11 +1397,10 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check authentication
+        // 🔐 HII INAKAGUA LOGIN
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
-                localStorage.setItem("redirectAfterLogin", window.location.href);
-                window.location.href = "login.html";
+                window.location.href = "/angaza/index.html";
                 return;
             }
 
@@ -1434,13 +1433,10 @@
 
         document.getElementById('confirmLogout').addEventListener('click', async function() {
             try {
-                // Save current page before logout
-                localStorage.setItem("redirectAfterLogin", window.location.href);
-
                 await signOut(auth);
 
-                // Redirect to login page
-                window.location.href = "login.html";
+                // 🔥 RUDI HOME PAGE - CHANGED FROM login.html TO /angaza/index.html
+                window.location.href = "/angaza/index.html";
 
             } catch (error) {
                 console.error("Logout error:", error);
@@ -1646,4 +1642,3 @@
     </script>
 </body>
 </html>
-
