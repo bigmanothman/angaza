@@ -964,7 +964,7 @@
           ANGAZA
         </div>
         <div class="nav-links">
-          <a href="jobseeker-dashboard.html">Home</a>
+          <a href="index.html">Home</a>
           <a href="worksd.html" class="active">Find Work</a>
           <a href="workersd.html">Find Workers</a>
           <a href="shining_zoned.html">Shining Zone</a>
@@ -1146,7 +1146,7 @@
         Please check your inbox regularly for updates.
       </p>
       <strong>THANKS FOR USING ANGAZA</strong>
-      <button class="modal-btn" onclick="closeModal()">
+      <button class="modal-btn" onclick="goToDashboard()">
         <i class="fas fa-home"></i>
         Return to Dashboard
       </button>
@@ -1518,6 +1518,11 @@
           }
         });
       });
+
+      function goToDashboard() {
+  closeModal(); // keep your existing behavior
+  window.location.href = "jobseeker-dashboard.html"; 
+}
       
       form.addEventListener('input', function() {
         const requiredFields = form.querySelectorAll('[required]');
@@ -1565,4 +1570,3 @@
   </script>
 </body>
 </html>
-
