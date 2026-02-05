@@ -1146,7 +1146,7 @@
         Please check your inbox regularly for updates.
       </p>
       <strong>THANKS FOR USING ANGAZA</strong>
-      <button class="modal-btn" onclick="goToDashboard()">
+      <button class="modal-btn" onclick="closeModal()">
         <i class="fas fa-home"></i>
         Return to Dashboard
       </button>
@@ -1518,11 +1518,6 @@
           }
         });
       });
-
-      function goToDashboard() {
-  closeModal(); // keep your existing behavior
-  window.location.href = "jobseeker-dashboard.html"; 
-}
       
       form.addEventListener('input', function() {
         const requiredFields = form.querySelectorAll('[required]');
@@ -1565,7 +1560,7 @@
     
     window.closeModal = function() {
       document.getElementById('successModal').style.display = 'none';
-      // Uncomment to redirect: window.location.href = 'jobseeker-dashboard.html';
+       window.location.href = 'jobseeker-dashboard.html';
     };
   </script>
 </body>
