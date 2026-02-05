@@ -981,20 +981,20 @@
     
     // Cancel button functionality - return to works.html
     document.getElementById('cancelBtn').addEventListener('click', function() {
-      window.location.href = 'works.html'; // Changed to worksd.html as requested
+      window.location.href = 'worksd.html'; // Changed to worksd.html as requested
     });
     
     // Close popup when clicking outside the form
     document.querySelector('.popup-container').addEventListener('click', function(event) {
       if (event.target === this) {
-        window.location.href = 'works.html'; // Changed to works.html as requested
+        window.location.href = 'worksd.html'; // Changed to worksd.html as requested
       }
     });
     
     // ESC key to cancel
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
-        window.location.href = 'works.html'; // Changed to works.html as requested
+        window.location.href = 'worksd.html'; // Changed to worksd.html as requested
       }
     });
     
@@ -1188,9 +1188,8 @@
     
     window.closeModal = function() {
       document.getElementById('successModal').style.display = 'none';
-      window.location.href = 'worksd.html'; // Changed to works.html as requested
+      window.location.href = 'worksd.html'; // Changed to worksd.html as requested
     };
   </script>
 </body>
 </html>
-
