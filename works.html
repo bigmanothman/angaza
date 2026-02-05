@@ -508,7 +508,142 @@
       background: rgba(255, 211, 42, 0.2);
       transform: translateY(-3px);
     }
-     /* ====== Account Type Selection Modal ====== */
+    
+    /* ====== Auth Selection Modal ====== */
+    .auth-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 32, 39, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .auth-modal-content {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      animation: slideUp 0.4s ease;
+    }
+
+    .auth-modal-header {
+      margin-bottom: 30px;
+    }
+
+    .auth-modal-header h3 {
+      font-size: 1.8rem;
+      color: #ffd32a;
+      margin-bottom: 10px;
+    }
+
+    .auth-modal-header p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+    }
+
+    .auth-options {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .auth-option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .auth-option:hover {
+      background: rgba(255, 211, 42, 0.1);
+      border-color: rgba(255, 211, 42, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .auth-option.selected {
+      background: rgba(255, 211, 42, 0.15);
+      border-color: #ffd32a;
+    }
+
+    .auth-icon {
+      font-size: 2rem;
+      color: #ffd32a;
+      min-width: 40px;
+    }
+
+    .auth-text h4 {
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .auth-text p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    .auth-modal-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .auth-modal-btn {
+      flex: 1;
+      padding: 15px;
+      border-radius: 12px;
+      border: none;
+      font-family: "Poppins", sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .auth-modal-btn.cancel {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .auth-modal-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .auth-modal-btn.continue {
+      background: linear-gradient(135deg, #ffd32a, #ffc312);
+      color: #0a3d62;
+    }
+
+    .auth-modal-btn.continue:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 211, 42, 0.5);
+    }
+
+    .auth-modal-btn.continue:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ====== Account Type Selection Modal ====== */
     .account-type-modal {
       display: none;
       position: fixed;
@@ -683,6 +818,21 @@
       .section h2 {
         font-size: 2.2rem;
       }
+      
+      .auth-modal-content,
+      .modal-content {
+        padding: 30px 20px;
+      }
+
+      .auth-option,
+      .type-option {
+        padding: 20px;
+      }
+
+      .auth-modal-actions,
+      .modal-actions {
+        flex-direction: column;
+      }
     }
 
     @media (max-width: 768px) {
@@ -740,18 +890,6 @@
       .steps-container {
         grid-template-columns: 1fr;
       }
-
-      .modal-content {
-        padding: 30px 20px;
-      }
-
-      .type-option {
-        padding: 20px;
-      }
-
-      .modal-actions {
-        flex-direction: column;
-      }
     }
 
     @media (max-width: 480px) {
@@ -794,12 +932,14 @@
         font-size: 1.3rem;
       }
 
+      .auth-option,
       .type-option {
         flex-direction: column;
         text-align: center;
         gap: 15px;
       }
 
+      .auth-icon,
       .type-icon {
         min-width: auto;
       }
@@ -834,6 +974,43 @@
   </style>
 </head>
 <body>
+  <!-- Auth Selection Modal -->
+  <div id="authModal" class="auth-modal">
+    <div class="auth-modal-content">
+      <div class="auth-modal-header">
+        <h3>Join the Shining Zone</h3>
+        <p>Select an option to continue</p>
+      </div>
+      
+      <div class="auth-options">
+        <div class="auth-option" data-action="login">
+          <div class="auth-icon">
+            <i class="fas fa-sign-in-alt"></i>
+          </div>
+          <div class="auth-text">
+            <h4>Login to Your Account</h4>
+            <p>Already have an account? Sign in to access your profile and opportunities.</p>
+          </div>
+        </div>
+        
+        <div class="auth-option" data-action="signup">
+          <div class="auth-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div class="auth-text">
+            <h4>Create New Account</h4>
+            <p>New to ANGAZA? Sign up to create your professional profile and start your journey.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="auth-modal-actions">
+        <button id="cancelAuth" class="auth-modal-btn cancel">Cancel</button>
+        <button id="continueAuth" class="auth-modal-btn continue" disabled>Continue</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Account Type Selection Modal -->
   <div id="accountTypeModal" class="account-type-modal">
     <div class="modal-content">
@@ -930,10 +1107,10 @@
         <div class="requirements">
           <p><b>Requirements:</b> Bachelor's Degree + Project Experience</p>
         </div>
-        <a href="bigman.html" class="btn">
+        <button class="btn request-btn" data-company="BIGMAN OTHMAN Tech Ltd">
           <i class="fas fa-paper-plane"></i>
           Request Position
-        </a>
+        </button>
       </div>
 
       <div class="card scroll-animate">
@@ -946,10 +1123,10 @@
         <div class="requirements">
           <p><b>Requirements:</b> GitHub portfolio + analytical projects</p>
         </div>
-        <a href="#" class="btn">
+        <button class="btn request-btn" data-company="SmartVision AI">
           <i class="fas fa-paper-plane"></i>
           Request Position
-        </a>
+        </button>
       </div>
 
       <div class="card scroll-animate">
@@ -962,10 +1139,10 @@
         <div class="requirements">
           <p><b>Requirements:</b> Creative design portfolio + tool mastery</p>
         </div>
-        <a href="#" class="btn">
+        <button class="btn request-btn" data-company="BlueNova Digital">
           <i class="fas fa-paper-plane"></i>
           Request Position
-        </a>
+        </button>
       </div>
     </div>
   </section>
@@ -1063,17 +1240,83 @@
   </script>
 
   <script>
-    // Account Type Selection Variables
+    // Variables for auth flow
+    let selectedAuthAction = null;
     let selectedAccountType = null;
+    let selectedCompany = null;
 
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
-      // Get DOM elements
+      // Get DOM elements for auth modal
+      const authModal = document.getElementById('authModal');
+      const cancelAuth = document.getElementById('cancelAuth');
+      const continueAuth = document.getElementById('continueAuth');
+      const authOptions = document.querySelectorAll('.auth-option');
+      
+      // Get DOM elements for account type modal
       const signupBtn = document.getElementById('signupBtn');
       const accountTypeModal = document.getElementById('accountTypeModal');
       const cancelTypeSelection = document.getElementById('cancelTypeSelection');
       const continueToSignup = document.getElementById('continueToSignup');
       const typeOptions = document.querySelectorAll('.type-option');
+      
+      // Get all request buttons
+      const requestButtons = document.querySelectorAll('.request-btn');
+
+      // Show auth selection modal
+      function showAuthModal(companyName) {
+        selectedCompany = companyName;
+        authModal.style.display = 'flex';
+        selectedAuthAction = null;
+        continueAuth.disabled = true;
+        
+        // Update modal header based on company
+        const modalHeader = document.querySelector('.auth-modal-header h3');
+        const modalSubtitle = document.querySelector('.auth-modal-header p');
+        
+        modalHeader.textContent = 'Apply to ' + companyName;
+        modalSubtitle.textContent = 'Select an option to continue with your application';
+        
+        // Reset selection
+        authOptions.forEach(option => {
+          option.classList.remove('selected');
+        });
+      }
+
+      // Hide auth selection modal
+      function hideAuthModal() {
+        authModal.style.display = 'none';
+        selectedCompany = null;
+      }
+
+      // Handle auth option selection
+      function handleAuthOptionSelect(action) {
+        selectedAuthAction = action;
+        
+        // Update UI
+        authOptions.forEach(option => {
+          if (option.dataset.action === action) {
+            option.classList.add('selected');
+          } else {
+            option.classList.remove('selected');
+          }
+        });
+        
+        // Enable continue button
+        continueAuth.disabled = false;
+      }
+
+      // Redirect based on selected auth action
+      function redirectBasedOnAuthAction() {
+        if (selectedAuthAction === 'login') {
+          // Redirect to login page
+          window.location.href = 'login.html';
+        } else if (selectedAuthAction === 'signup') {
+          // Show account type selection modal
+          hideAuthModal();
+          showAccountTypeModal();
+        }
+      }
 
       // Show account type selection modal
       function showAccountTypeModal() {
@@ -1118,6 +1361,21 @@
         }
       }
 
+      // Event Listeners for Auth Selection
+      authOptions.forEach(option => {
+        option.addEventListener('click', function() {
+          handleAuthOptionSelect(this.dataset.action);
+        });
+      });
+
+      cancelAuth.addEventListener('click', hideAuthModal);
+
+      continueAuth.addEventListener('click', function() {
+        if (selectedAuthAction) {
+          redirectBasedOnAuthAction();
+        }
+      });
+
       // Event Listeners for Account Type Selection
       typeOptions.forEach(option => {
         option.addEventListener('click', function() {
@@ -1133,14 +1391,33 @@
         }
       });
 
-      // Close modal with ESC key
+      // Event Listeners for Request Buttons
+      requestButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const companyName = this.getAttribute('data-company');
+          showAuthModal(companyName);
+        });
+      });
+
+      // Close modals with ESC key
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && accountTypeModal.style.display === 'flex') {
-          hideAccountTypeModal();
+        if (e.key === 'Escape') {
+          if (authModal.style.display === 'flex') {
+            hideAuthModal();
+          }
+          if (accountTypeModal.style.display === 'flex') {
+            hideAccountTypeModal();
+          }
         }
       });
 
-      // Close modal when clicking outside
+      // Close modals when clicking outside
+      authModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          hideAuthModal();
+        }
+      });
+
       accountTypeModal.addEventListener('click', function(e) {
         if (e.target === this) {
           hideAccountTypeModal();
@@ -1221,6 +1498,40 @@
         });
       });
 
+      // Auth option hover effects
+      authOptions.forEach(option => {
+        option.addEventListener('mouseenter', function() {
+          const icon = this.querySelector('.auth-icon i');
+          if (icon) {
+            icon.style.transform = 'scale(1.1)';
+          }
+        });
+        
+        option.addEventListener('mouseleave', function() {
+          const icon = this.querySelector('.auth-icon i');
+          if (icon) {
+            icon.style.transform = 'scale(1)';
+          }
+        });
+      });
+
+      // Type option hover effects
+      typeOptions.forEach(option => {
+        option.addEventListener('mouseenter', function() {
+          const icon = this.querySelector('.type-icon i');
+          if (icon) {
+            icon.style.transform = 'scale(1.1)';
+          }
+        });
+        
+        option.addEventListener('mouseleave', function() {
+          const icon = this.querySelector('.type-icon i');
+          if (icon) {
+            icon.style.transform = 'scale(1)';
+          }
+        });
+      });
+
       // Smooth scroll for anchor links
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -1235,43 +1546,6 @@
               });
             }
           }
-        });
-      });
-
-      // Add loading state to request buttons
-      const requestButtons = document.querySelectorAll('.card .btn');
-      requestButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-          const originalText = this.innerHTML;
-          this.innerHTML = '<div class="loading"></div> Sending...';
-          this.style.pointerEvents = 'none';
-          
-          setTimeout(() => {
-            this.innerHTML = originalText;
-            this.style.pointerEvents = 'auto';
-            
-            // Show success message (simulated)
-            const successMsg = document.createElement('div');
-            successMsg.style.cssText = `
-              position: fixed;
-              top: 20px;
-              right: 20px;
-              background: linear-gradient(135deg, #ffd32a, #ffc312);
-              color: #0a3d62;
-              padding: 15px 25px;
-              border-radius: 10px;
-              box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-              z-index: 10000;
-              animation: slideIn 0.3s ease;
-            `;
-            successMsg.innerHTML = '<i class="fas fa-check-circle"></i> Request sent successfully!';
-            document.body.appendChild(successMsg);
-            
-            setTimeout(() => {
-              successMsg.style.animation = 'slideOut 0.3s ease';
-              setTimeout(() => successMsg.remove(), 300);
-            }, 3000);
-          }, 1500);
         });
       });
 
