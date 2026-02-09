@@ -1124,7 +1124,7 @@
                     </div>
                     
                     <div class="logout-dropdown" id="logoutDropdown">
-                        <div class="user-email" id="userEmail">user@example.com</div>
+                        <div class="user-email" id="userEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99eceafcebd9fce1f8f4e9f5fcb7faf6f4">[email&#160;protected]</a></div>
                         <button class="logout-btn" id="logoutBtn">
                             <i class="fas fa-sign-out-alt"></i>
                             Logout
@@ -1364,7 +1364,7 @@
         </div>
     </div>
 
-    <script type="module">
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } 
         from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
@@ -1473,8 +1473,13 @@
                     if (change.type === "modified") {
                         // Application status changed - CREATE NOTIFICATION
                         const previousStatus = previousApplicationStatuses.get(appId);
+                        console.log("=== MODIFIED APPLICATION DETECTED ===");
                         console.log("Previous status:", previousStatus);
                         console.log("New status:", data.status);
+                        console.log("Company field:", data.company);
+                        console.log("CompanyName field:", data.companyName);
+                        console.log("Position field:", data.position);
+                        console.log("Full application data:", data);
                         
                         if (previousStatus && previousStatus !== data.status) {
                             console.log("=== STATUS CHANGE DETECTED ===");
@@ -1482,6 +1487,8 @@
                             
                             // Create notification for status change
                             createStatusChangeNotification(data, appId, previousStatus);
+                        } else {
+                            console.log("⚠️ Status unchanged or no previous status recorded");
                         }
                         
                         // Update the status tracker
@@ -1530,7 +1537,7 @@
             let type = "info";
             let icon = "🔔";
             
-            const companyName = application.company || "BIGMAN OTHMAN Tech Ltd";
+            const companyName = application.companyName || application.company || "BIGMAN OTHMAN Tech Ltd";
             const position = application.position || "Software Engineer";
             
             switch(application.status) {
@@ -1883,7 +1890,7 @@
                 item.innerHTML = `
                     <div>
                         <strong>${app.position || 'Software Engineer'}</strong><br>
-                        <small>${app.company || 'Company'}</small>
+                        <small>${app.companyName || app.company || 'Company'}</small>
                     </div>
                     <div style="text-align: right;">
                         <span class="badge ${statusColor}">${app.status}</span><br>
@@ -2220,13 +2227,4 @@
         });
 
         window.addEventListener('click', function(e) {
-            if (e.target === document.getElementById('profileModal')) {
-                document.getElementById('profileModal').style.display = 'none';
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', initDashboard);
-</script>
-</body>
-</html>
+            if (e.target === document.getElementBy
