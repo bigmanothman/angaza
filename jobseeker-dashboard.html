@@ -22,7 +22,6 @@
             transition: background 0.3s;
         }
 
-        /* Theme Toggle - MOVED TO BETTER POSITION */
         .theme-toggle {
             position: fixed;
             top: 80px;
@@ -45,7 +44,6 @@
             transform: translateY(-2px);
         }
 
-        /* Logout Button Styles */
         .logout-container {
             position: relative;
         }
@@ -99,7 +97,6 @@
             text-align: center;
         }
 
-        /* Profile Picture Upload Styles */
         .avatar-upload-container {
             position: relative;
             display: inline-block;
@@ -200,12 +197,10 @@
             background: rgba(239, 68, 68, 0.2);
         }
 
-        /* Hidden file input */
         #profilePictureInput {
             display: none;
         }
 
-        /* HEADER */
         header {
             position: sticky;
             top: 0;
@@ -289,16 +284,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: pulse 2s infinite;
         }
 
-        /* CONTAINER */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
         .container {
             max-width: 1200px;
             margin: auto;
             padding: 30px 20px;
         }
 
-        /* WELCOME */
         .welcome {
             display: flex;
             justify-content: space-between;
@@ -346,7 +345,6 @@
             background: rgba(250, 204, 21, 0.1);
         }
 
-        /* CARD */
         .card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -368,7 +366,6 @@
             margin-bottom: 15px;
         }
 
-        /* PROFILE BAR */
         .progress-container {
             margin-top: 10px;
         }
@@ -410,7 +407,6 @@
             animation: shimmer 2s infinite;
         }
 
-        /* STATS */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -447,7 +443,6 @@
             color: #22c55e;
         }
 
-        /* GRID */
         .main-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -459,7 +454,6 @@
                 grid-template-columns: 1fr;
             }
             
-            /* Adjust theme toggle for mobile */
             .theme-toggle {
                 top: 70px;
                 right: 10px;
@@ -468,7 +462,6 @@
             }
         }
 
-        /* ITEM */
         .item {
             display: flex;
             justify-content: space-between;
@@ -485,7 +478,6 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* BADGE */
         .badge {
             padding: 5px 10px;
             border-radius: 20px;
@@ -514,7 +506,16 @@
             color: white;
         }
 
-        /* CHART */
+        .purple {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        .orange {
+            background: #f97316;
+            color: white;
+        }
+
         .chart-container {
             height: 200px;
             margin-top: 15px;
@@ -552,7 +553,6 @@
             white-space: nowrap;
         }
 
-        /* FOOTER */
         footer {
             margin-top: 60px;
             text-align: center;
@@ -562,7 +562,6 @@
             opacity: 0.7;
         }
 
-        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -602,7 +601,6 @@
             cursor: pointer;
         }
 
-        /* ANIMATIONS */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -618,13 +616,6 @@
             100% { transform: translateX(100%); }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        /* LIGHT THEME */
         body.light-theme {
             background: linear-gradient(135deg, #f0f9ff, #e0f2fe, #bae6fd);
             color: #0f172a;
@@ -653,7 +644,6 @@
             border-top: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        /* LOADING */
         .loading {
             display: inline-block;
             width: 20px;
@@ -668,7 +658,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* TOAST */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -692,7 +681,6 @@
             opacity: 1;
         }
 
-        /* SEARCH */
         .search-container {
             position: relative;
             margin: 20px 0;
@@ -710,10 +698,9 @@
 
         .search-input:focus {
             outline: none;
-            border-color = "#facc15";
+            border-color: #facc15;
         }
 
-        /* Confirm Logout Modal */
         .confirm-modal {
             display: none;
             position: fixed;
@@ -765,14 +752,314 @@
             background: linear-gradient(to right, #ef4444, #dc2626);
             color: white;
         }
+
+        /* ===== ENHANCED NOTIFICATION POPUP ===== */
+        .notification-popup {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: rgba(10, 61, 98, 0.98);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 380px;
+            max-width: 450px;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-top: 15px;
+            z-index: 1004;
+            animation: fadeIn 0.3s;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .notification-popup.show {
+            display: block;
+        }
+
+        .notification-popup::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid rgba(10, 61, 98, 0.98);
+        }
+
+        .notification-header-popup {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .notification-header-popup h4 {
+            color: #facc15;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .mark-all-read-btn {
+            background: rgba(250, 204, 21, 0.1);
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            color: #facc15;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mark-all-read-btn:hover {
+            background: rgba(250, 204, 21, 0.2);
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .notification-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(3px);
+            border-color: rgba(250, 204, 21, 0.3);
+        }
+
+        .notification-item.unread {
+            background: rgba(250, 204, 21, 0.12);
+            border: 1px solid rgba(250, 204, 21, 0.25);
+        }
+
+        .notification-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 60%;
+            background: #facc15;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .notification-item.unread:hover {
+            background: rgba(250, 204, 21, 0.18);
+        }
+
+        .notification-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .notification-icon {
+            font-size: 1.1rem;
+        }
+
+        .notification-icon.accepted {
+            color: #22c55e;
+        }
+
+        .notification-icon.rejected {
+            color: #ef4444;
+        }
+
+        .notification-icon.reviewed {
+            color: #3b82f6;
+        }
+
+        .notification-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            white-space: nowrap;
+        }
+
+        .notification-company {
+            font-size: 0.85rem;
+            color: #facc15;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .notification-status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .status-accepted {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-reviewed {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .notification-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .notification-empty i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .notification-empty p {
+            font-size: 0.9rem;
+        }
+
+        .clear-notifications {
+            width: 100%;
+            padding: 10px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .clear-notifications:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Application Status Badges */
+        .application-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: rgba(250, 204, 21, 0.2);
+            color: #eab308;
+            border: 1px solid rgba(250, 204, 21, 0.3);
+        }
+
+        .status-under-review {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* ===== NOTIFICATION SOUND INDICATOR ===== */
+        .notification-sound-indicator {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(34, 197, 94, 0.95);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 2002;
+            animation: slideInRight 0.4s;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+        }
+
+        .notification-sound-indicator.show {
+            display: flex;
+        }
+
+        .notification-sound-indicator.rejected {
+            background: rgba(239, 68, 68, 0.95);
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Scrollbar styling for notification popup */
+        .notification-popup::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .notification-popup::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .notification-popup::-webkit-scrollbar-thumb {
+            background: rgba(250, 204, 21, 0.3);
+            border-radius: 10px;
+        }
+
+        .notification-popup::-webkit-scrollbar-thumb:hover {
+            background: rgba(250, 204, 21, 0.5);
+        }
     </style>
 </head>
 
 <body>
-    <!-- Theme Toggle - MOVED TO BETTER POSITION -->
+    <!-- Theme Toggle -->
     <div class="theme-toggle" id="themeToggle">
         <i class="fas fa-moon"></i>
         <span>Dark</span>
+    </div>
+
+    <!-- Notification Sound Indicator -->
+    <div class="notification-sound-indicator" id="notificationSoundIndicator">
+        <i class="fas fa-bell"></i>
+        <span id="soundIndicatorMessage">New notification received!</span>
     </div>
 
     <header>
@@ -788,18 +1075,36 @@
                 <a href="shining_zoned.html">Shining Zone</a>
             </nav>
             <div class="user-menu">
+                <!-- Notification Bell with Enhanced Popup -->
                 <div class="notification-badge" id="notificationIcon">
                     <i class="fas fa-bell"></i>
-                    <span class="notification-count">3</span>
+                    <span class="notification-count" id="notificationCount">0</span>
+                    <div class="notification-popup" id="notificationPopup">
+                        <div class="notification-header-popup">
+                            <h4>Notifications</h4>
+                            <button class="mark-all-read-btn" id="markAllReadBtn">
+                                Mark all read
+                            </button>
+                        </div>
+                        <div id="notificationPopupContent">
+                            <div class="notification-empty">
+                                <i class="fas fa-bell-slash"></i>
+                                <p>No notifications yet</p>
+                                <p style="font-size: 0.75rem; margin-top: 5px; opacity: 0.6;">You'll be notified when companies review your applications</p>
+                            </div>
+                        </div>
+                        <button class="clear-notifications" id="clearNotificationsBtn">
+                            <i class="fas fa-trash"></i> Clear All Notifications
+                        </button>
+                    </div>
                 </div>
+                
                 <div class="logout-container">
-                    <!-- Avatar Upload Container -->
                     <div class="avatar-upload-container">
                         <div class="avatar" id="userAvatar">
                             <i class="fas fa-user"></i>
                         </div>
                         
-                        <!-- Avatar Options Dropdown -->
                         <div class="avatar-options" id="avatarOptions">
                             <button class="avatar-option-btn" id="uploadPictureBtn">
                                 <i class="fas fa-camera"></i>
@@ -815,7 +1120,6 @@
                             </button>
                         </div>
                         
-                        <!-- Hidden File Input -->
                         <input type="file" id="profilePictureInput" accept="image/*">
                     </div>
                     
@@ -877,33 +1181,23 @@
         <div class="stats">
             <div class="card stat-card">
                 <p>Applications Sent</p>
-                <div class="stat-value" id="applicationsCount">12</div>
-                <small class="stat-change positive">+3 this week</small>
+                <div class="stat-value" id="applicationsCount">0</div>
+                <small class="stat-change positive" id="applicationsChange">Loading...</small>
+            </div>
+            <div class="card stat-card">
+                <p>Pending Review</p>
+                <div class="stat-value" id="pendingCount">0</div>
+                <small class="stat-change positive">Awaiting response</small>
+            </div>
+            <div class="card stat-card">
+                <p>Accepted</p>
+                <div class="stat-value" id="acceptedCount">0</div>
+                <small class="stat-change positive" style="color: #22c55e;">Success rate</small>
             </div>
             <div class="card stat-card">
                 <p>Profile Views</p>
                 <div class="stat-value" id="profileViews">147</div>
                 <small class="stat-change positive">+23 this week</small>
-            </div>
-            <div class="card stat-card">
-                <p>Job Matches</p>
-                <div class="stat-value" id="jobMatches">8</div>
-                <small class="stat-change positive">New matches</small>
-            </div>
-            <div class="card stat-card">
-                <p>Saved Jobs</p>
-                <div class="stat-value" id="savedJobs">5</div>
-                <small class="stat-change positive">Active</small>
-            </div>
-        </div>
-
-        <!-- Activity Chart -->
-        <div class="card">
-            <h3>Weekly Activity</h3>
-            <div class="chart-container">
-                <div class="chart-placeholder" id="activityChart">
-                    <!-- Chart bars will be generated by JavaScript -->
-                </div>
             </div>
         </div>
 
@@ -915,11 +1209,14 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Recent Applications</h3>
-                        <button class="btn outline small" id="viewAllApplications">View All</button>
+                        <button class="btn outline small" id="viewAllApplications" style="padding: 6px 15px; font-size: 0.85rem;">View All</button>
                     </div>
                     <br>
                     <div id="applicationsList">
-                        <!-- Applications will be loaded here -->
+                        <div style="text-align: center; padding: 30px; color: rgba(255, 255, 255, 0.5);">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                            <p>Loading applications...</p>
+                        </div>
                     </div>
                 </div>
 
@@ -933,18 +1230,27 @@
                     </div>
                     <br>
                     <div id="recommendedJobs">
-                        <!-- Jobs will be loaded here -->
-                    </div>
-                </div>
-
-                <br>
-
-                <!-- Recent Activity -->
-                <div class="card">
-                    <h3>Recent Activity</h3>
-                    <br>
-                    <div id="activityList">
-                        <!-- Activity items will be loaded here -->
+                        <div class="item">
+                            <div>
+                                <strong>Senior Developer</strong><br>
+                                <small>Tech Solutions Ltd</small>
+                            </div>
+                            <span class="badge blue">Full-time</span>
+                        </div>
+                        <div class="item">
+                            <div>
+                                <strong>Frontend Engineer</strong><br>
+                                <small>Digital Innovations</small>
+                            </div>
+                            <span class="badge purple">Remote</span>
+                        </div>
+                        <div class="item">
+                            <div>
+                                <strong>Software Architect</strong><br>
+                                <small>Enterprise Systems Inc</small>
+                            </div>
+                            <span class="badge orange">Contract</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -955,11 +1261,14 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Notifications</h3>
-                        <button class="btn outline small" id="markAllRead">Mark All Read</button>
+                        <button class="btn outline small" id="markAllRead" style="padding: 6px 15px; font-size: 0.85rem;">Mark All Read</button>
                     </div>
                     <br>
                     <div id="notificationsList">
-                        <!-- Notifications will be loaded here -->
+                        <div style="text-align: center; padding: 30px; color: rgba(255, 255, 255, 0.5);">
+                            <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                            <p>No notifications yet</p>
+                        </div>
                     </div>
                 </div>
 
@@ -1059,27 +1368,38 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } 
         from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-        import { getFirestore, collection, query, where, getDocs } 
+        import { getFirestore, collection, query, where, getDocs, onSnapshot, orderBy } 
         from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
             authDomain: "angazasystem.firebaseapp.com",
             projectId: "angazasystem",
+            databaseURL: "https://angazasystem-default-rtdb.asia-southeast1.firebasedatabase.app",
+            storageBucket: "angazasystem.firebasestorage.app",
+            messagingSenderId: "191988119746",
+            appId: "1:191988119746:web:aa050634bc5d57b1bde35b",
+            measurementId: "G-2RN3CLME03"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // 🔐 HII INAKAGUA LOGIN
+        // ===== GLOBAL STATE =====
+        let currentUserData = null;
+        let userApplications = [];
+        let notifications = [];
+        let realtimeListener = null;
+        let previousApplicationStatuses = new Map();
+
+        // ===== AUTHENTICATION CHECK =====
        onAuthStateChanged(auth, async (user) => {
            if (!user) {
                window.location.href = "/angaza/index.html";
                return;
            }
        
-           // ✅ HAPA NDANI NDIPO await INARUHUSIWA
            const q = query(
                collection(db, "users"),
                where("uid", "==", user.uid)
@@ -1087,29 +1407,604 @@
        
            const snap = await getDocs(q);
        
-           snap.forEach(doc => {
-               const data = doc.data();
+           if (!snap.empty) {
+               const doc = snap.docs[0];
+               currentUserData = doc.data();
+               currentUserData.id = doc.id;
        
                document.getElementById("welcomeText").textContent =
-                   `Welcome back, ${data.name} 👋`;
+                   `Welcome back, ${currentUserData.name || 'User'} 👋`;
        
                document.getElementById("userCareer").textContent =
-                   data.career || "Software Engineering";
+                   currentUserData.career || "Software Engineering";
        
                document.getElementById("userLocation").textContent =
-                   data.location || "Not set";
+                   currentUserData.location || "Not set";
        
                document.getElementById("userEmail").textContent = user.email;
-           });
+               
+               console.log("=== USER AUTHENTICATED ===");
+               console.log("User email:", user.email);
+               console.log("User name:", currentUserData.name);
+               
+               // ===== LOAD USER'S APPLICATIONS WITH REAL-TIME LISTENER =====
+               setupRealtimeApplicationListener(user.email);
+               
+               // Load saved notifications from localStorage
+               loadSavedNotifications(user.email);
+               
+           } else {
+               console.error("User document not found");
+           }
        });
 
-        // Logout functionality from avatar dropdown
+        // ===== REAL-TIME APPLICATION LISTENER =====
+        function setupRealtimeApplicationListener(userEmail) {
+            console.log("=== SETTING UP REAL-TIME LISTENER FOR USER ===");
+            console.log("Listening for email:", userEmail);
+            
+            if (realtimeListener) {
+                realtimeListener(); // Unsubscribe previous listener
+            }
+            
+            const q = query(
+                collection(db, "applications"),
+                where("email", "==", userEmail),
+                orderBy("submittedAt", "desc")
+            );
+            
+            realtimeListener = onSnapshot(q, (snapshot) => {
+                console.log("=== SNAPSHOT RECEIVED ===");
+                console.log("Documents in snapshot:", snapshot.size);
+                
+                snapshot.docChanges().forEach((change) => {
+                    const data = change.doc.data();
+                    const appId = change.doc.id;
+                    
+                    console.log("Change type:", change.type);
+                    console.log("Application ID:", appId);
+                    console.log("Current status:", data.status);
+                    
+                    if (change.type === "added") {
+                        // New application added (shouldn't trigger notification for own submission)
+                        console.log("New application added:", appId);
+                    }
+                    
+                    if (change.type === "modified") {
+                        // Application status changed - CREATE NOTIFICATION
+                        const previousStatus = previousApplicationStatuses.get(appId);
+                        console.log("Previous status:", previousStatus);
+                        console.log("New status:", data.status);
+                        
+                        if (previousStatus && previousStatus !== data.status) {
+                            console.log("=== STATUS CHANGE DETECTED ===");
+                            console.log(`Status changed from "${previousStatus}" to "${data.status}"`);
+                            
+                            // Create notification for status change
+                            createStatusChangeNotification(data, appId, previousStatus);
+                        }
+                        
+                        // Update the status tracker
+                        previousApplicationStatuses.set(appId, data.status);
+                    }
+                });
+                
+                // Update applications list
+                userApplications = [];
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    userApplications.push({
+                        id: doc.id,
+                        ...data
+                    });
+                    
+                    // Initialize status tracker for existing applications
+                    if (!previousApplicationStatuses.has(doc.id)) {
+                        previousApplicationStatuses.set(doc.id, data.status);
+                    }
+                });
+                
+                console.log("Total user applications:", userApplications.length);
+                
+                // Update UI
+                updateApplicationsList();
+                updateStatsCards();
+                
+            }, (error) => {
+                console.error("=== REALTIME LISTENER ERROR ===");
+                console.error("Error:", error);
+            });
+        }
+
+        // ===== CREATE NOTIFICATION FOR STATUS CHANGE =====
+        function createStatusChangeNotification(application, appId, previousStatus) {
+            if (!currentUserData) return;
+            
+            console.log("=== CREATING NOTIFICATION ===");
+            console.log("Company:", application.company);
+            console.log("Position:", application.position);
+            console.log("New status:", application.status);
+            
+            let title = "";
+            let message = "";
+            let type = "info";
+            let icon = "🔔";
+            
+            const companyName = application.company || "BIGMAN OTHMAN Tech Ltd";
+            const position = application.position || "Software Engineer";
+            
+            switch(application.status) {
+                case "Accepted":
+                    title = "Application Accepted!";
+                    message = `Congratulations! You have been accepted for the ${position} position at ${companyName}. Thank you for using Angaza.`;
+                    type = "accepted";
+                    icon = "🎉";
+                    console.log("✅ ACCEPTANCE NOTIFICATION CREATED");
+                    break;
+                    
+                case "Rejected":
+                    title = "Application Status Update";
+                    message = `Your application for ${position} at ${companyName} was not successful. Please try again with other employers at works zone. Thank you for using Angaza.`;
+                    type = "rejected";
+                    icon = "📋";
+                    console.log("❌ REJECTION NOTIFICATION CREATED");
+                    break;
+                    
+                case "Reviewed":
+                    title = "Application Reviewed";
+                    message = `Your application for ${position} at ${companyName} has been reviewed by the employer.`;
+                    type = "reviewed";
+                    icon = "👁️";
+                    console.log("👁️ REVIEW NOTIFICATION CREATED");
+                    break;
+                    
+                default:
+                    console.log("⚠️ Unknown status, no notification created");
+                    return;
+            }
+            
+            // Create notification object
+            const newNotification = {
+                id: Date.now(),
+                title: title,
+                message: message,
+                company: companyName,
+                position: position,
+                time: new Date().toISOString(),
+                timeDisplay: "Just now",
+                read: false,
+                type: type,
+                icon: icon,
+                applicationId: appId,
+                applicationData: application
+            };
+            
+            // Add to notifications array (at beginning)
+            notifications.unshift(newNotification);
+            
+            console.log("Notification created:", newNotification);
+            
+            // Save to localStorage
+            saveNotifications();
+            
+            // Update UI
+            updateNotificationDisplay();
+            updateNotificationPopup();
+            updateNotificationsList();
+            
+            // Show visual & audio feedback
+            showNotificationAlert(newNotification);
+            playNotificationSound(type);
+            showSoundIndicator(newNotification);
+            
+            console.log("=== NOTIFICATION COMPLETE ===");
+        }
+
+        // ===== SHOW NOTIFICATION ALERT =====
+        function showNotificationAlert(notification) {
+            const toastType = notification.type === 'accepted' ? 'success' : 
+                            notification.type === 'rejected' ? 'error' : 'info';
+            showToast(notification.message, toastType);
+        }
+
+        // ===== PLAY NOTIFICATION SOUND =====
+        function playNotificationSound(type) {
+            try {
+                // Create different tones for different notification types
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Different frequencies for different types
+                if (type === 'accepted') {
+                    // Happy sound - C major chord
+                    oscillator.frequency.value = 523.25; // C5
+                } else if (type === 'rejected') {
+                    // Neutral sound
+                    oscillator.frequency.value = 440; // A4
+                } else {
+                    // Info sound
+                    oscillator.frequency.value = 587.33; // D5
+                }
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+                
+                console.log("🔊 Notification sound played");
+            } catch (error) {
+                console.log("Notification sound error:", error);
+            }
+        }
+
+        // ===== SHOW SOUND INDICATOR =====
+        function showSoundIndicator(notification) {
+            const indicator = document.getElementById('notificationSoundIndicator');
+            const message = document.getElementById('soundIndicatorMessage');
+            
+            message.textContent = notification.title;
+            
+            if (notification.type === 'rejected') {
+                indicator.classList.add('rejected');
+            } else {
+                indicator.classList.remove('rejected');
+            }
+            
+            indicator.classList.add('show');
+            
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 4000);
+        }
+
+        // ===== UPDATE NOTIFICATION DISPLAY =====
+        function updateNotificationDisplay() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const notificationCountEl = document.getElementById('notificationCount');
+            notificationCountEl.textContent = unreadCount;
+            
+            if (unreadCount > 0) {
+                notificationCountEl.style.display = 'flex';
+            } else {
+                notificationCountEl.style.display = 'none';
+            }
+            
+            console.log("Notification count updated:", unreadCount);
+        }
+
+        // ===== UPDATE NOTIFICATION POPUP =====
+        function updateNotificationPopup() {
+            const popupContent = document.getElementById('notificationPopupContent');
+            popupContent.innerHTML = '';
+            
+            if (notifications.length === 0) {
+                popupContent.innerHTML = `
+                    <div class="notification-empty">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No notifications yet</p>
+                        <p style="font-size: 0.75rem; margin-top: 5px; opacity: 0.6;">You'll be notified when companies review your applications</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            notifications.forEach(notification => {
+                const item = createNotificationItem(notification);
+                popupContent.appendChild(item);
+            });
+        }
+
+        // ===== UPDATE NOTIFICATIONS LIST (SIDEBAR) =====
+        function updateNotificationsList() {
+            const notificationsList = document.getElementById('notificationsList');
+            notificationsList.innerHTML = '';
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: rgba(255, 255, 255, 0.5);">
+                        <i class="fas fa-bell-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                        <p>No notifications yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Show latest 3 notifications
+            const latestNotifications = notifications.slice(0, 3);
+            
+            latestNotifications.forEach(notification => {
+                const item = createNotificationItem(notification, true);
+                notificationsList.appendChild(item);
+            });
+        }
+
+        // ===== CREATE NOTIFICATION ITEM =====
+        function createNotificationItem(notification, simplified = false) {
+            const item = document.createElement('div');
+            item.className = `notification-item ${notification.read ? '' : 'unread'}`;
+            item.setAttribute('data-id', notification.id);
+            
+            const timeDisplay = getTimeDisplay(notification.time);
+            
+            item.innerHTML = `
+                <div class="notification-item-header">
+                    <div class="notification-title">
+                        <span class="notification-icon ${notification.type}">${notification.icon}</span>
+                        ${notification.title}
+                    </div>
+                    <div class="notification-time">${timeDisplay}</div>
+                </div>
+                <div class="notification-company">${notification.company}</div>
+                <div class="notification-message">${notification.message}</div>
+                <span class="notification-status status-${notification.type}">
+                    ${notification.type.charAt(0).toUpperCase() + notification.type.slice(1)}
+                </span>
+            `;
+            
+            item.addEventListener('click', function() {
+                markNotificationAsRead(notification.id);
+            });
+            
+            return item;
+        }
+
+        // ===== GET TIME DISPLAY =====
+        function getTimeDisplay(timestamp) {
+            const now = new Date();
+            const notifTime = new Date(timestamp);
+            const diff = now - notifTime;
+            
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+            
+            if (seconds < 60) return "Just now";
+            if (minutes < 60) return `${minutes}m ago`;
+            if (hours < 24) return `${hours}h ago`;
+            if (days < 7) return `${days}d ago`;
+            
+            return notifTime.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // ===== MARK NOTIFICATION AS READ =====
+        function markNotificationAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification && !notification.read) {
+                notification.read = true;
+                notification.readAt = new Date().toISOString();
+                
+                saveNotifications();
+                updateNotificationDisplay();
+                updateNotificationPopup();
+                updateNotificationsList();
+                
+                console.log("Notification marked as read:", notificationId);
+            }
+        }
+
+        // ===== MARK ALL AS READ =====
+        function markAllNotificationsAsRead() {
+            let changed = false;
+            
+            notifications.forEach(notification => {
+                if (!notification.read) {
+                    notification.read = true;
+                    notification.readAt = new Date().toISOString();
+                    changed = true;
+                }
+            });
+            
+            if (changed) {
+                saveNotifications();
+                updateNotificationDisplay();
+                updateNotificationPopup();
+                updateNotificationsList();
+                showToast("All notifications marked as read");
+            }
+        }
+
+        // ===== CLEAR ALL NOTIFICATIONS =====
+        function clearAllNotifications() {
+            if (notifications.length === 0) return;
+            
+            if (confirm("Are you sure you want to clear all notifications?")) {
+                notifications = [];
+                saveNotifications();
+                updateNotificationDisplay();
+                updateNotificationPopup();
+                updateNotificationsList();
+                showToast("All notifications cleared");
+            }
+        }
+
+        // ===== SAVE NOTIFICATIONS TO LOCALSTORAGE =====
+        function saveNotifications() {
+            if (currentUserData) {
+                localStorage.setItem(
+                    `angaza_notifications_${currentUserData.email || currentUserData.uid}`,
+                    JSON.stringify(notifications)
+                );
+            }
+        }
+
+        // ===== LOAD SAVED NOTIFICATIONS =====
+        function loadSavedNotifications(userEmail) {
+            try {
+                const saved = localStorage.getItem(`angaza_notifications_${userEmail}`);
+                if (saved) {
+                    notifications = JSON.parse(saved);
+                    updateNotificationDisplay();
+                    updateNotificationPopup();
+                    updateNotificationsList();
+                    console.log("Loaded saved notifications:", notifications.length);
+                }
+            } catch (error) {
+                console.error("Error loading notifications:", error);
+            }
+        }
+
+        // ===== UPDATE APPLICATIONS LIST =====
+        function updateApplicationsList() {
+            const applicationsList = document.getElementById('applicationsList');
+            applicationsList.innerHTML = '';
+            
+            if (userApplications.length === 0) {
+                applicationsList.innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: rgba(255, 255, 255, 0.5);">
+                        <i class="fas fa-file-alt" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                        <p>No applications yet</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Apply for jobs to see them here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const recentApplications = userApplications.slice(0, 4);
+            
+            recentApplications.forEach(app => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                
+                const statusClass = app.status.toLowerCase().replace(' ', '-');
+                const statusColor = 
+                    app.status === 'Accepted' ? 'green' :
+                    app.status === 'Rejected' ? 'red' :
+                    app.status === 'Reviewed' ? 'blue' : 'yellow';
+                
+                item.innerHTML = `
+                    <div>
+                        <strong>${app.position || 'Software Engineer'}</strong><br>
+                        <small>${app.company || 'Company'}</small>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="badge ${statusColor}">${app.status}</span><br>
+                        <small>${formatDate(app.submittedAt?.toDate() || new Date())}</small>
+                    </div>
+                `;
+                
+                applicationsList.appendChild(item);
+            });
+        }
+
+        // ===== UPDATE STATS CARDS =====
+        function updateStatsCards() {
+            const totalApplications = userApplications.length;
+            const pendingApplications = userApplications.filter(app => 
+                app.status === 'Pending Review' || app.status === 'Reviewed'
+            ).length;
+            const acceptedApplications = userApplications.filter(app => 
+                app.status === 'Accepted'
+            ).length;
+            
+            document.getElementById('applicationsCount').textContent = totalApplications;
+            document.getElementById('pendingCount').textContent = pendingApplications;
+            document.getElementById('acceptedCount').textContent = acceptedApplications;
+            document.getElementById('applicationsChange').textContent = 
+                totalApplications > 0 ? `${totalApplications} total` : 'No applications yet';
+        }
+
+        // ===== FORMAT DATE =====
+        function formatDate(date) {
+            const now = new Date();
+            const diff = now - date;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (days === 0) return "Today";
+            if (days === 1) return "Yesterday";
+            if (days < 7) return `${days} days ago`;
+            
+            return date.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        // ===== SHOW TOAST =====
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+            const toastIcon = toast.querySelector("i");
+            
+            toastMessage.textContent = message;
+            
+            if (type === "success") {
+                toastIcon.className = "fas fa-check-circle";
+                toastIcon.style.color = "#22c55e";
+            } else if (type === "error") {
+                toastIcon.className = "fas fa-exclamation-circle";
+                toastIcon.style.color = "#ef4444";
+            } else {
+                toastIcon.className = "fas fa-info-circle";
+                toastIcon.style.color = "#3b82f6";
+            }
+            
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // ===== EVENT LISTENERS =====
+        
+        // Notification icon click
+        document.getElementById('notificationIcon').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const popup = document.getElementById('notificationPopup');
+            popup.classList.toggle('show');
+        });
+
+        // Mark all read buttons
+        document.getElementById('markAllReadBtn').addEventListener('click', function() {
+            markAllNotificationsAsRead();
+        });
+
+        document.getElementById('markAllRead').addEventListener('click', function() {
+            markAllNotificationsAsRead();
+        });
+
+        // Clear notifications button
+        document.getElementById('clearNotificationsBtn').addEventListener('click', function() {
+            clearAllNotifications();
+        });
+
+        // Close notification popup when clicking outside
+        document.addEventListener('click', function(event) {
+            const notificationIcon = document.getElementById('notificationIcon');
+            const notificationPopup = document.getElementById('notificationPopup');
+            
+            if (!notificationIcon.contains(event.target) && !notificationPopup.contains(event.target)) {
+                notificationPopup.classList.remove('show');
+            }
+            
+            const avatarContainer = document.querySelector('.avatar-upload-container');
+            const avatarOptions = document.getElementById('avatarOptions');
+            const logoutDropdown = document.getElementById('logoutDropdown');
+            const avatar = document.getElementById('userAvatar');
+            
+            if (!avatarContainer.contains(event.target)) {
+                avatarOptions.classList.remove('show');
+            }
+            
+            if (!avatar.contains(event.target) && !logoutDropdown.contains(event.target)) {
+                logoutDropdown.classList.remove('show');
+            }
+        });
+
+        // Logout functionality
         document.getElementById('logoutFromAvatarBtn').addEventListener('click', function() {
             document.getElementById('confirmLogoutModal').style.display = 'flex';
             document.getElementById('avatarOptions').classList.remove('show');
         });
 
-        // Original logout button functionality
         document.getElementById('logoutBtn').addEventListener('click', function() {
             document.getElementById('confirmLogoutModal').style.display = 'flex';
             document.getElementById('logoutDropdown').classList.remove('show');
@@ -1119,605 +2014,219 @@
             document.getElementById('confirmLogoutModal').style.display = 'none';
         });
 
-       document.getElementById('confirmLogout').addEventListener('click', async function() {
-    try {
-        await signOut(auth);
+        document.getElementById('confirmLogout').addEventListener('click', async function() {
+            try {
+                if (realtimeListener) {
+                    realtimeListener();
+                }
+                await signOut(auth);
+                window.location.href = "/angaza/index.html";
+            } catch (error) {
+                console.error("Logout error:", error);
+                showToast('Error during logout. Please try again.', 'error');
+            }
+        });
 
-        // 🔥 RUDI HOME PAGE
-        window.location.href = "/angaza/index.html";
-
-    } catch (error) {
-        console.error("Logout error:", error);
-        showToast('Error during logout. Please try again.');
-    }
-});
-
-        // Close logout modal when clicking outside
         document.getElementById('confirmLogoutModal').addEventListener('click', function(event) {
             if (event.target === this) {
                 this.style.display = 'none';
             }
         });
 
-        // Avatar click functionality - REMOVED DUPLICATE - This is now handled in the regular JavaScript section
-        // document.getElementById('userAvatar').addEventListener('click', function(e) {
-        //     e.stopPropagation();
-            
-        //     // Toggle both dropdowns
-        //     const avatarOptions = document.getElementById('avatarOptions');
-        //     const logoutDropdown = document.getElementById('logoutDropdown');
-            
-        //     // Show avatar options, hide logout dropdown
-        //     avatarOptions.classList.toggle('show');
-        //     logoutDropdown.classList.remove('show');
-        // });
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(event) {
-            const avatarContainer = document.querySelector('.avatar-upload-container');
-            const avatarOptions = document.getElementById('avatarOptions');
-            const logoutDropdown = document.getElementById('logoutDropdown');
-            
-            // Close avatar options if clicking outside
-            if (!avatarContainer.contains(event.target)) {
-                avatarOptions.classList.remove('show');
-            }
-            
-            // Close logout dropdown if clicking outside
-            const avatar = document.getElementById('userAvatar');
-            if (!avatar.contains(event.target) && !logoutDropdown.contains(event.target)) {
-                logoutDropdown.classList.remove('show');
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (realtimeListener) {
+                realtimeListener();
             }
         });
     </script>
 
     <script>
-        // Profile Picture Management
-        let currentProfilePicture = null;
+    // Profile Picture Management & UI Initialization
+    let currentProfilePicture = null;
+    
+    function handleProfilePictureUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
         
-        // Function to handle profile picture upload
-        function handleProfilePictureUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            // Check if file is an image
-            if (!file.type.match('image.*')) {
-                showToast('Please select an image file');
-                return;
-            }
-            
-            // Check file size (max 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('Image size should be less than 5MB');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                // Save the picture data
-                currentProfilePicture = e.target.result;
-                
-                // Update the avatar display
-                const avatar = document.getElementById('userAvatar');
-                avatar.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = currentProfilePicture;
-                img.alt = 'Profile Picture';
-                avatar.appendChild(img);
-                
-                // Show success message
-                showToast('Profile picture uploaded successfully!');
-                
-                // Increase profile completion
-                if (dashboardData.user.profileComplete < 100) {
-                    dashboardData.user.profileComplete += 5;
-                    updateProfileProgress(dashboardData.user.profileComplete);
-                }
-                
-                // Close avatar options
-                document.getElementById('avatarOptions').classList.remove('show');
-            };
-            
-            reader.readAsDataURL(file);
+        if (!file.type.match('image.*')) {
+            showToast('Please select an image file');
+            return;
         }
         
-        // Function to remove profile picture
-        function removeProfilePicture() {
-            if (!currentProfilePicture) {
-                showToast('No profile picture to remove');
-                return;
-            }
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('Image size should be less than 5MB');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            currentProfilePicture = e.target.result;
             
-            // Reset to default icon
-            currentProfilePicture = null;
             const avatar = document.getElementById('userAvatar');
-            avatar.innerHTML = '<i class="fas fa-user"></i>';
+            avatar.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = currentProfilePicture;
+            img.alt = 'Profile Picture';
+            avatar.appendChild(img);
             
-            // Show success message
-            showToast('Profile picture removed');
-            
-            // Close avatar options
+            showToast('Profile picture uploaded successfully!');
+            localStorage.setItem('angazaProfilePicture', currentProfilePicture);
             document.getElementById('avatarOptions').classList.remove('show');
+        };
+        
+        reader.readAsDataURL(file);
+    }
+    
+    function removeProfilePicture() {
+        if (!currentProfilePicture) {
+            showToast('No profile picture to remove');
+            return;
         }
         
-        // Dashboard Data
-        const dashboardData = {
-            user: {
-                name: "Othman",
-                career: "Software Engineering",
-                location: "Nairobi, Kenya",
-                memberSince: "January 2025",
-                profileLevel: 3,
-                profileComplete: 85
-            },
-            stats: {
-                applications: 12,
-                profileViews: 147,
-                jobMatches: 8,
-                savedJobs: 5
-            },
-            weeklyActivity: [45, 52, 38, 65, 72, 48, 60],
-            applications: [
-                { title: "Software Engineer", company: "BIGMAN OTHMAN Tech Ltd", status: "Under Review", days: 2, badge: "blue" },
-                { title: "Data Analyst", company: "SmartVision AI", status: "Interview", days: 5, badge: "green" },
-                { title: "Frontend Developer", company: "Digital Solutions", status: "Applied", days: 1, badge: "yellow" },
-                { title: "UX Designer", company: "Creative Minds", status: "Rejected", days: 7, badge: "red" }
-            ],
-            recommendedJobs: [
-                { title: "Full Stack Developer", match: 95, salary: "$80k-$100k", remote: true },
-                { title: "DevOps Engineer", match: 87, salary: "$90k-$120k", remote: false },
-                { title: "Mobile App Developer", match: 92, salary: "$75k-$95k", remote: true }
-            ],
-            notifications: [
-                { icon: "🔔", text: "New job match found", time: "10 min ago", read: false },
-                { icon: "👀", text: "Application viewed by employer", time: "2 hours ago", read: false },
-                { icon: "⚠️", text: "Profile incomplete - add skills", time: "1 day ago", read: true },
-                { icon: "🎉", text: "Congratulations! You're now Level 3", time: "2 days ago", read: true }
-            ],
-            activities: [
-                "Applied to Software Engineer at TechCorp",
-                "Updated professional summary",
-                "Saved UI/UX Designer job",
-                "Completed skill assessment",
-                "Connected with 3 new recruiters"
-            ]
-        };
+        currentProfilePicture = null;
+        const avatar = document.getElementById('userAvatar');
+        avatar.innerHTML = '<i class="fas fa-user"></i>';
+        
+        localStorage.removeItem('angazaProfilePicture');
+        showToast('Profile picture removed');
+        document.getElementById('avatarOptions').classList.remove('show');
+    }
 
-        // DOM Elements
-        const themeToggle = document.getElementById('themeToggle');
-        const welcomeText = document.getElementById('welcomeText');
-        const profilePercentage = document.getElementById('profilePercentage');
-        const profileProgress = document.getElementById('profileProgress');
-        const profileText = document.getElementById('profileText');
-        const applicationsCount = document.getElementById('applicationsCount');
-        const profileViews = document.getElementById('profileViews');
-        const jobMatches = document.getElementById('jobMatches');
-        const savedJobs = document.getElementById('savedJobs');
-        const activityChart = document.getElementById('activityChart');
-        const applicationsList = document.getElementById('applicationsList');
-        const recommendedJobs = document.getElementById('recommendedJobs');
-        const recommendationCount = document.getElementById('recommendationCount');
-        const activityList = document.getElementById('activityList');
-        const notificationsList = document.getElementById('notificationsList');
-        const userCareer = document.getElementById('userCareer');
-        const memberSince = document.getElementById('memberSince');
-        const userLocation = document.getElementById('userLocation');
-        const profileLevel = document.getElementById('profileLevel');
-        const lastUpdated = document.getElementById('lastUpdated');
+    function showToast(message, type = "success") {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
-        const profileModal = document.getElementById('profileModal');
-        const closeModal = document.getElementById('closeModal');
-        const profileForm = document.getElementById('profileForm');
-        const profileName = document.getElementById('profileName');
-        const profileCareer = document.getElementById('profileCareer');
-        const profileLocation = document.getElementById('profileLocation');
-        const userAvatar = document.getElementById('userAvatar');
-        const avatarOptions = document.getElementById('avatarOptions');
-        const uploadPictureBtn = document.getElementById('uploadPictureBtn');
-        const removePictureBtn = document.getElementById('removePictureBtn');
-        const profilePictureInput = document.getElementById('profilePictureInput');
+        const toastIcon = toast.querySelector('i');
+        
+        toastMessage.textContent = message;
+        
+        if (type === "success") {
+            toastIcon.className = "fas fa-check-circle";
+            toastIcon.style.color = "#22c55e";
+        } else if (type === "error") {
+            toastIcon.className = "fas fa-exclamation-circle";
+            toastIcon.style.color = "#ef4444";
+        } else {
+            toastIcon.className = "fas fa-info-circle";
+            toastIcon.style.color = "#3b82f6";
+        }
+        
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
 
-        // Initialize Dashboard
-        function initDashboard() {
-            // Set last updated time
-            const now = new Date();
-            lastUpdated.textContent = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            // Set welcome message with time-based greeting
-            const hour = now.getHours();
-            let greeting = "Good ";
-            if (hour < 12) greeting = "Good morning";
-            else if (hour < 18) greeting = "Good afternoon";
-            else greeting = "Good evening";
-            
-            welcomeText.textContent = `${greeting}, ${dashboardData.user.name} 👋`;
-            
-            // Initialize profile progress
-            updateProfileProgress(dashboardData.user.profileComplete);
-            
-            // Initialize stats with animation
-            animateCounter(applicationsCount, dashboardData.stats.applications);
-            animateCounter(profileViews, dashboardData.stats.profileViews);
-            animateCounter(jobMatches, dashboardData.stats.jobMatches);
-            animateCounter(savedJobs, dashboardData.stats.savedJobs);
-            
-            // Generate activity chart
-            generateActivityChart();
-            
-            // Load applications
-            loadApplications();
-            
-            // Load recommended jobs
-            loadRecommendedJobs();
-            
-            // Load activities
-            loadActivities();
-            
-            // Load notifications
-            loadNotifications();
-            
-            // Update user profile info
-            updateUserProfile();
-            
-            // Add event listeners
-            setupEventListeners();
-            
-            // Initialize profile picture from localStorage if exists
-            const savedProfilePicture = localStorage.getItem('angazaProfilePicture');
-            if (savedProfilePicture) {
-                currentProfilePicture = savedProfilePicture;
-                const avatar = document.getElementById('userAvatar');
-                avatar.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = currentProfilePicture;
-                img.alt = 'Profile Picture';
-                avatar.appendChild(img);
+    function initDashboard() {
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        const savedProfilePicture = localStorage.getItem('angazaProfilePicture');
+        if (savedProfilePicture) {
+            currentProfilePicture = savedProfilePicture;
+            const avatar = document.getElementById('userAvatar');
+            avatar.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = currentProfilePicture;
+            img.alt = 'Profile Picture';
+            avatar.appendChild(img);
+        }
+        
+        setupEventListeners();
+    }
+
+    function setupEventListeners() {
+        document.getElementById('userAvatar').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('avatarOptions').classList.toggle('show');
+            document.getElementById('logoutDropdown').classList.remove('show');
+        });
+
+        document.getElementById('uploadPictureBtn').addEventListener('click', function() {
+            document.getElementById('profilePictureInput').click();
+        });
+
+        document.getElementById('removePictureBtn').addEventListener('click', function() {
+            removeProfilePicture();
+        });
+
+        document.getElementById('profilePictureInput').addEventListener('change', handleProfilePictureUpload);
+
+        document.addEventListener('click', function(event) {
+            const avatarContainer = document.querySelector('.avatar-upload-container');
+            if (!avatarContainer.contains(event.target)) {
+                document.getElementById('avatarOptions').classList.remove('show');
             }
-        }
+        });
 
-        // Animate counter
-        function animateCounter(element, target) {
-            let current = 0;
-            const increment = target / 50;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current);
-                }
-            }, 30);
-        }
-
-        // Update profile progress
-        function updateProfileProgress(percentage) {
-            profilePercentage.textContent = `${percentage}%`;
-            profileProgress.style.width = `${percentage}%`;
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('light-theme');
+            const icon = this.querySelector('i');
+            const text = this.querySelector('span');
             
-            if (percentage < 50) {
-                profileText.textContent = "Needs Improvement";
-                profileText.style.color = "#ef4444";
-            } else if (percentage < 80) {
-                profileText.textContent = "Average";
-                profileText.style.color = "#eab308";
-            } else if (percentage < 95) {
-                profileText.textContent = "Good";
-                profileText.style.color = "#22c55e";
+            if (document.body.classList.contains('light-theme')) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Light';
             } else {
-                profileText.textContent = "Excellent";
-                profileText.style.color = "#22c55e";
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Dark';
             }
-        }
+        });
 
-        // Generate activity chart
-        function generateActivityChart() {
-            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            const maxValue = Math.max(...dashboardData.weeklyActivity);
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            document.getElementById('profileModal').style.display = 'flex';
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('profileModal').style.display = 'none';
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            activityChart.innerHTML = '';
+            const name = document.getElementById('profileName').value;
+            document.getElementById('welcomeText').textContent = `Welcome back, ${name} 👋`;
             
-            dashboardData.weeklyActivity.forEach((value, index) => {
-                const barHeight = (value / maxValue) * 100;
-                const bar = document.createElement('div');
-                bar.className = 'chart-bar';
-                bar.style.height = `${barHeight}%`;
-                bar.setAttribute('data-value', value);
-                bar.innerHTML = `<div style="position:absolute; bottom:-20px; left:0; right:0; text-align:center; font-size:0.7rem;">${days[index]}</div>`;
-                activityChart.appendChild(bar);
-                
-                // Animate the bar
-                setTimeout(() => {
-                    bar.style.height = `${barHeight}%`;
-                }, index * 100);
-            });
-        }
+            document.getElementById('profileModal').style.display = 'none';
+            showToast('Profile updated successfully!');
+        });
 
-        // Load applications
-        function loadApplications() {
-            applicationsList.innerHTML = '';
-            
-            dashboardData.applications.forEach(app => {
-                const item = document.createElement('div');
-                item.className = 'item';
-                item.innerHTML = `
-                    <div>
-                        <strong>${app.title}</strong><br>
-                        <small>${app.company}</small>
-                    </div>
-                    <div>
-                        <span class="badge ${app.badge}">${app.status}</span><br>
-                        <small>${app.days} day${app.days !== 1 ? 's' : ''} ago</small>
-                    </div>
-                `;
-                applicationsList.appendChild(item);
-            });
-        }
+        document.getElementById('browseJobsBtn').addEventListener('click', function() {
+            window.location.href = 'worksd.html';
+        });
 
-        // Load recommended jobs
-        function loadRecommendedJobs() {
-            recommendedJobs.innerHTML = '';
-            recommendationCount.textContent = `${dashboardData.recommendedJobs.length} New`;
-            
-            dashboardData.recommendedJobs.forEach(job => {
-                const item = document.createElement('div');
-                item.className = 'item';
-                item.innerHTML = `
-                    <div>
-                        <strong>${job.title}</strong><br>
-                        <small>${job.match}% Match • ${job.salary} ${job.remote ? '• Remote' : ''}</small>
-                    </div>
-                    <button class="btn apply-btn" data-job="${job.title}">Apply</button>
-                `;
-                recommendedJobs.appendChild(item);
-            });
-            
-            // Add event listeners to apply buttons
-            document.querySelectorAll('.apply-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const jobTitle = this.getAttribute('data-job');
-                    showToast(`Application started for ${jobTitle}`);
-                    
-                    // Update applications count
-                    const currentCount = parseInt(applicationsCount.textContent);
-                    applicationsCount.textContent = currentCount + 1;
-                });
-            });
-        }
+        document.getElementById('viewFullProfileBtn').addEventListener('click', function() {
+            showToast('Opening full profile...');
+        });
 
-        // Load activities
-        function loadActivities() {
-            activityList.innerHTML = '';
-            
-            dashboardData.activities.forEach(activity => {
-                const p = document.createElement('p');
-                p.innerHTML = `• ${activity}`;
-                p.style.marginBottom = '8px';
-                activityList.appendChild(p);
-            });
-        }
+        document.getElementById('uploadResumeBtn').addEventListener('click', function() {
+            showToast('Opening resume upload...');
+        });
 
-        // Load notifications
-        function loadNotifications() {
-            notificationsList.innerHTML = '';
-            const unreadCount = dashboardData.notifications.filter(n => !n.read).length;
-            document.querySelector('.notification-count').textContent = unreadCount;
-            
-            dashboardData.notifications.forEach(notification => {
-                const p = document.createElement('p');
-                p.innerHTML = `${notification.icon} ${notification.text}`;
-                p.style.marginBottom = '10px';
-                p.style.padding = '8px';
-                p.style.borderRadius = '8px';
-                p.style.background = notification.read ? 'transparent' : 'rgba(250, 204, 21, 0.1)';
-                p.style.cursor = 'pointer';
-                p.innerHTML += `<br><small style="opacity:0.7;">${notification.time}</small>`;
-                
-                if (!notification.read) {
-                    p.addEventListener('click', function() {
-                        notification.read = true;
-                        p.style.background = 'transparent';
-                        document.querySelector('.notification-count').textContent = 
-                            parseInt(document.querySelector('.notification-count').textContent) - 1;
-                        showToast('Notification marked as read');
-                    });
-                }
-                
-                notificationsList.appendChild(p);
-            });
-        }
+        document.getElementById('setPreferencesBtn').addEventListener('click', function() {
+            showToast('Opening preferences...');
+        });
 
-        // Update user profile
-        function updateUserProfile() {
-            userCareer.textContent = dashboardData.user.career;
-            memberSince.textContent = dashboardData.user.memberSince;
-            userLocation.textContent = dashboardData.user.location;
-            profileLevel.textContent = `Level ${dashboardData.user.profileLevel}`;
-        }
+        document.getElementById('skillAssessmentBtn').addEventListener('click', function() {
+            showToast('Starting skill assessment...');
+        });
 
-        // Show toast notification
-        function showToast(message) {
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Profile picture click - show avatar options
-            userAvatar.addEventListener('click', function(e) {
-                e.stopPropagation(); // Prevent triggering logout dropdown
-                avatarOptions.classList.toggle('show');
-                
-                // Hide logout dropdown if open
-                document.getElementById('logoutDropdown').classList.remove('show');
-            });
-
-            // Upload picture button
-            uploadPictureBtn.addEventListener('click', function() {
-                profilePictureInput.click();
-            });
-
-            // Remove picture button
-            removePictureBtn.addEventListener('click', function() {
-                removeProfilePicture();
-            });
-
-            // File input change
-            profilePictureInput.addEventListener('change', handleProfilePictureUpload);
-
-            // Close avatar options when clicking outside
-            document.addEventListener('click', function(event) {
-                const avatarContainer = document.querySelector('.avatar-upload-container');
-                if (!avatarContainer.contains(event.target)) {
-                    avatarOptions.classList.remove('show');
-                }
-            });
-
-            // Theme toggle
-            themeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('light-theme');
-                const icon = this.querySelector('i');
-                const text = this.querySelector('span');
-                
-                if (document.body.classList.contains('light-theme')) {
-                    icon.className = 'fas fa-sun';
-                    text.textContent = 'Light';
-                } else {
-                    icon.className = 'fas fa-moon';
-                    text.textContent = 'Dark';
-                }
-            });
-
-            // Edit profile button
-            document.getElementById('editProfileBtn').addEventListener('click', function() {
-                profileName.value = dashboardData.user.name;
-                profileCareer.value = dashboardData.user.career;
-                profileLocation.value = dashboardData.user.location;
-                profileModal.style.display = 'flex';
-            });
-
-            // Close modal
-            closeModal.addEventListener('click', function() {
-                profileModal.style.display = 'none';
-            });
-
-            // Profile form submission
-            profileForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Update dashboard data
-                dashboardData.user.name = profileName.value;
-                dashboardData.user.career = profileCareer.value;
-                dashboardData.user.location = profileLocation.value;
-                
-                // Update UI
-                welcomeText.textContent = `Welcome back, ${dashboardData.user.name} 👋`;
-                userCareer.textContent = dashboardData.user.career;
-                userLocation.textContent = dashboardData.user.location;
-                
-                // Increase profile completion
-                if (dashboardData.user.profileComplete < 100) {
-                    dashboardData.user.profileComplete += 5;
-                    updateProfileProgress(dashboardData.user.profileComplete);
-                }
-                
-                // Close modal and show toast
-                profileModal.style.display = 'none';
-                showToast('Profile updated successfully!');
-            });
-
-            // Browse jobs button
-            document.getElementById('browseJobsBtn').addEventListener('click', function() {
-                showToast('Opening job browser...');
-                // Simulate loading
-                this.innerHTML = '<div class="loading"></div> Searching...';
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-search"></i> Browse Jobs';
-                }, 1500);
-            });
-
-            // View full profile button
-            document.getElementById('viewFullProfileBtn').addEventListener('click', function() {
-                showToast('Opening full profile...');
-            });
-
-            // Mark all notifications as read
-            document.getElementById('markAllRead').addEventListener('click', function() {
-                dashboardData.notifications.forEach(n => n.read = true);
-                loadNotifications();
-                showToast('All notifications marked as read');
-            });
-
-            // View all applications
-            document.getElementById('viewAllApplications').addEventListener('click', function() {
-                showToast('Loading all applications...');
-            });
-
-            // Quick action buttons
-            document.getElementById('uploadResumeBtn').addEventListener('click', function() {
-                showToast('Opening resume upload...');
-            });
-
-            document.getElementById('setPreferencesBtn').addEventListener('click', function() {
-                showToast('Opening preferences...');
-            });
-
-            document.getElementById('skillAssessmentBtn').addEventListener('click', function() {
-                showToast('Starting skill assessment...');
-            });
-
-            // Search functionality
-            document.getElementById('searchInput').addEventListener('keyup', function(e) {
-                if (e.key === 'Enter') {
-                    showToast(`Searching for: "${this.value}"`);
-                }
-            });
-
-            // Close modal when clicking outside
-            window.addEventListener('click', function(e) {
-                if (e.target === profileModal) {
-                    profileModal.style.display = 'none';
-                }
-            });
-        }
-
-        // Initialize the dashboard when page loads
-        document.addEventListener('DOMContentLoaded', initDashboard);
-
-        // Simulate real-time updates
-        setInterval(() => {
-            // Randomly update some stats
-            const randomStat = Math.floor(Math.random() * 4);
-            const change = Math.floor(Math.random() * 3) + 1;
-            
-            switch(randomStat) {
-                case 0:
-                    dashboardData.stats.profileViews += change;
-                    profileViews.textContent = dashboardData.stats.profileViews;
-                    break;
-                case 1:
-                    dashboardData.stats.jobMatches += 1;
-                    jobMatches.textContent = dashboardData.stats.jobMatches;
-                    break;
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                showToast(`Searching for: "${this.value}"`);
             }
-            
-            // Update last updated time
-            const now = new Date();
-            lastUpdated.textContent = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            // Save profile picture to localStorage if it exists
-            if (currentProfilePicture) {
-                localStorage.setItem('angazaProfilePicture', currentProfilePicture);
+        });
+
+        window.addEventListener('click', function(e) {
+            if (e.target === document.getElementById('profileModal')) {
+                document.getElementById('profileModal').style.display = 'none';
             }
-        }, 30000); // Every 30 seconds
-    </script>
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
 </body>
 </html>
-
-
