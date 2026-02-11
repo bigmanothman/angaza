@@ -49,6 +49,7 @@
             --radius: 8px;
             --radius-lg: 12px;
             --radius-xl: 16px;
+            --radius-2xl: 20px;
             --radius-full: 9999px;
             --transition: all 0.2s ease;
             --transition-bounce: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -1760,6 +1761,348 @@
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
+
+        /* ====== ENHANCED SHINING ZONE BUTTON ====== */
+        /* Exactly copied from the reference page with all visual effects */
+        .btn-shining-zone {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.25rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: var(--radius-2xl);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            margin: 1rem auto;
+            min-width: 280px;
+            z-index: 1;
+            
+            /* Enhanced gradient with blue mixing effects */
+            background: linear-gradient(
+                135deg,
+                #ffd700 0%,
+                #4da6ff 15%,
+                #ffed4e 30%,
+                #0066cc 45%,
+                #ffd700 60%,
+                #4da6ff 75%,
+                #ffed4e 90%,
+                #0066cc 100%
+            );
+            background-size: 300% 300%;
+            color: var(--gray-900);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            
+            /* Enhanced 3D effect with blue glow */
+            box-shadow: 
+                0 10px 30px rgba(255, 215, 0, 0.4),
+                0 0 20px rgba(0, 102, 204, 0.4),
+                0 4px 10px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -4px 0 rgba(190, 160, 0, 0.3);
+            
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 4px solid #e6c300;
+        }
+
+        .btn-shining-zone:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(255, 215, 0, 0.6),
+                0 0 30px rgba(0, 102, 204, 0.6),
+                0 8px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -4px 0 rgba(190, 160, 0, 0.4);
+            animation: colorWave 2s infinite linear, pulseBlue 3s infinite alternate;
+        }
+
+        .btn-shining-zone:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 5px 20px rgba(255, 215, 0, 0.5),
+                0 0 15px rgba(0, 102, 204, 0.4),
+                0 2px 10px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -2px 0 rgba(190, 160, 0, 0.3);
+        }
+
+        @keyframes colorWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        @keyframes pulseBlue {
+            0%, 100% {
+                box-shadow: 
+                    0 20px 40px rgba(255, 215, 0, 0.6),
+                    0 0 30px rgba(0, 102, 204, 0.6),
+                    0 8px 20px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                box-shadow: 
+                    0 20px 40px rgba(255, 215, 0, 0.6),
+                    0 0 40px rgba(0, 102, 204, 0.8),
+                    0 8px 20px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .btn-shining-zone::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 20%,
+                rgba(255, 255, 255, 0.3) 40%,
+                rgba(0, 102, 204, 0.2) 50%,
+                rgba(255, 255, 255, 0.3) 60%,
+                transparent 80%
+            );
+            transform: rotate(45deg);
+            animation: sparkle 3s infinite linear;
+            z-index: -1;
+        }
+
+        .btn-shining-zone::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 30%,
+                rgba(0, 102, 204, 0.15) 40%,
+                rgba(255, 215, 0, 0.1) 50%,
+                rgba(0, 102, 204, 0.15) 60%,
+                transparent 70%
+            );
+            transform: rotate(-45deg);
+            animation: sparkleReverse 4s infinite linear;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes sparkleReverse {
+            0% {
+                transform: translateX(100%) translateY(100%) rotate(-45deg);
+            }
+            100% {
+                transform: translateX(-100%) translateY(-100%) rotate(-45deg);
+            }
+        }
+
+        .btn-shining-zone i {
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(0, 102, 204, 0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-shining-zone:hover i {
+            transform: rotate(20deg) scale(1.2);
+            animation: rocketLaunch 0.5s ease-out;
+            text-shadow: 
+                0 0 15px rgba(255, 255, 255, 1),
+                0 0 25px rgba(0, 102, 204, 0.8),
+                0 0 35px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes rocketLaunch {
+            0% {
+                transform: translateY(0) rotate(0);
+                text-shadow: 
+                    0 0 10px rgba(255, 255, 255, 0.8),
+                    0 0 20px rgba(0, 102, 204, 0.6);
+            }
+            50% {
+                transform: translateY(-8px) rotate(10deg);
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 1),
+                    0 0 40px rgba(0, 102, 204, 0.8),
+                    0 0 60px rgba(255, 215, 0, 0.6);
+            }
+            100% {
+                transform: translateY(0) rotate(20deg);
+                text-shadow: 
+                    0 0 15px rgba(255, 255, 255, 1),
+                    0 0 25px rgba(0, 102, 204, 0.8),
+                    0 0 35px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        .btn-shining-zone span {
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.5px;
+            background: linear-gradient(
+                to right,
+                #ffd700 0%,
+                #ffffff 25%,
+                #4da6ff 50%,
+                #ffffff 75%,
+                #ffd700 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 100%;
+            animation: textShine 3s infinite linear;
+        }
+
+        @keyframes textShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .btn-shining-zone .glow-effect {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: calc(var(--radius-2xl) + 10px);
+            background: radial-gradient(
+                circle at center,
+                rgba(0, 102, 204, 0.3) 0%,
+                rgba(255, 215, 0, 0.2) 30%,
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .btn-shining-zone:hover .glow-effect {
+            opacity: 1;
+            animation: glowPulse 2s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        .btn-shining-zone .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .btn-shining-zone .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(0, 102, 204, 0.8);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .btn-shining-zone .particle:nth-child(2n) {
+            background: rgba(255, 215, 0, 0.8);
+            width: 3px;
+            height: 3px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+        }
+
+        .btn-shining-zone .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(0, 102, 204, 0.6) 0%,
+                rgba(255, 215, 0, 0.4) 50%,
+                transparent 70%
+            );
+            transform: scale(0);
+            animation: rippleEffect 0.8s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive adjustments for Shining Zone button */
+        @media (max-width: 768px) {
+            .btn-shining-zone {
+                padding: 1.1rem 2.5rem;
+                font-size: 1.1rem;
+                min-width: 250px;
+            }
+            
+            .btn-shining-zone i {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-shining-zone {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                min-width: 220px;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .btn-shining-zone i {
+                font-size: 1.2rem;
+            }
+            
+            .btn-shining-zone:hover {
+                transform: translateY(-4px) scale(1.03);
+            }
+        }
     </style>
 </head>
 <body>
@@ -2245,9 +2588,12 @@
                 <h2>Join the Shining Zone</h2>
                 <p>Stand out from other job seekers. Create your digital CV automatically and get noticed faster by employers. Verified members receive priority matching.</p>
                 <div class="cta-buttons">
-                    <a href="shining_zone.html" class="btn-cta">
+                    <!-- UPDATED BUTTON - Now matches the premium visual effects from reference page -->
+                    <a href="shining_zone.html" class="btn-shining-zone">
+                        <div class="particles" id="particles-container"></div>
+                        <div class="glow-effect"></div>
                         <i class="fas fa-star"></i>
-                        Join Shining Zone
+                        <span>Join Shining Zone</span>
                     </a>
                     <a href="profile.html" class="btn-cta-outline">
                         <i class="fas fa-user-check"></i>
@@ -2585,6 +2931,106 @@
             document.getElementById('createAlertBtn').addEventListener('click', function() {
                 showToast('Job alert created!', 'success');
             });
+
+            // ====== SHINING ZONE BUTTON PARTICLE EFFECTS ======
+            const shiningZoneBtn = document.querySelector('.btn-shining-zone');
+            if (shiningZoneBtn) {
+                const particlesContainer = shiningZoneBtn.querySelector('.particles') || 
+                                         (() => {
+                                             const div = document.createElement('div');
+                                             div.className = 'particles';
+                                             shiningZoneBtn.appendChild(div);
+                                             return div;
+                                         })();
+                
+                // Create particles
+                for (let i = 0; i < 12; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    const left = Math.random() * 100;
+                    const top = Math.random() * 100;
+                    
+                    particle.style.left = `${left}%`;
+                    particle.style.top = `${top}%`;
+                    
+                    const delay = Math.random() * 3;
+                    particle.style.animationDelay = `${delay}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+                
+                // Enhanced click effect
+                shiningZoneBtn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple';
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        top: ${y}px;
+                        left: ${x}px;
+                        z-index: 1;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 800);
+                    
+                    for (let i = 0; i < 8; i++) {
+                        const burst = document.createElement('div');
+                        burst.style.cssText = `
+                            position: absolute;
+                            width: ${Math.random() * 6 + 2}px;
+                            height: ${Math.random() * 6 + 2}px;
+                            background: ${i % 2 === 0 ? 'rgba(0, 102, 204, 0.8)' : 'rgba(255, 215, 0, 0.8)'};
+                            border-radius: 50%;
+                            top: 50%;
+                            left: 50%;
+                            pointer-events: none;
+                            z-index: 2;
+                            animation: burstOut 0.6s ease-out forwards;
+                        `;
+                        
+                        const angle = (Math.PI * 2 * i) / 8;
+                        const distance = 40 + Math.random() * 30;
+                        
+                        burst.style.setProperty('--endX', `${Math.cos(angle) * distance}px`);
+                        burst.style.setProperty('--endY', `${Math.sin(angle) * distance}px`);
+                        
+                        this.appendChild(burst);
+                        
+                        setTimeout(() => {
+                            burst.remove();
+                        }, 600);
+                    }
+                    
+                    if (!document.querySelector('#burst-animation')) {
+                        const style = document.createElement('style');
+                        style.id = 'burst-animation';
+                        style.textContent = `
+                            @keyframes burstOut {
+                                0% {
+                                    transform: translate(-50%, -50%) scale(0);
+                                    opacity: 1;
+                                }
+                                100% {
+                                    transform: translate(calc(-50% + var(--endX)), calc(-50% + var(--endY))) scale(1);
+                                    opacity: 0;
+                                }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                });
+            }
         });
     </script>
 </body>
