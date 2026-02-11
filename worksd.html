@@ -46,12 +46,16 @@
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --shadow-glow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            --shadow-glow-success: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            --shadow-glow-warning: 0 0 0 3px rgba(245, 158, 11, 0.1);
+            --shadow-glow-danger: 0 0 0 3px rgba(239, 68, 68, 0.1);
             --radius: 8px;
             --radius-lg: 12px;
             --radius-xl: 16px;
             --radius-2xl: 20px;
             --radius-full: 9999px;
             --transition: all 0.2s ease;
+            --transition-slow: all 0.3s ease;
             --transition-bounce: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -331,6 +335,11 @@
             transform: scale(1.1);
         }
 
+        /* ====== DROPDOWN MENU - UPDATED TO MATCH DASHBOARD EXACTLY ====== */
+        .dropdown {
+            position: relative;
+        }
+
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -340,16 +349,12 @@
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-xl);
             border: var(--border);
-            min-width: 280px;
+            min-width: 320px;
             max-height: 480px;
             overflow-y: auto;
             z-index: 100;
             animation: slideDownFade 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-origin: top right;
-        }
-
-        .dropdown-menu.show {
-            display: block;
         }
 
         @keyframes slideDownFade {
@@ -361,6 +366,10 @@
                 opacity: 1;
                 transform: scale(1) translateY(0);
             }
+        }
+
+        .dropdown-menu.show {
+            display: block;
         }
 
         .dropdown-header {
@@ -404,6 +413,27 @@
             padding-left: 1.5rem;
         }
 
+        .dropdown-item.unread {
+            background: var(--primary-soft);
+            position: relative;
+        }
+
+        .dropdown-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            animation: slideRight 0.3s ease-out;
+        }
+
+        @keyframes slideRight {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
         .dropdown-item-icon {
             width: 40px;
             height: 40px;
@@ -436,6 +466,12 @@
             font-size: 0.8125rem;
             color: var(--gray-600);
             line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+
+        .dropdown-item-time {
+            font-size: 0.75rem;
+            color: var(--gray-500);
         }
 
         .dropdown-footer {
@@ -467,6 +503,20 @@
             color: var(--primary);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline-danger {
+            background: transparent;
+            border: 1px solid var(--danger-light);
+            color: var(--danger);
+        }
+
+        .btn-outline-danger:hover {
+            background: var(--danger-light);
+            border-color: var(--danger);
+            color: var(--danger);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-danger);
         }
 
         /* Hidden file input */
@@ -613,7 +663,7 @@
             transform: translateX(4px) scale(1.1);
         }
 
-        /* ====== Stats Grid ====== */
+        /* ====== STATS GRID - UPDATED TO MATCH DASHBOARD EXACTLY ====== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -635,9 +685,9 @@
         }
 
         .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.15s; }
-        .stat-card:nth-child(3) { animation-delay: 0.2s; }
-        .stat-card:nth-child(4) { animation-delay: 0.25s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
 
         .stat-card::before {
             content: '';
@@ -733,6 +783,51 @@
         @keyframes slideRight {
             from { opacity: 0; transform: translateX(-10px); }
             to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ====== Badges ====== */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            white-space: nowrap;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .badge-success {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .badge-info {
+            background: var(--info-light);
+            color: var(--info);
+        }
+
+        .badge-primary {
+            background: var(--primary-light);
+            color: var(--primary);
         }
 
         /* ====== Search & Filters ====== */
@@ -1288,6 +1383,345 @@
             transform: translateY(-4px);
         }
 
+        /* ====== ENHANCED SHINING ZONE BUTTON ====== */
+        .btn-shining-zone {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1.25rem 3rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: var(--radius-2xl);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+            margin: 1rem auto;
+            min-width: 280px;
+            z-index: 1;
+            
+            background: linear-gradient(
+                135deg,
+                #ffd700 0%,
+                #4da6ff 15%,
+                #ffed4e 30%,
+                #0066cc 45%,
+                #ffd700 60%,
+                #4da6ff 75%,
+                #ffed4e 90%,
+                #0066cc 100%
+            );
+            background-size: 300% 300%;
+            color: var(--gray-900);
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+            
+            box-shadow: 
+                0 10px 30px rgba(255, 215, 0, 0.4),
+                0 0 20px rgba(0, 102, 204, 0.4),
+                0 4px 10px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -4px 0 rgba(190, 160, 0, 0.3);
+            
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-bottom: 4px solid #e6c300;
+        }
+
+        .btn-shining-zone:hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(255, 215, 0, 0.6),
+                0 0 30px rgba(0, 102, 204, 0.6),
+                0 8px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                inset 0 -4px 0 rgba(190, 160, 0, 0.4);
+            animation: colorWave 2s infinite linear, pulseBlue 3s infinite alternate;
+        }
+
+        .btn-shining-zone:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 5px 20px rgba(255, 215, 0, 0.5),
+                0 0 15px rgba(0, 102, 204, 0.4),
+                0 2px 10px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6),
+                inset 0 -2px 0 rgba(190, 160, 0, 0.3);
+        }
+
+        @keyframes colorWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        @keyframes pulseBlue {
+            0%, 100% {
+                box-shadow: 
+                    0 20px 40px rgba(255, 215, 0, 0.6),
+                    0 0 30px rgba(0, 102, 204, 0.6),
+                    0 8px 20px rgba(0, 0, 0, 0.3);
+            }
+            50% {
+                box-shadow: 
+                    0 20px 40px rgba(255, 215, 0, 0.6),
+                    0 0 40px rgba(0, 102, 204, 0.8),
+                    0 8px 20px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        .btn-shining-zone::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 20%,
+                rgba(255, 255, 255, 0.3) 40%,
+                rgba(0, 102, 204, 0.2) 50%,
+                rgba(255, 255, 255, 0.3) 60%,
+                transparent 80%
+            );
+            transform: rotate(45deg);
+            animation: sparkle 3s infinite linear;
+            z-index: -1;
+        }
+
+        .btn-shining-zone::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 30%,
+                rgba(0, 102, 204, 0.15) 40%,
+                rgba(255, 215, 0, 0.1) 50%,
+                rgba(0, 102, 204, 0.15) 60%,
+                transparent 70%
+            );
+            transform: rotate(-45deg);
+            animation: sparkleReverse 4s infinite linear;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes sparkleReverse {
+            0% {
+                transform: translateX(100%) translateY(100%) rotate(-45deg);
+            }
+            100% {
+                transform: translateX(-100%) translateY(-100%) rotate(-45deg);
+            }
+        }
+
+        .btn-shining-zone i {
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(0, 102, 204, 0.6);
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn-shining-zone:hover i {
+            transform: rotate(20deg) scale(1.2);
+            animation: rocketLaunch 0.5s ease-out;
+            text-shadow: 
+                0 0 15px rgba(255, 255, 255, 1),
+                0 0 25px rgba(0, 102, 204, 0.8),
+                0 0 35px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes rocketLaunch {
+            0% {
+                transform: translateY(0) rotate(0);
+                text-shadow: 
+                    0 0 10px rgba(255, 255, 255, 0.8),
+                    0 0 20px rgba(0, 102, 204, 0.6);
+            }
+            50% {
+                transform: translateY(-8px) rotate(10deg);
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 1),
+                    0 0 40px rgba(0, 102, 204, 0.8),
+                    0 0 60px rgba(255, 215, 0, 0.6);
+            }
+            100% {
+                transform: translateY(0) rotate(20deg);
+                text-shadow: 
+                    0 0 15px rgba(255, 255, 255, 1),
+                    0 0 25px rgba(0, 102, 204, 0.8),
+                    0 0 35px rgba(255, 215, 0, 0.6);
+            }
+        }
+
+        .btn-shining-zone span {
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.5px;
+            background: linear-gradient(
+                to right,
+                #ffd700 0%,
+                #ffffff 25%,
+                #4da6ff 50%,
+                #ffffff 75%,
+                #ffd700 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% 100%;
+            animation: textShine 3s infinite linear;
+        }
+
+        @keyframes textShine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .btn-shining-zone .glow-effect {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: calc(var(--radius-2xl) + 10px);
+            background: radial-gradient(
+                circle at center,
+                rgba(0, 102, 204, 0.3) 0%,
+                rgba(255, 215, 0, 0.2) 30%,
+                transparent 70%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .btn-shining-zone:hover .glow-effect {
+            opacity: 1;
+            animation: glowPulse 2s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        .btn-shining-zone .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .btn-shining-zone .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(0, 102, 204, 0.8);
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .btn-shining-zone .particle:nth-child(2n) {
+            background: rgba(255, 215, 0, 0.8);
+            width: 3px;
+            height: 3px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+        }
+
+        .btn-shining-zone .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(0, 102, 204, 0.6) 0%,
+                rgba(255, 215, 0, 0.4) 50%,
+                transparent 70%
+            );
+            transform: scale(0);
+            animation: rippleEffect 0.8s linear;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive adjustments for Shining Zone button */
+        @media (max-width: 768px) {
+            .btn-shining-zone {
+                padding: 1.1rem 2.5rem;
+                font-size: 1.1rem;
+                min-width: 250px;
+            }
+            
+            .btn-shining-zone i {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-shining-zone {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                min-width: 220px;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .btn-shining-zone i {
+                font-size: 1.2rem;
+            }
+            
+            .btn-shining-zone:hover {
+                transform: translateY(-4px) scale(1.03);
+            }
+        }
+
         /* ====== Footer ====== */
         .footer {
             background: var(--gray-900);
@@ -1761,348 +2195,6 @@
             outline: 2px solid var(--primary);
             outline-offset: 2px;
         }
-
-        /* ====== ENHANCED SHINING ZONE BUTTON ====== */
-        /* Exactly copied from the reference page with all visual effects */
-        .btn-shining-zone {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            padding: 1.25rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-decoration: none;
-            border-radius: var(--radius-2xl);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            border: none;
-            cursor: pointer;
-            margin: 1rem auto;
-            min-width: 280px;
-            z-index: 1;
-            
-            /* Enhanced gradient with blue mixing effects */
-            background: linear-gradient(
-                135deg,
-                #ffd700 0%,
-                #4da6ff 15%,
-                #ffed4e 30%,
-                #0066cc 45%,
-                #ffd700 60%,
-                #4da6ff 75%,
-                #ffed4e 90%,
-                #0066cc 100%
-            );
-            background-size: 300% 300%;
-            color: var(--gray-900);
-            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
-            
-            /* Enhanced 3D effect with blue glow */
-            box-shadow: 
-                0 10px 30px rgba(255, 215, 0, 0.4),
-                0 0 20px rgba(0, 102, 204, 0.4),
-                0 4px 10px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                inset 0 -4px 0 rgba(190, 160, 0, 0.3);
-            
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-bottom: 4px solid #e6c300;
-        }
-
-        .btn-shining-zone:hover {
-            transform: translateY(-6px) scale(1.05);
-            box-shadow: 
-                0 20px 40px rgba(255, 215, 0, 0.6),
-                0 0 30px rgba(0, 102, 204, 0.6),
-                0 8px 20px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                inset 0 -4px 0 rgba(190, 160, 0, 0.4);
-            animation: colorWave 2s infinite linear, pulseBlue 3s infinite alternate;
-        }
-
-        .btn-shining-zone:active {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 
-                0 5px 20px rgba(255, 215, 0, 0.5),
-                0 0 15px rgba(0, 102, 204, 0.4),
-                0 2px 10px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.6),
-                inset 0 -2px 0 rgba(190, 160, 0, 0.3);
-        }
-
-        @keyframes colorWave {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-
-        @keyframes pulseBlue {
-            0%, 100% {
-                box-shadow: 
-                    0 20px 40px rgba(255, 215, 0, 0.6),
-                    0 0 30px rgba(0, 102, 204, 0.6),
-                    0 8px 20px rgba(0, 0, 0, 0.3);
-            }
-            50% {
-                box-shadow: 
-                    0 20px 40px rgba(255, 215, 0, 0.6),
-                    0 0 40px rgba(0, 102, 204, 0.8),
-                    0 8px 20px rgba(0, 0, 0, 0.3);
-            }
-        }
-
-        .btn-shining-zone::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                transparent 20%,
-                rgba(255, 255, 255, 0.3) 40%,
-                rgba(0, 102, 204, 0.2) 50%,
-                rgba(255, 255, 255, 0.3) 60%,
-                transparent 80%
-            );
-            transform: rotate(45deg);
-            animation: sparkle 3s infinite linear;
-            z-index: -1;
-        }
-
-        .btn-shining-zone::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                to right,
-                transparent 30%,
-                rgba(0, 102, 204, 0.15) 40%,
-                rgba(255, 215, 0, 0.1) 50%,
-                rgba(0, 102, 204, 0.15) 60%,
-                transparent 70%
-            );
-            transform: rotate(-45deg);
-            animation: sparkleReverse 4s infinite linear;
-            z-index: -1;
-            opacity: 0.7;
-        }
-
-        @keyframes sparkle {
-            0% {
-                transform: translateX(-100%) translateY(-100%) rotate(45deg);
-            }
-            100% {
-                transform: translateX(100%) translateY(100%) rotate(45deg);
-            }
-        }
-
-        @keyframes sparkleReverse {
-            0% {
-                transform: translateX(100%) translateY(100%) rotate(-45deg);
-            }
-            100% {
-                transform: translateX(-100%) translateY(-100%) rotate(-45deg);
-            }
-        }
-
-        .btn-shining-zone i {
-            font-size: 1.4rem;
-            transition: all 0.3s ease;
-            text-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(0, 102, 204, 0.6);
-            position: relative;
-            z-index: 2;
-        }
-
-        .btn-shining-zone:hover i {
-            transform: rotate(20deg) scale(1.2);
-            animation: rocketLaunch 0.5s ease-out;
-            text-shadow: 
-                0 0 15px rgba(255, 255, 255, 1),
-                0 0 25px rgba(0, 102, 204, 0.8),
-                0 0 35px rgba(255, 215, 0, 0.6);
-        }
-
-        @keyframes rocketLaunch {
-            0% {
-                transform: translateY(0) rotate(0);
-                text-shadow: 
-                    0 0 10px rgba(255, 255, 255, 0.8),
-                    0 0 20px rgba(0, 102, 204, 0.6);
-            }
-            50% {
-                transform: translateY(-8px) rotate(10deg);
-                text-shadow: 
-                    0 0 20px rgba(255, 255, 255, 1),
-                    0 0 40px rgba(0, 102, 204, 0.8),
-                    0 0 60px rgba(255, 215, 0, 0.6);
-            }
-            100% {
-                transform: translateY(0) rotate(20deg);
-                text-shadow: 
-                    0 0 15px rgba(255, 255, 255, 1),
-                    0 0 25px rgba(0, 102, 204, 0.8),
-                    0 0 35px rgba(255, 215, 0, 0.6);
-            }
-        }
-
-        .btn-shining-zone span {
-            position: relative;
-            z-index: 2;
-            letter-spacing: 0.5px;
-            background: linear-gradient(
-                to right,
-                #ffd700 0%,
-                #ffffff 25%,
-                #4da6ff 50%,
-                #ffffff 75%,
-                #ffd700 100%
-            );
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            background-size: 200% 100%;
-            animation: textShine 3s infinite linear;
-        }
-
-        @keyframes textShine {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .btn-shining-zone .glow-effect {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: calc(var(--radius-2xl) + 10px);
-            background: radial-gradient(
-                circle at center,
-                rgba(0, 102, 204, 0.3) 0%,
-                rgba(255, 215, 0, 0.2) 30%,
-                transparent 70%
-            );
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .btn-shining-zone:hover .glow-effect {
-            opacity: 1;
-            animation: glowPulse 2s infinite alternate;
-        }
-
-        @keyframes glowPulse {
-            0% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0.8;
-                transform: scale(1.05);
-            }
-        }
-
-        .btn-shining-zone .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: var(--radius-2xl);
-            overflow: hidden;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .btn-shining-zone .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: rgba(0, 102, 204, 0.8);
-            animation: float 3s infinite ease-in-out;
-        }
-
-        .btn-shining-zone .particle:nth-child(2n) {
-            background: rgba(255, 215, 0, 0.8);
-            width: 3px;
-            height: 3px;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10%, 90% {
-                opacity: 1;
-            }
-            50% {
-                transform: translateY(-20px) translateX(20px);
-            }
-        }
-
-        .btn-shining-zone .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: radial-gradient(
-                circle,
-                rgba(0, 102, 204, 0.6) 0%,
-                rgba(255, 215, 0, 0.4) 50%,
-                transparent 70%
-            );
-            transform: scale(0);
-            animation: rippleEffect 0.8s linear;
-            pointer-events: none;
-        }
-
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-
-        /* Responsive adjustments for Shining Zone button */
-        @media (max-width: 768px) {
-            .btn-shining-zone {
-                padding: 1.1rem 2.5rem;
-                font-size: 1.1rem;
-                min-width: 250px;
-            }
-            
-            .btn-shining-zone i {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .btn-shining-zone {
-                padding: 1rem 2rem;
-                font-size: 1rem;
-                min-width: 220px;
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .btn-shining-zone i {
-                font-size: 1.2rem;
-            }
-            
-            .btn-shining-zone:hover {
-                transform: translateY(-4px) scale(1.03);
-            }
-        }
     </style>
 </head>
 <body>
@@ -2136,19 +2228,17 @@
                     </button>
                 </div>
 
-                <!-- Avatar with Dropdown -->
-                <div class="avatar-container">
-                    <div class="avatar" id="userAvatar">
+                <!-- Avatar with Dropdown - UPDATED TO MATCH DASHBOARD EXACTLY -->
+                <div class="dropdown">
+                    <div class="user-avatar" id="userAvatar">
                         <i class="fas fa-user"></i>
                     </div>
-                    
-                    <!-- Avatar Dropdown Menu -->
-                    <div class="dropdown-menu" id="avatarDropdown">
+                    <div class="dropdown-menu" id="userMenu">
                         <div class="dropdown-header">
                             <h4 id="userName">Job Seeker</h4>
                             <p id="userEmail">user@example.com</p>
                         </div>
-                        <div class="dropdown-item" id="uploadPictureBtn">
+                        <a href="#" class="dropdown-item" id="uploadPictureBtn">
                             <div class="dropdown-item-icon bg-primary-light text-primary">
                                 <i class="fas fa-camera"></i>
                             </div>
@@ -2156,8 +2246,8 @@
                                 <div class="dropdown-item-title">Upload Picture</div>
                                 <div class="dropdown-item-text">Update your profile photo</div>
                             </div>
-                        </div>
-                        <div class="dropdown-item" id="removePictureBtn">
+                        </a>
+                        <a href="#" class="dropdown-item" id="removePictureBtn">
                             <div class="dropdown-item-icon bg-danger-light text-danger">
                                 <i class="fas fa-trash"></i>
                             </div>
@@ -2165,9 +2255,9 @@
                                 <div class="dropdown-item-title">Remove Picture</div>
                                 <div class="dropdown-item-text">Delete profile photo</div>
                             </div>
-                        </div>
+                        </a>
                         <div class="dropdown-footer">
-                            <button class="dropdown-footer-btn" id="logoutBtn">
+                            <button class="dropdown-footer-btn btn-outline-danger" id="logoutBtn">
                                 <i class="fas fa-sign-out-alt"></i>
                                 Sign Out
                             </button>
@@ -2201,7 +2291,7 @@
             </div>
         </div>
 
-        <!-- Stats Grid -->
+        <!-- Stats Grid - UPDATED TO MATCH DASHBOARD EXACTLY (icons and colors) -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-header">
@@ -2252,7 +2342,7 @@
                     </div>
                 </div>
                 <div class="stat-footer">
-                    <span class="badge-new">New</span>
+                    <span class="badge badge-success">New</span>
                     <span class="text-gray-600">matches available</span>
                 </div>
             </div>
@@ -2260,19 +2350,16 @@
             <div class="stat-card">
                 <div class="stat-header">
                     <div class="stat-info">
-                        <h3>Profile Strength</h3>
-                        <div class="stat-value">85%</div>
+                        <h3>Saved Jobs</h3>
+                        <div class="stat-value">5</div>
                     </div>
                     <div class="stat-icon bg-warning-light text-warning">
-                        <i class="fas fa-chart-line"></i>
+                        <i class="fas fa-bookmark"></i>
                     </div>
                 </div>
                 <div class="stat-footer">
-                    <span class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i>
-                        15%
-                    </span>
-                    <span class="text-gray-600">complete profile</span>
+                    <span class="badge badge-warning">Active</span>
+                    <span class="text-gray-600">opportunities</span>
                 </div>
             </div>
         </div>
@@ -2588,7 +2675,6 @@
                 <h2>Join the Shining Zone</h2>
                 <p>Stand out from other job seekers. Create your digital CV automatically and get noticed faster by employers. Verified members receive priority matching.</p>
                 <div class="cta-buttons">
-                    <!-- UPDATED BUTTON - Now matches the premium visual effects from reference page -->
                     <a href="shining_zone.html" class="btn-shining-zone">
                         <div class="particles" id="particles-container"></div>
                         <div class="glow-effect"></div>
@@ -2739,7 +2825,7 @@
         // Logout functionality
         document.getElementById('logoutBtn').addEventListener('click', function() {
             document.getElementById('confirmLogoutModal').classList.add('show');
-            document.getElementById('avatarDropdown').classList.remove('show');
+            document.getElementById('userMenu').classList.remove('show');
         });
 
         document.getElementById('cancelLogout').addEventListener('click', function() {
@@ -2752,7 +2838,7 @@
                 window.location.href = "/angaza/index.html";
             } catch (error) {
                 console.error("Logout error:", error);
-                showToast('Error during logout. Please try again.', 'error');
+                showToast('Error', 'Error during logout. Please try again.', 'error');
             }
         });
 
@@ -2765,11 +2851,11 @@
 
         // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
-            const avatarContainer = document.querySelector('.avatar-container');
-            const avatarDropdown = document.getElementById('avatarDropdown');
+            const dropdown = document.querySelector('.dropdown');
+            const userMenu = document.getElementById('userMenu');
             
-            if (!avatarContainer.contains(event.target)) {
-                avatarDropdown.classList.remove('show');
+            if (dropdown && !dropdown.contains(event.target)) {
+                userMenu.classList.remove('show');
             }
         });
     </script>
@@ -2783,12 +2869,12 @@
             if (!file) return;
             
             if (!file.type.match('image.*')) {
-                showToast('Please select an image file', 'error');
+                showToast('Invalid File', 'Please select an image file', 'error');
                 return;
             }
             
             if (file.size > 5 * 1024 * 1024) {
-                showToast('Image size should be less than 5MB', 'error');
+                showToast('File Too Large', 'Image size should be less than 5MB', 'error');
                 return;
             }
             
@@ -2804,8 +2890,8 @@
                 img.alt = 'Profile Picture';
                 avatar.appendChild(img);
                 
-                showToast('Profile picture uploaded successfully!', 'success');
-                document.getElementById('avatarDropdown').classList.remove('show');
+                showToast('Success', 'Profile picture uploaded successfully!', 'success');
+                document.getElementById('userMenu').classList.remove('show');
                 localStorage.setItem('angazaProfilePicture', currentProfilePicture);
             };
             
@@ -2814,7 +2900,7 @@
         
         function removeProfilePicture() {
             if (!currentProfilePicture) {
-                showToast('No profile picture to remove', 'error');
+                showToast('No Picture', 'No profile picture to remove', 'error');
                 return;
             }
             
@@ -2822,17 +2908,19 @@
             const avatar = document.getElementById('userAvatar');
             avatar.innerHTML = '<i class="fas fa-user"></i>';
             
-            showToast('Profile picture removed', 'success');
-            document.getElementById('avatarDropdown').classList.remove('show');
+            showToast('Success', 'Profile picture removed', 'success');
+            document.getElementById('userMenu').classList.remove('show');
             localStorage.removeItem('angazaProfilePicture');
         }
 
         // Toast notification function
-        window.showToast = function(message, type = 'success') {
+        window.showToast = function(title, message, type = 'success') {
             const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
             const toastMessage = document.getElementById('toastMessage');
             const toastIcon = toast.querySelector('i');
             
+            toastTitle.textContent = title;
             toastMessage.textContent = message;
             
             if (type === 'success') {
@@ -2841,6 +2929,9 @@
             } else if (type === 'error') {
                 toast.className = 'toast error';
                 toastIcon.className = 'fas fa-exclamation-circle';
+            } else {
+                toast.className = 'toast';
+                toastIcon.className = 'fas fa-info-circle';
             }
             
             toast.classList.add('show');
@@ -2867,18 +2958,20 @@
             // Avatar click - show dropdown
             document.getElementById('userAvatar').addEventListener('click', function(e) {
                 e.stopPropagation();
-                const dropdown = document.getElementById('avatarDropdown');
+                const dropdown = document.getElementById('userMenu');
                 dropdown.classList.toggle('show');
             });
 
             // Upload picture button
-            document.getElementById('uploadPictureBtn').addEventListener('click', function() {
+            document.getElementById('uploadPictureBtn').addEventListener('click', function(e) {
+                e.preventDefault();
                 document.getElementById('profilePictureInput').click();
-                document.getElementById('avatarDropdown').classList.remove('show');
+                document.getElementById('userMenu').classList.remove('show');
             });
 
             // Remove picture button
-            document.getElementById('removePictureBtn').addEventListener('click', function() {
+            document.getElementById('removePictureBtn').addEventListener('click', function(e) {
+                e.preventDefault();
                 removeProfilePicture();
             });
 
@@ -2890,7 +2983,7 @@
             applyBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const companyName = this.dataset.company;
-                    showToast(`Application started for ${companyName}`, 'success');
+                    showToast('Success', `Application started for ${companyName}`, 'success');
                     
                     const originalText = this.innerHTML;
                     this.innerHTML = '<span class="spinner"></span> Processing...';
@@ -2910,7 +3003,7 @@
                 btn.addEventListener('click', function() {
                     filterBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
-                    showToast(`Filtering by: ${this.textContent.trim()}`, 'info');
+                    showToast('Filter', `Filtering by: ${this.textContent.trim()}`, 'info');
                 });
             });
 
@@ -2918,18 +3011,18 @@
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('keyup', function(e) {
                 if (e.key === 'Enter' && this.value.trim()) {
-                    showToast(`Searching for: "${this.value}"`, 'info');
+                    showToast('Search', `Searching for: "${this.value}"`, 'info');
                 }
             });
 
             // Save search button
             document.getElementById('saveSearchBtn').addEventListener('click', function() {
-                showToast('Search saved successfully!', 'success');
+                showToast('Success', 'Search saved successfully!', 'success');
             });
 
             // Create alert button
             document.getElementById('createAlertBtn').addEventListener('click', function() {
-                showToast('Job alert created!', 'success');
+                showToast('Success', 'Job alert created!', 'success');
             });
 
             // ====== SHINING ZONE BUTTON PARTICLE EFFECTS ======
