@@ -39,6 +39,9 @@
       --info: #3b82f6;
       --info-light: #dbeafe;
       --info-soft: rgba(59, 130, 246, 0.08);
+      --gold: #ffd700;
+      --gold-light: #fff9e6;
+      --gold-soft: rgba(255, 215, 0, 0.08);
       --border: 1px solid #e2e8f0;
       --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
       --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -49,6 +52,7 @@
       --shadow-glow-success: 0 0 0 3px rgba(16, 185, 129, 0.1);
       --shadow-glow-warning: 0 0 0 3px rgba(245, 158, 11, 0.1);
       --shadow-glow-danger: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      --shadow-glow-gold: 0 0 0 3px rgba(255, 215, 0, 0.1);
       --radius: 8px;
       --radius-lg: 12px;
       --radius-xl: 16px;
@@ -518,12 +522,17 @@
       z-index: 1;
     }
 
+    /* ====== BLUE-GOLD GRADIENT WELCOME TITLE ====== */
     .welcome-title {
       font-size: 1.875rem;
       font-weight: 700;
-      color: var(--gray-900);
       margin-bottom: 0.75rem;
       animation: slideRight 0.5s ease-out;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
     }
 
     .welcome-subtitle {
@@ -634,17 +643,106 @@
       margin-bottom: 0.5rem;
     }
 
-    .stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--gray-900);
-      line-height: 1;
+    /* ====== PENDING REVIEW CARD ====== */
+    .stat-card:nth-child(1) .stat-value {
+      color: var(--primary);
       transition: var(--transition-bounce);
     }
-
-    .stat-card:hover .stat-value {
+    .stat-card:nth-child(1):hover .stat-value {
+      color: var(--gold);
       transform: scale(1.05);
+    }
+    .stat-card:nth-child(1) .stat-icon {
+      background: var(--warning-soft);
+      color: #f97316; /* Orange color */
+    }
+    .stat-card:nth-child(1):hover .stat-icon {
+      transform: scale(1.1) rotate(5deg);
+      color: #f97316;
+    }
+    .stat-card:nth-child(1) .stat-change {
       color: var(--primary);
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(1):hover .stat-change {
+      color: var(--gold);
+    }
+
+    /* ====== REVIEWED CARD ====== */
+    .stat-card:nth-child(2) .stat-value {
+      color: var(--primary);
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(2):hover .stat-value {
+      color: var(--gold);
+      transform: scale(1.05);
+    }
+    .stat-card:nth-child(2) .stat-icon {
+      background: var(--info-soft);
+      color: #8b5cf6; /* Purple color */
+    }
+    .stat-card:nth-child(2):hover .stat-icon {
+      transform: scale(1.1) rotate(5deg);
+      color: #8b5cf6;
+    }
+    .stat-card:nth-child(2) .stat-change {
+      color: var(--primary);
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(2):hover .stat-change {
+      color: var(--gold);
+    }
+    .stat-card:nth-child(2) .stat-change i {
+      color: #22c55e; /* Green tick */
+    }
+
+    /* ====== ACCEPTED CARD ====== */
+    .stat-card:nth-child(3) .stat-value {
+      color: var(--primary);
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(3):hover .stat-value {
+      color: var(--gold);
+      transform: scale(1.05);
+    }
+    .stat-card:nth-child(3) .stat-icon {
+      background: var(--success-soft);
+      color: var(--success); /* Green color */
+    }
+    .stat-card:nth-child(3):hover .stat-icon {
+      transform: scale(1.1) rotate(5deg);
+      color: var(--success);
+    }
+    .stat-card:nth-child(3) .stat-change {
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(3):hover .stat-change {
+      color: var(--gold);
+    }
+
+    /* ====== REJECTED CARD ====== */
+    .stat-card:nth-child(4) .stat-value {
+      color: var(--primary);
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(4):hover .stat-value {
+      color: var(--gold);
+      transform: scale(1.05);
+    }
+    .stat-card:nth-child(4) .stat-icon {
+      background: var(--danger-soft);
+      color: var(--danger); /* Red color */
+    }
+    .stat-card:nth-child(4):hover .stat-icon {
+      transform: scale(1.1) rotate(5deg);
+      color: var(--danger);
+    }
+    .stat-card:nth-child(4) .stat-change {
+      color: var(--primary);
+      transition: var(--transition-bounce);
+    }
+    .stat-card:nth-child(4):hover .stat-change {
+      color: var(--gold);
     }
 
     .stat-icon {
@@ -656,10 +754,6 @@
       justify-content: center;
       font-size: 1.25rem;
       transition: var(--transition-bounce);
-    }
-
-    .stat-card:hover .stat-icon {
-      transform: scale(1.1) rotate(5deg);
     }
 
     .stat-footer {
@@ -1637,7 +1731,7 @@
             <h3>Pending Review</h3>
             <div class="stat-value" id="pendingStat">0</div>
           </div>
-          <div class="stat-icon bg-warning-light text-warning">
+          <div class="stat-icon">
             <i class="fas fa-clock"></i>
           </div>
         </div>
@@ -1655,7 +1749,7 @@
             <h3>Reviewed</h3>
             <div class="stat-value" id="reviewedStat">0</div>
           </div>
-          <div class="stat-icon bg-info-light text-info">
+          <div class="stat-icon">
             <i class="fas fa-eye"></i>
           </div>
         </div>
@@ -1673,7 +1767,7 @@
             <h3>Accepted</h3>
             <div class="stat-value" id="acceptedStat">0</div>
           </div>
-          <div class="stat-icon bg-success-light text-success">
+          <div class="stat-icon">
             <i class="fas fa-check-circle"></i>
           </div>
         </div>
@@ -1691,7 +1785,7 @@
             <h3>Rejected</h3>
             <div class="stat-value" id="rejectedStat">0</div>
           </div>
-          <div class="stat-icon bg-danger-light text-danger">
+          <div class="stat-icon">
             <i class="fas fa-times-circle"></i>
           </div>
         </div>
