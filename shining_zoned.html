@@ -2,236 +2,534 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shining Zone | ANGAZA</title>
+    <title>Shining Zone | ANGAZA Professional Platform</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* ====== CSS Reset & Variables ====== */
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #0052a3;
+            --primary-light: #e6f2ff;
+            --primary-soft: rgba(0, 102, 204, 0.08);
+            --secondary: #1a1a2e;
+            --accent: #00a8cc;
+            --light: #f8fafc;
+            --gray-50: #f9fafb;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --success-soft: rgba(16, 185, 129, 0.08);
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --warning-soft: rgba(245, 158, 11, 0.08);
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --danger-soft: rgba(239, 68, 68, 0.08);
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --info-soft: rgba(59, 130, 246, 0.08);
+            --gold: #ffd700;
+            --gold-light: #fff9e6;
+            --gold-soft: rgba(255, 215, 0, 0.08);
+            --border: 1px solid #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-glow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            --shadow-glow-gold: 0 0 0 3px rgba(255, 215, 0, 0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 20px;
+            --radius-full: 9999px;
+            --transition: all 0.2s ease;
+            --transition-slow: all 0.3s ease;
+            --transition-bounce: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            color: var(--gray-900);
             min-height: 100vh;
-            transition: background 0.3s;
-            background-attachment: fixed;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Theme Toggle */
-        .theme-toggle {
+        /* ====== Animated Background ====== */
+        .shining-bg {
             position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 1001;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 8px 15px;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--gray-200) 1px, transparent 1px),
+                linear-gradient(to right, var(--gray-200) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.25;
+            animation: gridMove 20s linear infinite;
         }
 
-        /* HEADER */
-        header {
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        .bg-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 102, 204, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.03) 0%, transparent 40%);
+            animation: glowPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        /* ====== Typography ====== */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--gray-900);
+        }
+
+        /* ====== Layout ====== */
+        .shining-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2rem 0;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ====== Header ====== */
+        .header {
             position: sticky;
             top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background: rgba(10, 61, 98, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: var(--border);
+            box-shadow: var(--shadow-sm);
+            animation: slideDown 0.5s ease-out;
         }
 
-        .header-inner {
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-container {
             max-width: 1400px;
-            margin: auto;
-            padding: 15px 20px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 72px;
         }
 
         .logo {
-            font-size: 1.6rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #facc15, #fde047);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        nav a {
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0 12px;
+            gap: 0.75rem;
             text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.3s;
+            transition: var(--transition-bounce);
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.125rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-bounce);
+        }
+
+        .logo:hover .logo-icon {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .logo-text {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            letter-spacing: -0.015em;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: var(--transition);
             position: relative;
-            padding: 5px 0;
+            padding: 0.5rem 0;
         }
 
-        nav a:hover {
-            color: #facc15;
+        .nav-link:hover {
+            color: var(--primary);
         }
 
-        nav a.active {
-            color: #facc15;
+        .nav-link.active {
+            color: var(--primary);
         }
 
-        nav a.active::after {
+        .nav-link.active::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -1.125rem;
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(to right, #facc15, #fde047);
-            border-radius: 2px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: var(--radius-full);
+            animation: slideIn 0.3s ease-out;
         }
 
-        .user-menu {
+        @keyframes slideIn {
+            from { transform: scaleX(0); opacity: 0; }
+            to { transform: scaleX(1); opacity: 1; }
+        }
+
+        .header-actions {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1rem;
         }
 
-        .notification-badge {
-            position: relative;
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: transparent;
+            border: none;
+            color: var(--gray-600);
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-bounce);
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: var(--primary-soft);
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.95);
         }
 
         .notification-count {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
+            top: -4px;
+            right: -4px;
+            background: linear-gradient(135deg, var(--danger) 0%, #f87171 100%);
             color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
+            border-radius: var(--radius-full);
+            min-width: 20px;
+            height: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 0 6px;
+            border: 2px solid white;
+            animation: bounceIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Profile Picture Upload Styles - ADDED */
-        .avatar-upload-container {
-            position: relative;
-            display: inline-block;
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
-        .avatar {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            border: 2px solid #facc15;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--gray-100) 100%);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            font-size: 1.2rem;
-            color: #facc15;
+            transition: var(--transition-bounce);
             overflow: hidden;
+            border: 2px solid transparent;
         }
 
-        .avatar:hover {
+        .user-avatar:hover {
+            border-color: var(--primary);
             transform: scale(1.05);
+            box-shadow: var(--shadow-glow);
         }
 
-        .avatar img {
+        .user-avatar:active {
+            transform: scale(0.95);
+        }
+
+        .user-avatar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition-slow);
         }
 
-        .avatar-options {
+        .user-avatar:hover img {
+            transform: scale(1.1);
+        }
+
+        /* ====== Dropdown ====== */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
             display: none;
             position: absolute;
-            top: 100%;
+            top: calc(100% + 0.75rem);
             right: 0;
-            background: rgba(10, 61, 98, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 10px;
-            min-width: 200px;
-            margin-top: 10px;
-            z-index: 1003;
-            animation: fadeIn 0.3s;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: var(--border);
+            min-width: 320px;
+            max-height: 480px;
+            overflow-y: auto;
+            z-index: 100;
+            animation: slideDownFade 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: top right;
         }
 
-        .avatar-options.show {
+        @keyframes slideDownFade {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .dropdown-menu.show {
             display: block;
         }
 
-        .avatar-option-btn {
-            width: 100%;
-            padding: 10px 15px;
-            background: rgba(250, 204, 21, 0.1);
-            border: 1px solid rgba(250, 204, 21, 0.3);
-            color: #facc15;
-            border-radius: 8px;
+        .dropdown-header {
+            padding: 1.25rem;
+            border-bottom: var(--border);
+            background: linear-gradient(135deg, var(--gray-50) 0%, white 100%);
+        }
+
+        .dropdown-header h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .dropdown-header p {
+            font-size: 0.8125rem;
+            color: var(--gray-600);
+        }
+
+        .dropdown-item {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
             cursor: pointer;
+            transition: var(--transition);
+            border-bottom: var(--border);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--gray-50);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-item.unread {
+            background: var(--primary-soft);
+            position: relative;
+        }
+
+        .dropdown-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            animation: slideRight 0.3s ease-out;
+        }
+
+        @keyframes slideRight {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .dropdown-item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+            transition: var(--transition-bounce);
+        }
+
+        .dropdown-item:hover .dropdown-item-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .dropdown-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dropdown-item-title {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--gray-900);
+            margin-bottom: 0.25rem;
+        }
+
+        .dropdown-item-text {
+            font-size: 0.8125rem;
+            color: var(--gray-600);
+            line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+
+        .dropdown-item-time {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+
+        .dropdown-footer {
+            padding: 1rem 1.25rem;
+            border-top: var(--border);
+            background: var(--gray-50);
+        }
+
+        .dropdown-footer-btn {
+            width: 100%;
+            padding: 0.625rem;
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            color: var(--gray-700);
             font-weight: 500;
-            transition: all 0.3s;
-            margin-bottom: 8px;
-            text-align: left;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
-        .avatar-option-btn:last-child {
-            margin-bottom: 0;
-        }
-
-        .avatar-option-btn:hover {
-            background: rgba(250, 204, 21, 0.2);
+        .dropdown-footer-btn:hover {
+            background: var(--gray-50);
+            border-color: var(--primary);
+            color: var(--primary);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        .avatar-option-btn.remove {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
+        .btn-outline-danger {
+            background: transparent;
+            border: 1px solid var(--danger-light);
+            color: var(--danger);
         }
 
-        .avatar-option-btn.remove:hover {
-            background: rgba(239, 68, 68, 0.2);
-        }
-
-        .avatar-option-btn.logout {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            margin-top: 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 12px;
-        }
-
-        .avatar-option-btn.logout:hover {
-            background: rgba(239, 68, 68, 0.2);
+        .btn-outline-danger:hover {
+            background: var(--danger-light);
+            border-color: var(--danger);
+            color: var(--danger);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-danger);
         }
 
         /* Hidden file input */
@@ -239,343 +537,390 @@
             display: none;
         }
 
-        /* MAIN CONTAINER */
-        .container {
-            max-width: 1400px;
-            margin: auto;
-            padding: 30px 20px;
-        }
-
-        /* HERO SECTION */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, rgba(10, 61, 98, 0.3), rgba(32, 58, 67, 0.3));
-            border-radius: 20px;
-            margin-bottom: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* ====== Hero Section ====== */
+        .hero-section {
+            margin-bottom: 2.5rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, 
+                rgba(0, 102, 204, 0.05) 0%, 
+                rgba(255, 215, 0, 0.05) 100%);
+            border-radius: var(--radius-xl);
+            border: var(--border);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(8px);
+            animation: slideUpFade 0.6s ease-out;
+            text-align: center;
         }
 
-        .hero::before {
-            content: '✨';
+        .hero-section::before {
+            content: '';
             position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 3rem;
-            opacity: 0.2;
-            z-index: -1;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
         }
 
-        .hero::after {
-            content: '✨';
+        .hero-section::after {
+            content: '';
             position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 3rem;
-            opacity: 0.2;
-            z-index: -1;
+            bottom: -50%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite reverse;
         }
 
-        .hero h1 {
-            font-size: 2.8rem;
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, -20px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(to right, #facc15, #fde047);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 20px;
-            line-height: 1.2;
+            animation: slideRight 0.5s ease-out;
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 800px;
-            margin: 0 auto 30px;
-            line-height: 1.6;
+        .hero-subtitle {
+            font-size: 1.125rem;
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            animation: slideRight 0.6s ease-out;
         }
 
-        .btn-group {
+        .hero-actions {
             display: flex;
-            gap: 15px;
+            gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: slideUpFade 0.7s ease-out;
         }
 
-        /* BUTTONS */
+        /* ====== Buttons ====== */
         .btn {
-            background: linear-gradient(to right, #facc15, #fde047);
-            color: #000;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 30px;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-lg);
             font-weight: 600;
+            font-size: 0.9375rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition-bounce);
+            border: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 0.5rem;
             text-decoration: none;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(250, 204, 21, 0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #facc15;
-            color: #facc15;
-            padding: 10px 23px;
-        }
-
-        .btn-outline:hover {
-            background: rgba(250, 204, 21, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(250, 204, 21, 0.2);
-        }
-
-        /* BENEFITS SECTION */
-        .benefits {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
-        }
-
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .benefit-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(250, 204, 21, 0.3);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .benefit-icon {
-            font-size: 3rem;
-            color: #facc15;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .benefit-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: #facc15;
-        }
-
-        .benefit-card p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-        }
-
-        /* FORM CONTAINER */
-        .form-container {
-            max-width: 800px;
-            margin: 50px auto;
-        }
-
-        #shiningForm {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
             position: relative;
             overflow: hidden;
         }
 
-        #shiningForm::before {
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 2px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold) 0%, #ffc800 100%);
+            color: var(--gray-900);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-gold:hover {
+            background: linear-gradient(135deg, #ffc800 0%, var(--gold) 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.8125rem;
+        }
+
+        .btn-block {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ====== Stats Grid ====== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: var(--border);
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            animation: slideUpFade 0.6s ease-out;
+            animation-fill-mode: both;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .stat-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(to right, #facc15, #fde047);
-            background-size: 200% 100%;
-            animation: shimmer 3s infinite linear;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--gold) 100%);
+            transform: scaleX(0);
+            transition: transform 0.4s ease-out;
+            transform-origin: left;
         }
 
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
         }
 
-        #shiningForm:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        .stat-card:hover::before {
+            transform: scaleX(1);
         }
 
-        /* FORM ELEMENTS */
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        #shiningForm label {
-            display: block;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 500;
-            font-size: 1rem;
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        #shiningForm input[type="text"],
-        #shiningForm input[type="email"],
-        #shiningForm select,
-        #shiningForm textarea {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        #shiningForm input[type="text"]:focus,
-        #shiningForm input[type="email"]:focus,
-        #shiningForm select:focus,
-        #shiningForm textarea:focus {
-            outline: none;
-            border-color: #facc15;
-            box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.1);
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        #shiningForm input[type="text"]::placeholder,
-        #shiningForm input[type="email"]::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* FILE INPUT */
-        .file-input-container {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .file-input-label {
-            display: block;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px dashed rgba(250, 204, 21, 0.3);
-            border-radius: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .file-input-label:hover {
-            background: rgba(250, 204, 21, 0.1);
-            border-color: #facc15;
-        }
-
-        .file-input-label i {
-            color: #facc15;
-            margin-right: 10px;
-        }
-
-        #shiningForm input[type="file"] {
-            display: none;
-        }
-
-        /* SELECT STYLING */
-        #shiningForm select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23facc15' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 20px center;
-            padding-right: 50px;
-        }
-
-        /* TEXTAREA */
-        #shiningForm textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* FORM DECORATIONS */
-        .form-decoration {
-            position: absolute;
-            font-size: 2rem;
-            color: rgba(250, 204, 21, 0.1);
-            z-index: -1;
-        }
-
-        .decoration-1 {
-            top: 20px;
-            right: 20px;
-        }
-
-        .decoration-2 {
-            bottom: 20px;
-            left: 20px;
-        }
-
-        /* SUCCESS MESSAGE */
-        .success-message {
-            display: none;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            margin-top: 30px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .success-message i {
-            font-size: 3rem;
-            color: #22c55e;
-            margin-bottom: 20px;
-        }
-
-        .success-message h3 {
+            justify-content: center;
             font-size: 1.5rem;
-            color: #22c55e;
-            margin-bottom: 15px;
+            margin: 0 auto 1rem;
+            transition: var(--transition-bounce);
         }
 
-        .success-message p {
-            color: rgba(255, 255, 255, 0.8);
+        .stat-card:hover .stat-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .stat-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-bounce);
+        }
+
+        .stat-card:hover .stat-value {
+            transform: scale(1.05);
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        /* ====== Benefits Grid ====== */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .benefit-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            border: var(--border);
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            animation: slideUpFade 0.6s ease-out;
+            animation-fill-mode: both;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+        .benefit-card:nth-child(2) { animation-delay: 0.15s; }
+        .benefit-card:nth-child(3) { animation-delay: 0.2s; }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
+            transform: scaleY(0);
+            transition: transform 0.4s ease-out;
+            transform-origin: top;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .benefit-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--gold-light) 100%);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            color: var(--primary);
+            font-size: 1.75rem;
+            transition: var(--transition-bounce);
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
+            color: white;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .benefit-card:hover h3 {
+            color: var(--primary);
+        }
+
+        .benefit-card p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
             line-height: 1.6;
         }
 
-        /* PROGRESS TRACKER */
+        /* ====== Section Header ====== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        /* ====== Progress Tracker ====== */
         .progress-tracker {
             display: flex;
             justify-content: space-between;
-            margin: 40px 0;
+            margin-bottom: 2.5rem;
             position: relative;
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            border: var(--border);
+            box-shadow: var(--shadow-sm);
         }
 
         .progress-tracker::before {
             content: '';
             position: absolute;
-            top: 20px;
-            left: 0;
-            right: 0;
+            top: 50%;
+            left: 80px;
+            right: 80px;
             height: 2px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--gray-200);
+            transform: translateY(-50%);
             z-index: 1;
         }
 
@@ -589,103 +934,486 @@
         .step-number {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.1);
+            background: white;
+            border: 2px solid var(--gray-300);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
-            color: rgba(255, 255, 255, 0.7);
+            margin: 0 auto 0.75rem;
+            color: var(--gray-600);
             font-weight: 600;
-            transition: all 0.3s;
+            font-size: 1rem;
+            transition: var(--transition-bounce);
         }
 
         .tracker-step.active .step-number {
-            background: linear-gradient(to right, #facc15, #fde047);
-            color: #000;
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
             transform: scale(1.1);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .tracker-step.completed .step-number {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
         }
 
         .step-label {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .tracker-step.active .step-label {
-            color: #facc15;
+            font-size: 0.8125rem;
+            color: var(--gray-600);
             font-weight: 500;
         }
 
-        /* Confirm Logout Modal - ADDED */
-        .confirm-modal {
-            display: none;
-            position: fixed;
+        .tracker-step.active .step-label {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* ====== Form Card ====== */
+        .form-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: var(--border);
+            overflow: hidden;
+            transition: var(--transition-bounce);
+            position: relative;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+
+        .form-card:hover {
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
+        }
+
+        .form-card::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 2001;
+            box-shadow: 0 0 0 0 rgba(0, 102, 204, 0.1);
+            border-radius: var(--radius-xl);
+            transition: var(--transition-slow);
+            pointer-events: none;
+        }
+
+        .form-card:hover::after {
+            box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.05);
+        }
+
+        .form-header {
+            padding: 1.5rem;
+            border-bottom: var(--border);
+            background: linear-gradient(135deg, white 0%, var(--gray-50) 100%);
+        }
+
+        .form-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-header i {
+            color: var(--primary);
+            transition: var(--transition-bounce);
+        }
+
+        .form-card:hover .form-header i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .form-body {
+            padding: 2rem;
+        }
+
+        /* ====== Form Elements ====== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-label i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+            font-size: 0.8125rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i:not(.eye-icon) {
+            position: absolute;
+            left: 1rem;
+            color: var(--gray-400);
+            font-size: 1rem;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select,
+        .input-wrapper textarea {
+            width: 100%;
+            padding: 0.875rem 1rem 0.875rem 2.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9375rem;
+            color: var(--gray-900);
+            background: white;
+            transition: var(--transition);
+        }
+
+        .input-wrapper select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.75rem;
+        }
+
+        .input-wrapper textarea {
+            min-height: 100px;
+            resize: vertical;
+            padding-top: 0.875rem;
+        }
+
+        .input-wrapper input:focus,
+        .input-wrapper select:focus,
+        .input-wrapper textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .input-wrapper input:focus + i,
+        .input-wrapper select:focus ~ i,
+        .input-wrapper textarea:focus + i {
+            color: var(--primary);
+            transform: scale(1.1);
+        }
+
+        .input-wrapper input::placeholder,
+        .input-wrapper select::placeholder,
+        .input-wrapper textarea::placeholder {
+            color: var(--gray-400);
+        }
+
+        /* ====== File Upload ====== */
+        .file-upload-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .file-upload-label {
+            display: flex;
             align-items: center;
             justify-content: center;
-            animation: fadeIn 0.3s;
-        }
-
-        .confirm-content {
-            background: linear-gradient(135deg, #0f2027, #203a43);
-            border-radius: 15px;
-            padding: 30px;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            animation: slideUp 0.4s;
-        }
-
-        .confirm-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            justify-content: center;
-        }
-
-        .confirm-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            background: var(--gray-50);
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius-lg);
             cursor: pointer;
+            transition: var(--transition-bounce);
+            text-align: center;
+        }
+
+        .file-upload-label:hover {
+            background: var(--primary-soft);
+            border-color: var(--primary);
+        }
+
+        .file-upload-label i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: var(--transition-bounce);
+        }
+
+        .file-upload-label:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .file-upload-label span {
+            font-size: 0.9375rem;
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .file-upload-label small {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        .file-upload-input {
+            display: none;
+        }
+
+        /* ====== Success Message ====== */
+        .success-message {
+            display: none;
+            background: white;
+            border-radius: var(--radius-xl);
+            border: var(--border);
+            padding: 2.5rem;
+            text-align: center;
+            animation: slideUpFade 0.6s ease-out;
+            margin-top: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--success);
+            font-size: 2.5rem;
+            animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .success-message h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 0.75rem;
+        }
+
+        .success-message p {
+            font-size: 1rem;
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .success-message .badge {
+            display: inline-block;
+            background: var(--primary-soft);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.8125rem;
             font-weight: 600;
-            transition: all 0.3s;
+            margin-bottom: 1.5rem;
         }
 
-        .confirm-btn.cancel {
-            background: transparent;
-            border: 1px solid #facc15;
-            color: #facc15;
-        }
-
-        .confirm-btn.logout {
-            background: linear-gradient(to right, #ef4444, #dc2626);
+        /* ====== CTA Section ====== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, #16213e 100%);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
             color: white;
         }
 
-        /* Toast Notification - ADDED */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-30%, 30%);
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ====== Footer ====== */
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand .logo-text {
+            color: white;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 1rem 0 2rem;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .footer-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8125rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 15px 20px;
+            border-radius: var(--radius-full);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition-bounce);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        /* ====== Toast Notification ====== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: var(--border);
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 320px;
             transform: translateY(100px);
             opacity: 0;
-            transition: all 0.3s;
-            z-index: 3000;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 2000;
+            border-left: 4px solid var(--primary);
         }
 
         .toast.show {
@@ -693,303 +1421,524 @@
             opacity: 1;
         }
 
-        /* FOOTER */
-        footer {
-            margin-top: 80px;
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast i {
+            font-size: 1.25rem;
+        }
+
+        .toast.success i {
+            color: var(--success);
+        }
+
+        .toast.error i {
+            color: var(--danger);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.125rem;
+        }
+
+        .toast-message {
+            font-size: 0.8125rem;
+            color: var(--gray-600);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: var(--transition);
+        }
+
+        .toast-close:hover {
+            color: var(--gray-900);
+            transform: scale(1.1);
+        }
+
+        /* ====== Confirm Modal ====== */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 4000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .confirm-modal.show {
+            display: flex;
+        }
+
+        .confirm-content {
+            background: white;
+            border-radius: var(--radius-xl);
+            max-width: 400px;
+            width: 100%;
+            padding: 2rem;
             text-align: center;
-            padding: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            background: rgba(10, 61, 98, 0.2);
-            border-radius: 20px 20px 0 0;
+            animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow-xl);
         }
 
-        footer a {
-            color: #facc15;
-            text-decoration: none;
-            transition: color 0.3s;
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
 
-        footer a:hover {
-            color: #fde047;
-        }
-         option {
-        color: #000;
-       }
-
-        /* ANIMATIONS */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .confirm-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--danger-soft);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            color: var(--danger);
+            font-size: 2rem;
         }
 
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 900px) {
-            .header-inner {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
+        .confirm-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .confirm-content p {
+            font-size: 0.9375rem;
+            color: var(--gray-600);
+            margin-bottom: 1.5rem;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .confirm-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .confirm-btn.cancel {
+            background: white;
+            border: 2px solid var(--gray-300);
+            color: var(--gray-700);
+        }
+
+        .confirm-btn.cancel:hover {
+            border-color: var(--gray-400);
+            background: var(--gray-50);
+        }
+
+        .confirm-btn.logout {
+            background: var(--danger);
+            color: white;
+        }
+
+        .confirm-btn.logout:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ====== Responsive ====== */
+        @media (max-width: 1024px) {
+            .stats-grid,
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            
-            nav {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
             }
-            
-            nav a {
-                margin: 0 8px;
-                font-size: 0.9rem;
+
+            .nav {
+                display: none;
             }
-            
-            .hero h1 {
-                font-size: 2.2rem;
+
+            .hero-title {
+                font-size: 2rem;
             }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-            
-            .theme-toggle {
-                top: 70px;
-                right: 10px;
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-            
-            .benefits {
-                grid-template-columns: 1fr;
+
+            .progress-tracker::before {
+                left: 40px;
+                right: 40px;
             }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 20px 15px;
+            .shining-container {
+                padding: 1.5rem 1.5rem 0;
             }
-            
-            .hero {
-                padding: 40px 15px;
+
+            .header-container {
+                padding: 0 1.5rem;
             }
-            
-            .hero h1 {
-                font-size: 1.8rem;
+
+            .hero-section {
+                padding: 2rem;
             }
-            
-            .hero p {
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .hero-subtitle {
                 font-size: 1rem;
             }
-            
-            .btn-group {
+
+            .hero-actions {
                 flex-direction: column;
-                align-items: center;
             }
-            
-            .btn, .btn-outline {
+
+            .hero-actions .btn {
                 width: 100%;
-                max-width: 300px;
                 justify-content: center;
             }
-            
-            #shiningForm {
-                padding: 25px;
+
+            .stats-grid,
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
-            
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+
             .progress-tracker {
-                flex-wrap: wrap;
-                gap: 20px;
+                flex-direction: column;
+                gap: 1.5rem;
             }
-            
+
             .progress-tracker::before {
                 display: none;
             }
-            
+
             .tracker-step {
-                flex: none;
-                width: calc(50% - 10px);
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                text-align: left;
+            }
+
+            .step-number {
+                margin: 0;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .toast {
+                left: 1rem;
+                right: 1rem;
+                min-width: 0;
             }
         }
 
         @media (max-width: 480px) {
-            .hero h1 {
+            .header-container {
+                padding: 0.875rem 1rem;
+            }
+
+            .logo-text {
+                display: none;
+            }
+
+            .shining-container {
+                padding: 1rem 1rem 0;
+            }
+
+            .hero-title {
                 font-size: 1.5rem;
             }
-            
-            #shiningForm {
-                padding: 20px;
+
+            .stat-value {
+                font-size: 1.75rem;
             }
-            
-            .form-group {
-                margin-bottom: 20px;
-            }
-            
+
             .benefit-card {
-                padding: 20px;
+                padding: 1.5rem;
             }
-            
-            .tracker-step {
-                width: 100%;
+
+            .form-body {
+                padding: 1.5rem;
+            }
+
+            .file-upload-label {
+                flex-direction: column;
+                padding: 1.25rem;
+            }
+
+            .dropdown-menu {
+                min-width: 260px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
             }
         }
 
-        /* LIGHT THEME */
-        body.light-theme {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe, #bae6fd);
-            color: #0f172a;
+        /* ====== Loading States ====== */
+        .loading {
+            position: relative;
+            pointer-events: none;
         }
 
-        body.light-theme header {
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--gold) 100%);
+            animation: loadingBar 1.5s infinite;
         }
 
-        body.light-theme .hero,
-        body.light-theme .benefit-card,
-        body.light-theme #shiningForm {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: #0f172a;
+        @keyframes loadingBar {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
-        body.light-theme nav a {
-            color: rgba(0, 0, 0, 0.7);
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.6s linear infinite;
         }
 
-        body.light-theme .hero p,
-        body.light-theme .benefit-card p,
-        body.light-theme #shiningForm label {
-            color: rgba(0, 0, 0, 0.7);
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        body.light-theme #shiningForm input,
-        body.light-theme #shiningForm select,
-        body.light-theme #shiningForm textarea {
-            background: rgba(0, 0, 0, 0.05);
-            border-color: rgba(0, 0, 0, 0.1);
-            color: #0f172a;
+        /* ====== Accessibility ====== */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
-        body.light-theme footer {
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.9);
-            color: rgba(0, 0, 0, 0.7);
-        }
-
-        body.light-theme .avatar-options,
-        body.light-theme .confirm-content {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            color: #0f172a;
-        }
-
-        body.light-theme .avatar-option-btn {
-            color: #0f172a;
-            border-color: rgba(0, 0, 0, 0.1);
+        input:focus-visible,
+        button:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
     </style>
 </head>
-
 <body>
-    <!-- Theme Toggle -->
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
-        <span>Dark</span>
+    <!-- Animated Background -->
+    <div class="shining-bg">
+        <div class="bg-grid"></div>
+        <div class="bg-glow"></div>
     </div>
 
-    <header>
-        <div class="header-inner">
-            <div class="logo">
-                <i class="fas fa-bolt"></i>
-                ANGAZA
-            </div>
-            <nav>
-                <a href="jobseeker-dashboard.html">Home</a>
-                <a href="worksd.html">Find Work</a>
-                <a href="workersd.html">Find Workers</a>
-                <a href="shining_zoned.html" class="active">Shining Zone</a>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">A</div>
+                <div class="logo-text">ANGAZA</div>
+            </a>
+
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="worksd.html" class="nav-link">Find Work</a>
+                <a href="workersd.html" class="nav-link">Find Workers</a>
+                <a href="shining_zoned.html" class="nav-link active">Shining Zone</a>
             </nav>
-            <div class="user-menu">
-                <div class="notification-badge" id="notificationIcon">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-count">3</span>
+
+            <div class="header-actions">
+                <!-- Notifications -->
+                <div class="dropdown">
+                    <button class="icon-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count" id="notificationCount">3</span>
+                    </button>
+                    <div class="dropdown-menu" id="notificationMenu">
+                        <div class="dropdown-header">
+                            <h4>Notifications</h4>
+                            <p id="unreadCount">3 unread</p>
+                        </div>
+                        <div id="notificationList">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-bell-slash"></i>
+                                </div>
+                                <h4>No notifications</h4>
+                                <p>You're all caught up</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-footer">
+                            <button class="dropdown-footer-btn" id="clearNotificationsBtn">
+                                <i class="fas fa-check-circle"></i>
+                                Clear All
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <!-- Avatar Upload Container - MODIFIED -->
-                <div class="avatar-upload-container">
-                    <div class="avatar" id="userAvatar">
+
+                <!-- User Menu -->
+                <div class="dropdown">
+                    <div class="user-avatar" id="userAvatar">
                         <i class="fas fa-user"></i>
                     </div>
-                    
-                    <!-- Avatar Options Dropdown - ADDED -->
-                    <div class="avatar-options" id="avatarOptions">
-                        <button class="avatar-option-btn" id="uploadPictureBtn">
-                            <i class="fas fa-camera"></i>
-                            Upload Picture
-                        </button>
-                        <button class="avatar-option-btn remove" id="removePictureBtn">
-                            <i class="fas fa-trash"></i>
-                            Remove Picture
-                        </button>
-                        <button class="avatar-option-btn logout" id="logoutFromAvatarBtn">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Logout
-                        </button>
+                    <div class="dropdown-menu" id="userMenu">
+                        <div class="dropdown-header">
+                            <h4 id="userName">User</h4>
+                            <p id="userEmail">user@example.com</p>
+                        </div>
+                        <a href="#" class="dropdown-item" id="uploadPictureBtn">
+                            <div class="dropdown-item-icon bg-primary-light text-primary">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="dropdown-item-content">
+                                <div class="dropdown-item-title">Upload Picture</div>
+                                <div class="dropdown-item-text">Update your profile photo</div>
+                            </div>
+                        </a>
+                        <a href="#" class="dropdown-item" id="removePictureBtn">
+                            <div class="dropdown-item-icon bg-danger-light text-danger">
+                                <i class="fas fa-trash"></i>
+                            </div>
+                            <div class="dropdown-item-content">
+                                <div class="dropdown-item-title">Remove Picture</div>
+                                <div class="dropdown-item-text">Delete profile photo</div>
+                            </div>
+                        </a>
+                        <div class="dropdown-footer">
+                            <button class="dropdown-footer-btn btn-outline-danger" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sign Out
+                            </button>
+                        </div>
                     </div>
-                    
-                    <!-- Hidden File Input - ADDED -->
-                    <input type="file" id="profilePictureInput" accept="image/*">
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="container">
+    <!-- Hidden File Input -->
+    <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+
+    <!-- Main Content -->
+    <main class="shining-container">
         <!-- Hero Section -->
-        <section class="hero">
-            <h1>✨ Welcome to the Shining Zone ✨</h1>
-            <p>
-                Create your professional profile and stand out from the crowd. Get discovered by top employers 
-                and connect with amazing opportunities. Let your talents shine bright!
-            </p>
-            <div class="btn-group">
-                <a href="#form" class="btn">
-                    <i class="fas fa-rocket"></i>
-                    Create Your Profile
-                </a>
-                <a href="#benefits" class="btn-outline">
-                    <i class="fas fa-info-circle"></i>
-                    Learn More
-                </a>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title"> Welcome to the Shining Zone </h1>
+                <p class="hero-subtitle">
+                    Create your professional profile and stand out from the crowd. Get discovered by top employers 
+                    and connect with amazing opportunities. Let your talents shine bright!
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" id="scrollToFormBtn">
+                        <i class="fas fa-rocket"></i>
+                        Create Your Profile
+                    </button>
+                    <button class="btn btn-secondary" id="learnMoreBtn">
+                        <i class="fas fa-info-circle"></i>
+                        Learn More
+                    </button>
+                </div>
             </div>
         </section>
 
-        <!-- Progress Tracker -->
-        <div class="progress-tracker">
-            <div class="tracker-step active">
-                <div class="step-number">1</div>
-                <div class="step-label">Profile Info</div>
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary-light text-primary">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value">1,500+</div>
+                <div class="stat-label">Active Profiles</div>
             </div>
-            <div class="tracker-step">
-                <div class="step-number">2</div>
-                <div class="step-label">Skills & Experience</div>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-success-light text-success">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div class="stat-value">89%</div>
+                <div class="stat-label">Successful Matches</div>
             </div>
-            <div class="tracker-step">
-                <div class="step-number">3</div>
-                <div class="step-label">Portfolio</div>
-            </div>
-            <div class="tracker-step">
-                <div class="step-number">4</div>
-                <div class="step-label">Review & Submit</div>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-info-light text-info">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="stat-value">250+</div>
+                <div class="stat-label">Partner Companies</div>
             </div>
         </div>
 
-        <!-- Benefits Section -->
-        <div class="benefits" id="benefits">
+        <!-- Benefits Grid -->
+        <div class="section-header">
+            <h2>
+                <i class="fas fa-star"></i>
+                Why Join the Shining Zone?
+            </h2>
+        </div>
+
+        <div class="benefits-grid">
             <div class="benefit-card">
                 <div class="benefit-icon">
                     <i class="fas fa-eye"></i>
@@ -1015,205 +1964,316 @@
             </div>
         </div>
 
-        <!-- Form Section -->
-        <div class="form-container" id="form">
-            <h2 style="text-align: center; margin-bottom: 30px; color: #facc15;">
-                <i class="fas fa-user-plus"></i> Create Your Profile
-            </h2>
-
-            <form id="shiningForm">
-                <!-- Decorative elements -->
-                <div class="form-decoration decoration-1">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="form-decoration decoration-2">
-                    <i class="fas fa-lightbulb"></i>
-                </div>
-
-                <!-- Personal Information -->
-                <div class="form-group">
-                    <label for="fullName">
-                        <i class="fas fa-user"></i>
-                        Full Name
-                    </label>
-                    <input type="text" id="fullName" placeholder="Enter your full name" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="email">
-                        <i class="fas fa-envelope"></i>
-                        Email Address
-                    </label>
-                    <input type="email" id="email" placeholder="Enter your email address" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">
-                        <i class="fas fa-phone"></i>
-                        Phone Number
-                    </label>
-                    <input type="text" id="phone" placeholder="Enter your phone number" required />
-                </div>
-
-                <!-- Education & Career -->
-                <div class="form-group">
-                    <label for="universityLevel">
-                        <i class="fas fa-graduation-cap"></i>
-                        Education Level
-                    </label>
-                    <select id="universityLevel" required>
-                        <option value="" disabled selected>Select your education level</option>
-                        <option value="diploma">Diploma</option>
-                        <option value="bachelor">Bachelor's Degree</option>
-                        <option value="master">Master's Degree</option>
-                        <option value="phd">PhD</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="career">
-                        <i class="fas fa-briefcase"></i>
-                        Career Field
-                    </label>
-                    <select id="career" required>
-                        <option value="" disabled selected>Select your career field</option>
-                        <option value="software">Software Engineering</option>
-                        <option value="web">Web Development</option>
-                        <option value="design">UI/UX Design</option>
-                        <option value="data">Data Science</option>
-                        <option value="ai">Artificial Intelligence</option>
-                        <option value="devops">DevOps Engineering</option>
-                        <option value="mobile">Mobile Development</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="experience">
-                        <i class="fas fa-chart-line"></i>
-                        Years of Experience
-                    </label>
-                    <select id="experience" required>
-                        <option value="" disabled selected>Select experience level</option>
-                        <option value="0-1">0-1 years (Entry Level)</option>
-                        <option value="1-3">1-3 years (Junior)</option>
-                        <option value="3-5">3-5 years (Mid Level)</option>
-                        <option value="5+">5+ years (Senior)</option>
-                    </select>
-                </div>
-
-                <!-- Skills & About -->
-                <div class="form-group">
-                    <label for="skills">
-                        <i class="fas fa-tools"></i>
-                        Key Skills (comma separated)
-                    </label>
-                    <input type="text" id="skills" placeholder="e.g., JavaScript, React, Node.js, Python" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="about">
-                        <i class="fas fa-file-alt"></i>
-                        Professional Summary
-                    </label>
-                    <textarea id="about" placeholder="Tell employers about yourself, your experience, and what you're looking for..." required></textarea>
-                </div>
-
-                <!-- File Upload -->
-                <div class="file-input-container">
-                    <label for="resume" class="file-input-label">
-                        <i class="fas fa-upload"></i>
-                        Upload Resume (PDF, DOC, DOCX)
-                    </label>
-                    <input type="file" id="resume" accept=".pdf,.doc,.docx" />
-                </div>
-
-                <div class="file-input-container">
-                    <label for="portfolio" class="file-input-label">
-                        <i class="fas fa-folder-open"></i>
-                        Upload Portfolio/Projects (Optional)
-                    </label>
-                    <input type="file" id="portfolio" accept=".pdf,.zip,.rar" />
-                </div>
-
-                <!-- Submit Button -->
-                <button type="submit" class="btn" style="width: 100%; margin-top: 20px;">
-                    <i class="fas fa-rocket"></i>
-                    Launch Your Career Profile
-                </button>
-            </form>
-
-            <!-- Success Message -->
-            <div class="success-message" id="successMessage">
-                <i class="fas fa-check-circle"></i>
-                <h3>Profile Submitted Successfully!</h3>
-                <p>Your profile is now visible to employers. We'll notify you when opportunities match your skills.</p>
-                <p style="margin-top: 15px; font-size: 0.9rem; color: rgba(255,255,255,0.6);">
-                    Estimated profile review time: 24-48 hours
-                </p>
-                <button class="btn-outline" style="margin-top: 20px; width: 100%;" id="viewProfileBtn">
-                    <i class="fas fa-eye"></i>
-                    View Your Profile
-                </button>
+        <!-- Progress Tracker -->
+        <div class="progress-tracker">
+            <div class="tracker-step active">
+                <div class="step-number">1</div>
+                <div class="step-label">Profile Info</div>
+            </div>
+            <div class="tracker-step">
+                <div class="step-number">2</div>
+                <div class="step-label">Skills & Experience</div>
+            </div>
+            <div class="tracker-step">
+                <div class="step-number">3</div>
+                <div class="step-label">Portfolio</div>
+            </div>
+            <div class="tracker-step">
+                <div class="step-number">4</div>
+                <div class="step-label">Review & Submit</div>
             </div>
         </div>
 
-        <!-- Stats Section -->
-        <div class="benefits" style="margin-top: 80px;">
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3>1,500+</h3>
-                <p>Active Profiles</p>
+        <!-- Form Card -->
+        <div class="form-card" id="profileFormCard">
+            <div class="form-header">
+                <h2>
+                    <i class="fas fa-user-plus"></i>
+                    Create Your Shining Zone Profile
+                </h2>
             </div>
             
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-handshake"></i>
+            <div class="form-body">
+                <form id="shiningForm">
+                    <div class="form-grid">
+                        <!-- Personal Information -->
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="fullName" placeholder="Enter your full name" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="you@example.com" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-phone"></i>
+                                Phone Number
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone"></i>
+                                <input type="text" id="phone" placeholder="+255 700 000 000" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-graduation-cap"></i>
+                                Education Level
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-graduation-cap"></i>
+                                <select id="universityLevel" required>
+                                    <option value="" disabled selected>Select education level</option>
+                                    <option value="diploma">Diploma</option>
+                                    <option value="bachelor">Bachelor's Degree</option>
+                                    <option value="master">Master's Degree</option>
+                                    <option value="phd">PhD</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-briefcase"></i>
+                                Career Field
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-briefcase"></i>
+                                <select id="career" required>
+                                    <option value="" disabled selected>Select career field</option>
+                                    <option value="software">Software Engineering</option>
+                                    <option value="web">Web Development</option>
+                                    <option value="design">UI/UX Design</option>
+                                    <option value="data">Data Science</option>
+                                    <option value="ai">Artificial Intelligence</option>
+                                    <option value="devops">DevOps Engineering</option>
+                                    <option value="mobile">Mobile Development</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-chart-line"></i>
+                                Years of Experience
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-chart-line"></i>
+                                <select id="experience" required>
+                                    <option value="" disabled selected>Select experience</option>
+                                    <option value="0-1">0-1 years (Entry Level)</option>
+                                    <option value="1-3">1-3 years (Junior)</option>
+                                    <option value="3-5">3-5 years (Mid Level)</option>
+                                    <option value="5+">5+ years (Senior)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-tools"></i>
+                                Key Skills
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-tools"></i>
+                                <input type="text" id="skills" placeholder="e.g., JavaScript, React, Node.js, Python" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label class="form-label">
+                                <i class="fas fa-file-alt"></i>
+                                Professional Summary
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-file-alt"></i>
+                                <textarea id="about" placeholder="Tell employers about yourself, your experience, and what you're looking for..." required></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Uploads -->
+                    <div class="file-upload-container">
+                        <label for="resume" class="file-upload-label">
+                            <div>
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div>
+                                <span>Upload Resume</span>
+                                <small>PDF, DOC, DOCX (Max 5MB)</small>
+                            </div>
+                        </label>
+                        <input type="file" id="resume" class="file-upload-input" accept=".pdf,.doc,.docx" />
+                    </div>
+
+                    <div class="file-upload-container">
+                        <label for="portfolio" class="file-upload-label">
+                            <div>
+                                <i class="fas fa-folder-open"></i>
+                            </div>
+                            <div>
+                                <span>Upload Portfolio</span>
+                                <small>PDF, ZIP, RAR (Optional, Max 10MB)</small>
+                            </div>
+                        </label>
+                        <input type="file" id="portfolio" class="file-upload-input" accept=".pdf,.zip,.rar" />
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block" id="submitProfileBtn">
+                        <i class="fas fa-rocket"></i>
+                        Launch Your Career Profile
+                    </button>
+                </form>
+
+                <!-- Success Message -->
+                <div class="success-message" id="successMessage">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Profile Submitted Successfully!</h3>
+                    <p>Your profile is now visible to employers in the Shining Zone. We'll notify you when opportunities match your skills.</p>
+                    <div class="badge">
+                        <i class="fas fa-clock"></i> Estimated review time: 24-48 hours
+                    </div>
+                    <button class="btn btn-secondary" id="viewProfileBtn">
+                        <i class="fas fa-eye"></i>
+                        View Your Profile
+                    </button>
                 </div>
-                <h3>89%</h3>
-                <p>Successful Matches</p>
-            </div>
-            
-            <div class="benefit-card">
-                <div class="benefit-icon">
-                    <i class="fas fa-building"></i>
-                </div>
-                <h3>250+</h3>
-                <p>Partner Companies</p>
             </div>
         </div>
-    </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2>Ready to Shine?</h2>
+                <p>Join thousands of professionals who have already transformed their careers through the Shining Zone.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-gold" id="ctaCreateProfileBtn">
+                        <i class="fas fa-star"></i>
+                        Create Your Profile Now
+                    </button>
+                    <a href="contact.html" class="btn btn-secondary" style="background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3);">
+                        <i class="fas fa-headset"></i>
+                        Contact Support
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <p><a href="platform_owner.html">© 2026 ANGAZA | Powered by Othman Almas Mwiha 🚀</a></p>
-        <div style="margin-top:10px; font-size:0.7rem;">
-            Last updated: <span id="lastUpdated"></span>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">A</div>
+                        <div class="logo-text">ANGAZA</div>
+                    </a>
+                    <p class="footer-description">
+                        Transforming employment connections through innovative technology and professional networks across Africa.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="worksd.html">Find Work</a></li>
+                        <li><a href="workersd.html">Find Workers</a></li>
+                        <li><a href="shining_zoned.html">Shining Zone</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="platform_owner.html">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Insights</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 ANGAZA. All rights reserved.</p>
+                <p class="copyright">Powered by Othman Almas Mwiha</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Toast Notification - ADDED -->
+    <!-- Toast Notification -->
     <div class="toast" id="toast">
-        <i class="fas fa-check-circle" style="color:#22c55e;"></i>
-        <span id="toastMessage">Action completed successfully!</span>
+        <i class="fas fa-check-circle"></i>
+        <div class="toast-content">
+            <div class="toast-title">Success</div>
+            <div class="toast-message" id="toastMessage">Action completed successfully</div>
+        </div>
+        <button class="toast-close" onclick="this.closest('.toast').classList.remove('show')">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
 
-    <!-- Confirm Logout Modal - ADDED -->
+    <!-- Confirm Logout Modal -->
     <div class="confirm-modal" id="confirmLogoutModal">
         <div class="confirm-content">
-            <i class="fas fa-sign-out-alt" style="font-size: 3rem; color: #ef4444; margin-bottom: 15px;"></i>
-            <h3>Confirm Logout</h3>
-            <p style="margin: 15px 0; opacity: 0.8;">Are you sure you want to logout from your account?</p>
-            <div class="confirm-buttons">
+            <div class="confirm-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <h3>Confirm Sign Out</h3>
+            <p>Are you sure you want to sign out of your account?</p>
+            <div class="confirm-actions">
                 <button class="confirm-btn cancel" id="cancelLogout">Cancel</button>
-                <button class="confirm-btn logout" id="confirmLogout">Logout</button>
+                <button class="confirm-btn logout" id="confirmLogout">Sign Out</button>
             </div>
         </div>
     </div>
 
+    <!-- ====== PRESERVED BACKEND FUNCTIONALITY ====== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } 
@@ -1231,7 +2291,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check authentication
+        // 🔐 Authentication Check
         onAuthStateChanged(auth, async (user) => {
             if (!user) {
                 window.location.href = "/angaza/index.html";
@@ -1247,203 +2307,298 @@
             const snap = await getDocs(q);
             snap.forEach(doc => {
                 const data = doc.data();
+                document.getElementById("userEmail").textContent = user.email;
+                document.getElementById("userName").textContent = data.fullName || "User";
                 
                 // Pre-fill form if user has existing data
-                if (data.name) {
-                    document.getElementById("fullName").value = data.name;
+                if (data.fullName) {
+                    document.getElementById("fullName").value = data.fullName;
+                }
+                if (data.email) {
+                    document.getElementById("email").value = data.email;
                 }
                 if (data.career) {
-                    document.getElementById("career").value = data.career.toLowerCase();
-                }
-                if (data.location) {
-                    // Could add location field if needed
+                    const careerSelect = document.getElementById("career");
+                    if (careerSelect) {
+                        careerSelect.value = data.career.toLowerCase();
+                    }
                 }
             });
         });
 
-        // Logout functionality from avatar dropdown
-        document.getElementById('logoutFromAvatarBtn').addEventListener('click', function() {
-            document.getElementById('confirmLogoutModal').style.display = 'flex';
-            document.getElementById('avatarOptions').classList.remove('show');
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('confirmLogoutModal').classList.add('show');
+            document.getElementById('userMenu').classList.remove('show');
         });
 
         document.getElementById('cancelLogout').addEventListener('click', function() {
-            document.getElementById('confirmLogoutModal').style.display = 'none';
+            document.getElementById('confirmLogoutModal').classList.remove('show');
         });
 
         document.getElementById('confirmLogout').addEventListener('click', async function() {
             try {
                 await signOut(auth);
-
-                // 🔥 RUDI HOME PAGE
                 window.location.href = "/angaza/index.html";
-
             } catch (error) {
                 console.error("Logout error:", error);
-                showToast('Error during logout. Please try again.');
+                showToast('Error', 'Error during logout. Please try again.', 'error');
             }
         });
 
         // Close logout modal when clicking outside
         document.getElementById('confirmLogoutModal').addEventListener('click', function(event) {
             if (event.target === this) {
-                this.style.display = 'none';
+                this.classList.remove('show');
             }
         });
 
-        // Close dropdowns when clicking outside
+        // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
-            const avatarContainer = document.querySelector('.avatar-upload-container');
-            const avatarOptions = document.getElementById('avatarOptions');
-            
-            // Close avatar options if clicking outside
-            if (!avatarContainer.contains(event.target)) {
-                avatarOptions.classList.remove('show');
-            }
-        });
-    </script>
-
-    <script>
-        // Profile Picture Management
-        let currentProfilePicture = null;
-        
-        // Function to show toast notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-        
-        // Function to handle profile picture upload
-        function handleProfilePictureUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            // Check if file is an image
-            if (!file.type.match('image.*')) {
-                showToast('Please select an image file');
-                return;
-            }
-            
-            // Check file size (max 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                showToast('Image size should be less than 5MB');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                // Save the picture data
-                currentProfilePicture = e.target.result;
-                
-                // Update the avatar display
-                const avatar = document.getElementById('userAvatar');
-                avatar.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = currentProfilePicture;
-                img.alt = 'Profile Picture';
-                avatar.appendChild(img);
-                
-                // Show success message
-                showToast('Profile picture uploaded successfully!');
-                
-                // Save to localStorage
-                localStorage.setItem('angazaProfilePicture', currentProfilePicture);
-                
-                // Close avatar options
-                document.getElementById('avatarOptions').classList.remove('show');
-            };
-            
-            reader.readAsDataURL(file);
-        }
-        
-        // Function to remove profile picture
-        function removeProfilePicture() {
-            if (!currentProfilePicture) {
-                showToast('No profile picture to remove');
-                return;
-            }
-            
-            // Reset to default icon
-            currentProfilePicture = null;
-            const avatar = document.getElementById('userAvatar');
-            avatar.innerHTML = '<i class="fas fa-user"></i>';
-            
-            // Remove from localStorage
-            localStorage.removeItem('angazaProfilePicture');
-            
-            // Show success message
-            showToast('Profile picture removed');
-            
-            // Close avatar options
-            document.getElementById('avatarOptions').classList.remove('show');
-        }
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set last updated time
-            const now = new Date();
-            document.getElementById('lastUpdated').textContent = 
-                now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            // Load profile picture from localStorage if exists
-            const savedProfilePicture = localStorage.getItem('angazaProfilePicture');
-            if (savedProfilePicture) {
-                currentProfilePicture = savedProfilePicture;
-                const avatar = document.getElementById('userAvatar');
-                avatar.innerHTML = '';
-                const img = document.createElement('img');
-                img.src = currentProfilePicture;
-                img.alt = 'Profile Picture';
-                avatar.appendChild(img);
-            }
-            
-            // Theme toggle functionality
-            const themeToggle = document.getElementById('themeToggle');
-            themeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('light-theme');
-                const icon = this.querySelector('i');
-                const text = this.querySelector('span');
-                
-                if (document.body.classList.contains('light-theme')) {
-                    icon.className = 'fas fa-sun';
-                    text.textContent = 'Light';
-                } else {
-                    icon.className = 'fas fa-moon';
-                    text.textContent = 'Dark';
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu && !dropdown.contains(event.target)) {
+                    menu.classList.remove('show');
                 }
             });
+        });
+    </script>
+<script>
+    // Profile Picture Management
+    let currentProfilePicture = null;
+    
+    function handleProfilePictureUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        if (!file.type.match('image.*')) {
+            showToast('Invalid File', 'Please select an image file', 'error');
+            return;
+        }
+        
+        if (file.size > 5 * 1024 * 1024) {
+            showToast('File Too Large', 'Image size should be less than 5MB', 'error');
+            return;
+        }
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            currentProfilePicture = e.target.result;
+            
+            const avatar = document.getElementById('userAvatar');
+            avatar.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = currentProfilePicture;
+            img.alt = 'Profile';
+            avatar.appendChild(img);
+            
+            showToast('Success', 'Profile picture uploaded successfully!', 'success');
+            document.getElementById('userMenu').classList.remove('show');
+            localStorage.setItem('angazaProfilePicture', currentProfilePicture);
+        };
+        
+        reader.readAsDataURL(file);
+    }
+    
+    function removeProfilePicture() {
+        if (!currentProfilePicture) {
+            showToast('No Picture', 'No profile picture to remove', 'error');
+            return;
+        }
+        
+        currentProfilePicture = null;
+        const avatar = document.getElementById('userAvatar');
+        avatar.innerHTML = '<i class="fas fa-user"></i>';
+        
+        showToast('Success', 'Profile picture removed', 'success');
+        document.getElementById('userMenu').classList.remove('show');
+        localStorage.removeItem('angazaProfilePicture');
+    }
 
-            // Profile picture click - show avatar options
-            document.getElementById('userAvatar').addEventListener('click', function(e) {
+    // Toast notification function
+    window.showToast = function(title, message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const toastTitle = toast.querySelector('.toast-title');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = toast.querySelector('i');
+        
+        toastTitle.textContent = title;
+        toastMessage.textContent = message;
+        
+        if (type === 'success') {
+            toast.className = 'toast success';
+            toastIcon.className = 'fas fa-check-circle';
+        } else if (type === 'error') {
+            toast.className = 'toast error';
+            toastIcon.className = 'fas fa-exclamation-circle';
+        } else {
+            toast.className = 'toast';
+            toastIcon.className = 'fas fa-info-circle';
+        }
+        
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 4000);
+    };
+
+    // ====== FIXED: Single source of truth for dropdowns ======
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load saved profile picture
+        const savedProfilePicture = localStorage.getItem('angazaProfilePicture');
+        if (savedProfilePicture) {
+            currentProfilePicture = savedProfilePicture;
+            const avatar = document.getElementById('userAvatar');
+            avatar.innerHTML = '';
+            const img = document.createElement('img');
+            img.src = currentProfilePicture;
+            img.alt = 'Profile';
+            avatar.appendChild(img);
+        }
+
+        // ====== AVATAR DROPDOWN - SINGLE HANDLER ======
+        const userAvatar = document.getElementById('userAvatar');
+        const userMenu = document.getElementById('userMenu');
+        
+        if (userAvatar && userMenu) {
+            // Remove any existing listeners and add fresh one
+            userAvatar.replaceWith(userAvatar.cloneNode(true));
+            const newAvatar = document.getElementById('userAvatar');
+            
+            newAvatar.addEventListener('click', function(e) {
                 e.stopPropagation();
-                document.getElementById('avatarOptions').classList.toggle('show');
+                e.preventDefault();
+                
+                // Close notification dropdown if open
+                const notificationMenu = document.getElementById('notificationMenu');
+                if (notificationMenu) notificationMenu.classList.remove('show');
+                
+                // Toggle user menu
+                userMenu.classList.toggle('show');
             });
+        }
 
-            // Upload picture button
-            document.getElementById('uploadPictureBtn').addEventListener('click', function() {
+        // ====== NOTIFICATION DROPDOWN ======
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationMenu = document.getElementById('notificationMenu');
+        
+        if (notificationBtn && notificationMenu) {
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                // Close user menu if open
+                if (userMenu) userMenu.classList.remove('show');
+                
+                // Toggle notification menu
+                notificationMenu.classList.toggle('show');
+            });
+        }
+
+        // ====== CLOSE DROPDOWNS WHEN CLICKING OUTSIDE ======
+        document.addEventListener('click', function(event) {
+            // Close user menu if clicking outside
+            if (userMenu && userAvatar && !userAvatar.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.remove('show');
+            }
+            
+            // Close notification menu if clicking outside
+            if (notificationMenu && notificationBtn && !notificationBtn.contains(event.target) && !notificationMenu.contains(event.target)) {
+                notificationMenu.classList.remove('show');
+            }
+        });
+
+        // ====== UPLOAD PICTURE BUTTON ======
+        const uploadBtn = document.getElementById('uploadPictureBtn');
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 document.getElementById('profilePictureInput').click();
+                if (userMenu) userMenu.classList.remove('show');
             });
+        }
 
-            // Remove picture button
-            document.getElementById('removePictureBtn').addEventListener('click', function() {
+        // ====== REMOVE PICTURE BUTTON ======
+        const removeBtn = document.getElementById('removePictureBtn');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
                 removeProfilePicture();
             });
+        }
 
-            // File input change
-            document.getElementById('profilePictureInput').addEventListener('change', handleProfilePictureUpload);
+        // ====== FILE INPUT CHANGE ======
+        const fileInput = document.getElementById('profilePictureInput');
+        if (fileInput) {
+            fileInput.addEventListener('change', handleProfilePictureUpload);
+        }
 
-            // Form submission
-            const form = document.getElementById('shiningForm');
-            const successMessage = document.getElementById('successMessage');
-            const viewProfileBtn = document.getElementById('viewProfileBtn');
-            
+        // ====== SCROLL TO FORM BUTTONS ======
+        const scrollToFormBtn = document.getElementById('scrollToFormBtn');
+        if (scrollToFormBtn) {
+            scrollToFormBtn.addEventListener('click', function() {
+                document.getElementById('profileFormCard').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        const ctaCreateProfileBtn = document.getElementById('ctaCreateProfileBtn');
+        if (ctaCreateProfileBtn) {
+            ctaCreateProfileBtn.addEventListener('click', function() {
+                document.getElementById('profileFormCard').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        const learnMoreBtn = document.getElementById('learnMoreBtn');
+        if (learnMoreBtn) {
+            learnMoreBtn.addEventListener('click', function() {
+                showToast('Info', 'Learn more about Shining Zone', 'info');
+            });
+        }
+
+        // ====== FILE UPLOAD HANDLING ======
+        const resumeInput = document.getElementById('resume');
+        if (resumeInput) {
+            resumeInput.addEventListener('change', function() {
+                const label = this.previousElementSibling;
+                if (this.files.length > 0) {
+                    label.style.borderColor = 'var(--success)';
+                    label.style.background = 'var(--success-soft)';
+                    label.querySelector('span').innerHTML = `<i class="fas fa-check"></i> ${this.files[0].name}`;
+                } else {
+                    label.style.borderColor = '';
+                    label.style.background = '';
+                    label.querySelector('span').innerHTML = 'Upload Resume';
+                }
+            });
+        }
+
+        const portfolioInput = document.getElementById('portfolio');
+        if (portfolioInput) {
+            portfolioInput.addEventListener('change', function() {
+                const label = this.previousElementSibling;
+                if (this.files.length > 0) {
+                    label.style.borderColor = 'var(--success)';
+                    label.style.background = 'var(--success-soft)';
+                    label.querySelector('span').innerHTML = `<i class="fas fa-check"></i> ${this.files[0].name}`;
+                } else {
+                    label.style.borderColor = '';
+                    label.style.background = '';
+                    label.querySelector('span').innerHTML = 'Upload Portfolio';
+                }
+            });
+        }
+
+        // ====== FORM SUBMISSION ======
+        const form = document.getElementById('shiningForm');
+        const successMessage = document.getElementById('successMessage');
+        const submitBtn = document.getElementById('submitProfileBtn');
+        const viewProfileBtn = document.getElementById('viewProfileBtn');
+        const trackerSteps = document.querySelectorAll('.tracker-step');
+        
+        if (form) {
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -1461,14 +2616,13 @@
                 };
                 
                 // Show loading state
-                const submitBtn = form.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
                 submitBtn.disabled = true;
                 
                 // Simulate API call
                 setTimeout(() => {
-                    // Hide form and show success message
+                    // Hide form, show success message
                     form.style.display = 'none';
                     successMessage.style.display = 'block';
                     
@@ -1476,60 +2630,29 @@
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                     
-                    // Log form data (in real app, send to server)
-                    console.log('Profile submitted:', formData);
+                    // Show toast
+                    showToast('Success', 'Profile created successfully!', 'success');
                     
-                    // Show toast notification
-                    showToast('Profile created successfully!');
+                    // Update progress tracker - mark all as active
+                    trackerSteps.forEach(step => step.classList.add('active'));
+                    
+                    // Log form data
+                    console.log('Shining Zone profile submitted:', formData);
                     
                     // Scroll to success message
                     successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    // Update progress tracker
-                    const trackerSteps = document.querySelectorAll('.tracker-step');
-                    trackerSteps.forEach(step => step.classList.add('active'));
-                    
                 }, 2000);
             });
+        }
 
-            // View profile button
+        // ====== VIEW PROFILE BUTTON ======
+        if (viewProfileBtn) {
             viewProfileBtn.addEventListener('click', function() {
-                showToast('Opening your profile...');
-                // In real app: window.location.href = 'profile.html';
+                showToast('Profile', 'Opening your Shining Zone profile...', 'info');
+                // In real app: window.location.href = 'shining-profile.html';
             });
-
-            // File input handling
-            const fileInputs = document.querySelectorAll('input[type="file"]');
-            fileInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    const label = this.previousElementSibling;
-                    if (this.files.length > 0) {
-                        const fileName = this.files[0].name;
-                        label.innerHTML = `<i class="fas fa-check"></i> ${fileName}`;
-                        label.style.borderStyle = 'solid';
-                        label.style.borderColor = '#22c55e';
-                    } else {
-                        const icon = this.id === 'resume' ? 'fa-upload' : 'fa-folder-open';
-                        label.innerHTML = `<i class="fas ${icon}"></i> ${label.textContent}`;
-                        label.style.borderStyle = 'dashed';
-                        label.style.borderColor = 'rgba(250, 204, 21, 0.3)';
-                    }
-                });
-            });
-
-            // Form input focus effects
-            const formInputs = form.querySelectorAll('input, select, textarea');
-            formInputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.style.transform = 'translateY(-2px)';
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-        });
-    </script>
-</body>
+        }
+    });
+</script>
+    </body>
 </html>
-
