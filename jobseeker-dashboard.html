@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -588,13 +589,40 @@
             z-index: 1;
         }
 
-        .welcome-title {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 0.5rem;
-            animation: slideRight 0.5s ease-out;
-        }
+        /* ====== WELCOME TITLE WITH WAVING BLUE-GOLD ANIMATION ====== */
+.welcome-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    animation: slideRight 0.5s ease-out;
+    
+    /* Text remains fixed, colors wave behind it */
+    background: linear-gradient(
+        90deg,
+        #0066cc 0%,
+        #0066cc 30%,
+        #ffd700 50%,
+        #0066cc 70%,
+        #0066cc 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: waveColors 3s ease-in-out infinite;
+}
+
+@keyframes waveColors {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
         .welcome-subtitle {
             font-size: 1rem;
