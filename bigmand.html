@@ -5,960 +5,1258 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apply | BIGMAN OTHMAN Tech Ltd - ANGAZA</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
-    /* ====== MODIFIED CSS FOR POPPED-OUT FORM ====== */
+    /* ====== CSS Reset & Variables ====== */
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #0052a3;
+      --primary-light: #e6f2ff;
+      --primary-soft: rgba(0, 102, 204, 0.08);
+      --secondary: #1a1a2e;
+      --accent: #00a8cc;
+      --light: #f8fafc;
+      --gray-50: #f9fafb;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --success-soft: rgba(16, 185, 129, 0.08);
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --warning-soft: rgba(245, 158, 11, 0.08);
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --danger-soft: rgba(239, 68, 68, 0.08);
+      --info: #3b82f6;
+      --info-light: #dbeafe;
+      --info-soft: rgba(59, 130, 246, 0.08);
+      --border: 1px solid #e2e8f0;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-glow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+      --shadow-glow-success: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      --shadow-glow-warning: 0 0 0 3px rgba(245, 158, 11, 0.1);
+      --shadow-glow-danger: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      --radius: 8px;
+      --radius-lg: 12px;
+      --radius-xl: 16px;
+      --radius-2xl: 20px;
+      --radius-full: 9999px;
+      --transition: all 0.2s ease;
+      --transition-slow: all 0.3s ease;
+      --transition-bounce: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
     }
-    
-    /* Remove background gradients and fixed positioning */
+
     body {
-      background: transparent;
-      color: #fff;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+      color: var(--gray-900);
       min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
-    
-    /* Container for the popped-out form */
-    .popup-container {
+
+    /* ====== Animated Background ====== */
+    .application-bg {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(5px);
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-grid {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(var(--gray-200) 1px, transparent 1px),
+        linear-gradient(to right, var(--gray-200) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.2;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(40px); }
+    }
+
+    .bg-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(0, 102, 204, 0.03) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(0, 168, 204, 0.03) 0%, transparent 50%);
+      animation: glowPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.6; }
+    }
+
+    /* ====== Modal Container ====== */
+    .application-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       z-index: 10000;
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 20px;
-      animation: fadeIn 0.3s ease;
+      justify-content: center;
+      padding: 1.5rem;
+      animation: fadeIn 0.3s ease-out;
     }
-    
-    /* Main form wrapper */
-    .popup-form-wrapper {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      border-radius: 20px;
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .application-card {
+      background: white;
+      border-radius: var(--radius-xl);
       width: 100%;
       max-width: 1000px;
       max-height: 95vh;
       overflow-y: auto;
       position: relative;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 211, 42, 0.2);
-      animation: slideUp 0.4s ease-out;
+      box-shadow: var(--shadow-xl);
+      border: var(--border);
+      animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    
-    /* Popup header */
-    .popup-header {
-      background: rgba(10, 61, 98, 0.95);
-      backdrop-filter: blur(12px);
-      padding: 20px 30px;
-      border-radius: 20px 20px 0 0;
-      border-bottom: 1px solid rgba(255, 211, 42, 0.1);
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* ====== Header ====== */
+    .application-header {
+      padding: 1.5rem 2rem;
+      border-bottom: var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: linear-gradient(135deg, white 0%, var(--gray-50) 100%);
       position: sticky;
       top: 0;
       z-index: 10;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     }
-    
-    .popup-title {
+
+    .header-left {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 1rem;
     }
-    
-    .popup-logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #ffd32a;
-      text-shadow: 0 0 15px rgba(255, 211, 42, 0.5);
+
+    .company-badge {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--gray-100) 100%);
+      border-radius: var(--radius);
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.5rem;
     }
-    
-    .popup-logo i {
-      font-size: 1.6rem;
-    }
-    
-    .popup-actions {
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-    
-    /* REMOVED: Theme toggle completely */
-    .theme-toggle {
-      display: none !important;
-    }
-    
-    /* REMOVED: Header navigation */
-    header {
-      display: none !important;
-    }
-    
-    /* REMOVED: Footer */
-    footer {
-      display: none !important;
-    }
-    
-    /* Cancel button styling */
-    .cancel-btn {
-      background: transparent;
-      border: 1px solid rgba(239, 68, 68, 0.5);
-      color: #ef4444;
-      padding: 10px 20px;
-      border-radius: 25px;
+
+    .header-title h2 {
+      font-size: 1.25rem;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
+      color: var(--gray-900);
+      margin-bottom: 0.25rem;
+    }
+
+    .header-title p {
+      font-size: 0.875rem;
+      color: var(--gray-600);
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.95rem;
+      gap: 0.5rem;
     }
-    
-    .cancel-btn:hover {
-      background: rgba(239, 68, 68, 0.1);
-      transform: translateY(-2px);
-      border-color: #ef4444;
+
+    .close-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: transparent;
+      border: none;
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-bounce);
     }
-    
-    /* Application hero - adjusted for popup */
+
+    .close-btn:hover {
+      background: var(--gray-100);
+      color: var(--gray-900);
+      transform: rotate(90deg) scale(1.1);
+    }
+
+    /* ====== Hero Section ====== */
     .application-hero {
-      padding: 40px 30px 30px;
-      text-align: center;
-      background: linear-gradient(135deg,
-        rgba(15, 32, 39, 0.95),
-        rgba(32, 58, 67, 0.9),
-        rgba(44, 83, 100, 0.85));
-      border-bottom: 1px solid rgba(255, 211, 42, 0.1);
+      padding: 2rem;
+      background: linear-gradient(135deg, 
+        rgba(0, 102, 204, 0.05) 0%, 
+        rgba(0, 168, 204, 0.05) 100%);
+      border-bottom: var(--border);
       position: relative;
       overflow: hidden;
     }
-    
+
     .application-hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        radial-gradient(circle at 20% 80%, rgba(255, 211, 42, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-      z-index: 1;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0, 102, 204, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
     }
-    
+
+    .application-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: -10%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 168, 204, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(20px, -20px) rotate(5deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
     .hero-content {
       position: relative;
       z-index: 2;
     }
-    
-    .hero-content h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      background: linear-gradient(135deg, #ffd32a, #ffc312);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      line-height: 1.2;
+
+    .company-profile {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
     }
-    
-    .company-info {
+
+    .company-logo-large {
+      width: 80px;
+      height: 80px;
+      background: white;
+      border-radius: var(--radius-lg);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
+      color: var(--primary);
+      font-size: 2.5rem;
+      box-shadow: var(--shadow-md);
+      border: var(--border);
+    }
+
+    .company-info-large h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .company-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
       flex-wrap: wrap;
     }
-    
-    .company-logo {
-      font-size: 2.2rem;
-      color: #ffd32a;
+
+    .company-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--gray-600);
     }
-    
-    .company-details h2 {
-      font-size: 1.6rem;
-      color: #ffd32a;
-      margin-bottom: 5px;
+
+    .company-meta-item i {
+      color: var(--primary);
     }
-    
-    .company-details p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95rem;
-    }
-    
+
     .position-tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(255, 211, 42, 0.15);
-      color: #ffd32a;
-      padding: 8px 20px;
-      border-radius: 20px;
+      gap: 0.5rem;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
       font-weight: 600;
-      font-size: 1rem;
-      margin: 10px 0;
-      border: 1px solid rgba(255, 211, 42, 0.3);
+      font-size: 0.875rem;
     }
-    
-    /* Application progress */
-    .application-progress {
-      padding: 0 30px;
-      margin: 25px 0;
+
+    /* ====== Progress Section ====== */
+    .progress-section {
+      padding: 1.5rem 2rem;
+      border-bottom: var(--border);
+      background: white;
     }
-    
-    .progress-container {
-      margin-top: 10px;
-    }
-    
-    .progress-label {
+
+    .progress-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 5px;
-      font-size: 0.9rem;
+      align-items: center;
+      margin-bottom: 0.75rem;
     }
-    
-    .progress {
+
+    .progress-header span {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-700);
+    }
+
+    .progress-header strong {
+      color: var(--primary);
+    }
+
+    .progress-bar-container {
       width: 100%;
       height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
+      background: var(--gray-200);
+      border-radius: var(--radius-full);
       overflow: hidden;
     }
-    
-    .progress-bar {
+
+    .progress-bar-fill {
       height: 100%;
-      background: linear-gradient(to right, #ffd32a, #ffc312);
-      border-radius: 10px;
-      transition: width 1s ease-out;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      border-radius: var(--radius-full);
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
-    }
-    
-    .progress-bar::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        rgba(255, 255, 255, 0) 100%);
       animation: shimmer 2s infinite;
     }
-    
+
     @keyframes shimmer {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
+      0% { opacity: 1; }
+      50% { opacity: 0.8; }
+      100% { opacity: 1; }
     }
-    
-    /* Application form section */
-    .application-form-section {
-      padding: 30px;
-      max-width: 900px;
-      margin: 0 auto;
+
+    /* ====== Form Section ====== */
+    .form-section {
+      padding: 2rem;
     }
-    
-    .form-container {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 15px;
-      padding: 40px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      position: relative;
+
+    .form-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      border: var(--border);
       overflow: hidden;
+      transition: var(--transition-bounce);
+      box-shadow: var(--shadow-sm);
     }
-    
-    .form-container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, #ffd32a, #ffc312, #ffd32a);
-      background-size: 200% 100%;
-      animation: formShimmer 3s infinite linear;
+
+    .form-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-light);
     }
-    
-    @keyframes formShimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+
+    .form-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: var(--border);
+      background: linear-gradient(135deg, white 0%, var(--gray-50) 100%);
     }
-    
-    .form-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    .form-title h2 {
-      font-size: 1.8rem;
-      color: #ffd32a;
-      margin-bottom: 15px;
+
+    .form-header h3 {
+      font-size: 1.125rem;
       font-weight: 600;
-    }
-    
-    .form-title p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-    
-    .form-group {
-      margin-bottom: 25px;
-      position: relative;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #ffd32a;
-      font-weight: 500;
-      font-size: 0.95rem;
-      position: relative;
-      padding-left: 20px;
-    }
-    
-    .form-group label::before {
-      content: '•';
-      color: #ffd32a;
-      position: absolute;
-      left: 0;
-      font-size: 1.5rem;
-      line-height: 1;
-    }
-    
-    .form-input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      color: #fff;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    .form-input:focus {
-      outline: none;
-      border-color: #ffd32a;
-      box-shadow: 0 0 0 3px rgba(255, 211, 42, 0.1);
-      background: rgba(255, 255, 255, 0.12);
-    }
-    
-    .form-input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-      font-style: italic;
-    }
-    
-    textarea.form-input {
-      resize: vertical;
-      min-height: 110px;
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    .file-input-container {
-      position: relative;
-    }
-    
-    .file-input-label {
+      color: var(--gray-900);
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px dashed rgba(255, 211, 42, 0.5);
-      border-radius: 10px;
-      padding: 14px 18px;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      gap: 0.5rem;
     }
-    
-    .file-input-label:hover {
-      border-color: #ffd32a;
-      background: rgba(255, 211, 42, 0.05);
+
+    .form-header i {
+      color: var(--primary);
+      transition: var(--transition-bounce);
     }
-    
-    .file-input-label i {
-      color: #ffd32a;
-      font-size: 1.2rem;
+
+    .form-card:hover .form-header i {
+      transform: scale(1.1) rotate(5deg);
     }
-    
-    .file-input-label span {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95rem;
-      flex: 1;
+
+    .form-body {
+      padding: 1.5rem;
     }
-    
-    .file-input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-    }
-    
-    .file-note {
-      display: block;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.8rem;
-      margin-top: 6px;
-      font-style: italic;
-    }
-    
+
+    /* ====== Form Grid ====== */
     .form-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
     }
-    
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group.full-width {
+      grid-column: span 2;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-label i {
+      color: var(--primary);
+      margin-right: 0.5rem;
+      font-size: 0.8125rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper i:not(.eye-icon) {
+      position: absolute;
+      left: 1rem;
+      color: var(--gray-400);
+      font-size: 1rem;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .input-wrapper input,
+    .input-wrapper select,
+    .input-wrapper textarea {
+      width: 100%;
+      padding: 0.875rem 1rem 0.875rem 2.75rem;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      color: var(--gray-900);
+      background: white;
+      transition: var(--transition);
+    }
+
+    .input-wrapper select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.75rem;
+    }
+
+    .input-wrapper textarea {
+      min-height: 100px;
+      resize: vertical;
+      padding-top: 0.875rem;
+    }
+
+    .input-wrapper input:focus,
+    .input-wrapper select:focus,
+    .input-wrapper textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .input-wrapper input:focus + i,
+    .input-wrapper select:focus ~ i,
+    .input-wrapper textarea:focus + i {
+      color: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .input-wrapper input::placeholder,
+    .input-wrapper select::placeholder,
+    .input-wrapper textarea::placeholder {
+      color: var(--gray-400);
+    }
+
+    /* ====== File Upload ====== */
+    .file-upload-section {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: var(--border);
+    }
+
+    .file-upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .file-upload-card {
+      background: white;
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+    }
+
+    .file-upload-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      transform: translateY(-4px);
+    }
+
+    .file-upload-card i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      transition: var(--transition-bounce);
+    }
+
+    .file-upload-card:hover i {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .file-upload-card h4 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 0.25rem;
+    }
+
+    .file-upload-card p {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-bottom: 0.5rem;
+    }
+
+    .file-hint {
+      font-size: 0.6875rem;
+      color: var(--gray-400);
+    }
+
+    .file-upload-input {
+      display: none;
+    }
+
+    .file-selected {
+      border-color: var(--success);
+      background: var(--success-soft);
+    }
+
+    .file-selected i {
+      color: var(--success);
+    }
+
+    /* ====== Submit Button ====== */
     .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition-bounce);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #ffd32a, #ffc312);
-      color: #0a3d62;
-      border: none;
-      border-radius: 10px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      margin-top: 35px;
-      font-family: 'Poppins', sans-serif;
+      gap: 0.75rem;
+      margin-top: 2rem;
       position: relative;
       overflow: hidden;
     }
-    
+
     .submit-btn::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.7s;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
     }
-    
+
     .submit-btn:hover::before {
-      left: 100%;
+      width: 300px;
+      height: 300px;
     }
-    
+
     .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 211, 42, 0.4);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
     }
-    
+
     .submit-btn:active {
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
-    
+
+    .submit-btn i {
+      transition: var(--transition-bounce);
+    }
+
+    .submit-btn:hover i {
+      transform: translateX(4px) scale(1.1);
+    }
+
     .submit-btn.loading {
       pointer-events: none;
       opacity: 0.8;
     }
-    
-    /* Success modal - adjusted for popup */
+
+    /* ====== Success Modal ====== */
     .success-modal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
-      display: none;
-      justify-content: center;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 11000;
       align-items: center;
-      z-index: 9999;
-      padding: 20px;
+      justify-content: center;
+      padding: 1.5rem;
     }
-    
-    .modal-content {
-      background: linear-gradient(135deg, #0f2027, #203a43);
-      border: 1px solid rgba(255, 211, 42, 0.2);
-      border-radius: 15px;
-      padding: 40px 30px;
-      max-width: 450px;
+
+    .success-modal.show {
+      display: flex;
+    }
+
+    .success-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      max-width: 500px;
       width: 100%;
+      padding: 2.5rem;
       text-align: center;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      animation: modalIn 0.4s ease-out;
+      animation: successSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: var(--shadow-xl);
     }
-    
-    @keyframes modalIn {
-      from { opacity: 0; transform: translateY(-30px) scale(0.9); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+
+    @keyframes successSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
-    
-    .modal-content::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, #ffd32a, #ffc312);
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--success-soft);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: var(--success);
+      font-size: 2.5rem;
+      animation: bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    
-    .modal-icon {
-      font-size: 3.5rem;
-      color: #22c55e;
-      margin-bottom: 20px;
-      animation: iconBounce 1s ease;
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
-    
-    @keyframes iconBounce {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+
+    .success-card h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.75rem;
     }
-    
-    .modal-content h2 {
-      font-size: 1.8rem;
-      color: #ffd32a;
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-    
-    .modal-content p {
-      color: rgba(255, 255, 255, 0.9);
+
+    .success-card p {
+      color: var(--gray-600);
       line-height: 1.6;
-      margin-bottom: 20px;
-      font-size: 1rem;
+      margin-bottom: 1.5rem;
     }
-    
-    .modal-content strong {
-      color: #ffd32a;
-      display: block;
-      margin-top: 15px;
-      font-size: 1.1rem;
+
+    .success-badge {
+      display: inline-block;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius-full);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
     }
-    
-    .modal-btn {
+
+    .success-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-lg);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+      border: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      background: linear-gradient(135deg, #ffd32a, #ffc312);
-      color: #0a3d62;
-      padding: 12px 30px;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      margin-top: 15px;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .modal-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 211, 42, 0.3);
-    }
-    
-    .confirm-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 2001;
-      align-items: center;
       justify-content: center;
-      animation: fadeIn 0.3s;
+      gap: 0.5rem;
+      font-family: 'Inter', sans-serif;
     }
-    
-    .confirm-content {
-      background: linear-gradient(135deg, #0f2027, #203a43);
-      border-radius: 15px;
-      padding: 25px;
-      width: 90%;
-      max-width: 350px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: center;
-      animation: slideUp 0.4s;
-    }
-    
-    .confirm-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-      justify-content: center;
-    }
-    
-    .confirm-btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-    
-    .confirm-btn.cancel {
-      background: transparent;
-      border: 1px solid #ffd32a;
-      color: #ffd32a;
-    }
-    
-    .confirm-btn.logout {
-      background: linear-gradient(to right, #ef4444, #dc2626);
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: white;
     }
-    
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 2px solid var(--gray-300);
+      color: var(--gray-700);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* ====== Toast Notification ====== */
     .toast {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      padding: 12px 18px;
+      bottom: 2rem;
+      right: 2rem;
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xl);
+      border: var(--border);
+      padding: 1rem 1.25rem;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 0.75rem;
+      min-width: 320px;
       transform: translateY(100px);
       opacity: 0;
-      transition: all 0.3s;
-      z-index: 3000;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 12000;
+      border-left: 4px solid var(--primary);
     }
-    
+
     .toast.show {
       transform: translateY(0);
       opacity: 1;
     }
-    
-    .loading-spinner {
+
+    .toast.success {
+      border-left-color: var(--success);
+    }
+
+    .toast.error {
+      border-left-color: var(--danger);
+    }
+
+    .toast i {
+      font-size: 1.25rem;
+    }
+
+    .toast.success i {
+      color: var(--success);
+    }
+
+    .toast.error i {
+      color: var(--danger);
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 0.125rem;
+    }
+
+    .toast-message {
+      font-size: 0.8125rem;
+      color: var(--gray-600);
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: var(--transition);
+    }
+
+    .toast-close:hover {
+      color: var(--gray-900);
+      transform: scale(1.1);
+    }
+
+    /* ====== Loading Spinner ====== */
+    .spinner {
       display: inline-block;
       width: 18px;
       height: 18px;
       border: 2px solid rgba(255, 255, 255, 0.3);
       border-radius: 50%;
-      border-top-color: #ffd32a;
-      animation: spin 1s ease-in-out infinite;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
     }
-    
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    /* REMOVED: Light theme completely */
-    body.light-theme {
-      display: none !important;
-    }
-    
-    /* Responsive adjustments */
+
+    /* ====== Responsive ====== */
     @media (max-width: 1024px) {
-      .popup-form-wrapper {
-        max-width: 95%;
-      }
-      
       .form-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
       }
-      
-      .form-container {
-        padding: 30px;
+
+      .form-group.full-width {
+        grid-column: span 1;
+      }
+
+      .file-upload-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
-    
+
     @media (max-width: 768px) {
-      .popup-container {
-        padding: 10px;
+      .application-modal {
+        padding: 1rem;
       }
-      
-      .popup-form-wrapper {
-        max-height: 98vh;
-      }
-      
-      .popup-header {
-        padding: 15px 20px;
+
+      .application-header {
+        padding: 1.25rem;
         flex-direction: column;
-        gap: 15px;
+        gap: 1rem;
+        align-items: flex-start;
       }
-      
-      .hero-content h1 {
-        font-size: 1.8rem;
-      }
-      
-      .company-details h2 {
-        font-size: 1.4rem;
-      }
-      
-      .application-form-section {
-        padding: 20px;
-      }
-      
-      .form-container {
-        padding: 25px 20px;
-      }
-      
-      .form-title h2 {
-        font-size: 1.6rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .hero-content h1 {
-        font-size: 1.6rem;
-      }
-      
-      .company-info {
+
+      .company-profile {
         flex-direction: column;
         text-align: center;
       }
-      
-      .form-container {
-        padding: 20px 15px;
+
+      .company-info-large h1 {
+        font-size: 1.5rem;
       }
-      
-      .form-input {
-        padding: 12px 15px;
+
+      .company-meta {
+        justify-content: center;
       }
-      
-      .submit-btn {
-        padding: 14px;
-        font-size: 1rem;
+
+      .file-upload-grid {
+        grid-template-columns: 1fr;
       }
-      
-      .form-title h2 {
-        font-size: 1.4rem;
+
+      .success-actions {
+        flex-direction: column;
       }
-      
-      .modal-content h2 {
-        font-size: 1.4rem;
+
+      .toast {
+        left: 1rem;
+        right: 1rem;
+        min-width: 0;
       }
-      
-      .modal-content p {
-        font-size: 0.95rem;
+    }
+
+    @media (max-width: 480px) {
+      .application-header {
+        padding: 1rem;
       }
+
+      .company-logo-large {
+        width: 64px;
+        height: 64px;
+        font-size: 2rem;
+      }
+
+      .company-info-large h1 {
+        font-size: 1.25rem;
+      }
+
+      .form-body {
+        padding: 1.25rem;
+      }
+
+      .input-wrapper input,
+      .input-wrapper select,
+      .input-wrapper textarea {
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+        font-size: 0.875rem;
+      }
+
+      .file-upload-card {
+        padding: 1rem;
+      }
+
+      .success-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .success-card h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* ====== Accessibility ====== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    input:focus-visible,
+    button:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
   </style>
 </head>
 <body>
-  <div class="popup-container">
-    <div class="popup-form-wrapper">
-      <!-- Popup Header with Cancel button -->
-      <div class="popup-header">
-        <div class="popup-title">
-          <div class="popup-logo">
-            <i class="fas fa-bolt"></i>
-            ANGAZA
+  <!-- Animated Background -->
+  <div class="application-bg">
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+  </div>
+
+  <!-- Application Modal -->
+  <div class="application-modal">
+    <div class="application-card">
+      <!-- Header -->
+      <div class="application-header">
+        <div class="header-left">
+          <div class="company-badge">
+            <i class="fas fa-laptop-code"></i>
           </div>
-          <h3 style="color: #fff; font-weight: 600;">Application Form</h3>
+          <div class="header-title">
+            <h2>Apply for Position</h2>
+            <p>
+              <i class="fas fa-building"></i>
+              BIGMAN OTHMAN Tech Ltd
+            </p>
+          </div>
         </div>
-        <div class="popup-actions">
-          <button class="cancel-btn" id="cancelBtn">
-            <i class="fas fa-times"></i>
-            Cancel
-          </button>
-        </div>
+        <button class="close-btn" id="cancelBtn">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-      
-      <!-- Application Content (kept from original) -->
-      <section class="application-hero">
+
+      <!-- Hero Section -->
+      <div class="application-hero">
         <div class="hero-content">
-          <h1>Apply for Software Engineer Position</h1>
-          <div class="company-info">
-            <div class="company-logo">
+          <div class="company-profile">
+            <div class="company-logo-large">
               <i class="fas fa-laptop-code"></i>
             </div>
-            <div class="company-details">
-              <h2>BIGMAN OTHMAN Tech Ltd</h2>
-              <p>Nairobi, Kenya • Full-time, Remote Available</p>
+            <div class="company-info-large">
+              <h1>Software Engineer</h1>
+              <div class="company-meta">
+                <span class="company-meta-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  Nairobi, Kenya
+                </span>
+                <span class="company-meta-item">
+                  <i class="fas fa-clock"></i>
+                  Full-time
+                </span>
+                <span class="company-meta-item">
+                  <i class="fas fa-globe"></i>
+                  Remote Available
+                </span>
+              </div>
             </div>
           </div>
           <div class="position-tag">
             <i class="fas fa-code"></i>
-            Software Engineer
-          </div>
-          <p style="color: rgba(255, 255, 255, 0.8); max-width: 700px; margin: 20px auto 0;">
-            Submit your application below. We're excited to learn more about your skills and experience!
-          </p>
-        </div>
-      </section>
-      
-      <div class="application-progress">
-        <div class="progress-container">
-          <div class="progress-label">
-            <span>Application Progress</span>
-            <span id="applicationProgressText">Step 1 of 3</span>
-          </div>
-          <div class="progress">
-            <div class="progress-bar" id="applicationProgress" style="width: 33%"></div>
+            Senior Software Engineer • 2+ years experience
           </div>
         </div>
       </div>
-      
-      <section class="application-form-section">
-        <div class="form-container">
-          <div class="form-title">
-            <h2>Application Form for BIGMAN OTHMAN Tech Ltd Dashboard</h2>
-            <p>Complete all fields below to submit your application. All fields marked with (*) are required.</p>
-          </div>
-          <form id="applicationForm">
-            <div class="form-grid">
-              <div>
-                <div class="form-group">
-                  <label for="fullName">Full Name *</label>
-                  <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                  <label for="email">Email Address *</label>
-                  <input type="email" id="email" class="form-input" placeholder="example@gmail.com" required>
-                </div>
-                <div class="form-group">
-                  <label for="phone">Phone Number *</label>
-                  <input type="tel" id="phone" class="form-input" placeholder="+255 700 000 000" required>
-                </div>
-                <div class="form-group">
-                  <label for="location">Your Location</label>
-                  <input type="text" id="location" class="form-input" placeholder="Dar es Salaam, Tanzania">
-                </div>
-                <div class="form-group">
-                  <label for="portfolio">Portfolio Link</label>
-                  <input type="url" id="portfolio" class="form-input" placeholder="https://github.com/username">
-                  <span class="file-note">Link to your GitHub, LinkedIn, or personal website</span>
-                </div>
-              </div>
-              <div>
-                <div class="form-group">
-                  <label for="summary">Short Professional Summary *</label>
-                  <textarea id="summary" class="form-input" placeholder="Tell us about your skills, experience and abilities..." rows="5" required></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="whyPosition">Why do you want this position? *</label>
-                  <textarea id="whyPosition" class="form-input" placeholder="Explain why you're interested in this role and what you can bring to the team..." rows="4" required></textarea>
-                </div>
-              </div>
-            </div>
-            <div style="margin-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px;">
-              <h3 style="color: #ffd32a; margin-bottom: 25px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-paperclip"></i>
-                Supporting Documents
-              </h3>
-              <div class="form-group">
-                <label>Degree Certificate</label>
-                <div class="file-input-container">
-                  <label class="file-input-label">
-                    <i class="fas fa-file-certificate"></i>
-                    <span>Click to upload your degree certificate</span>
-                    <input type="file" class="file-input" accept=".pdf,.jpg,.jpeg,.png">
-                  </label>
-                </div>
-                <span class="file-note">PDF, JPG, or PNG (Max size: 5MB)</span>
-              </div>
-              <div class="form-group">
-                <label>Project Certificate / Portfolio</label>
-                <div class="file-input-container">
-                  <label class="file-input-label">
-                    <i class="fas fa-project-diagram"></i>
-                    <span>Click to upload project certificates or portfolio</span>
-                    <input type="file" class="file-input" accept=".pdf,.jpg,.jpeg,.png">
-                  </label>
-                </div>
-                <span class="file-note">Showcase your best work (Max size: 10MB)</span>
-              </div>
-              <div class="form-group">
-                <label>1-Minute Project Video (Optional)</label>
-                <div class="file-input-container">
-                  <label class="file-input-label">
-                    <i class="fas fa-video"></i>
-                    <span>Click to upload a short project video</span>
-                    <input type="file" class="file-input" accept=".mp4,.mov,.avi">
-                  </label>
-                </div>
-                <span class="file-note">MP4, MOV, or AVI (Max size: 50MB, Max length: 1 minute)</span>
-              </div>
-            </div>
-            <button type="submit" class="submit-btn" id="submitBtn">
-              <i class="fas fa-paper-plane"></i>
-              Submit Application
-            </button>
-          </form>
+
+      <!-- Progress Section -->
+      <div class="progress-section">
+        <div class="progress-header">
+          <span>Application Progress</span>
+          <span id="progressPercentage">33%</span>
         </div>
-      </section>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="applicationProgress" style="width: 33%"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+          <span class="text-xs" style="color: var(--gray-500);">Personal Info</span>
+          <span class="text-xs" style="color: var(--gray-500);">Documents</span>
+          <span class="text-xs" style="color: var(--gray-500);">Review</span>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <h3>
+              <i class="fas fa-user-circle"></i>
+              Personal Information
+            </h3>
+          </div>
+          <div class="form-body">
+            <form id="applicationForm">
+              <div class="form-grid">
+                <div class="form-group full-width">
+                  <label class="form-label">
+                    <i class="fas fa-user"></i>
+                    Full Name *
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="fas fa-envelope"></i>
+                    Email Address *
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" placeholder="you@example.com" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="fas fa-phone"></i>
+                    Phone Number *
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" id="phone" placeholder="+255 700 000 000" required>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Location
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="location" placeholder="Dar es Salaam, Tanzania">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <i class="fas fa-link"></i>
+                    Portfolio Link
+                  </label>
+                  <div class="input-wrapper">
+                    <i class="fas fa-link"></i>
+                    <input type="url" id="portfolio" placeholder="https://github.com/username">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label">
+                  <i class="fas fa-file-alt"></i>
+                  Professional Summary *
+                </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-file-alt"></i>
+                  <textarea id="summary" placeholder="Tell us about your skills, experience and abilities..." rows="4" required></textarea>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label class="form-label">
+                  <i class="fas fa-question-circle"></i>
+                  Why do you want this position? *
+                </label>
+                <div class="input-wrapper">
+                  <i class="fas fa-question-circle"></i>
+                  <textarea id="whyPosition" placeholder="Explain why you're interested in this role and what you can bring to the team..." rows="3" required></textarea>
+                </div>
+              </div>
+
+              <!-- File Upload Section -->
+              <div class="file-upload-section">
+                <h4 style="font-size: 1rem; font-weight: 600; color: var(--gray-900); margin-bottom: 1rem;">
+                  <i class="fas fa-paperclip" style="color: var(--primary); margin-right: 0.5rem;"></i>
+                  Supporting Documents
+                </h4>
+                
+                <div class="file-upload-grid">
+                  <!-- Degree Certificate -->
+                  <div class="file-upload-card" id="degreeUploadCard">
+                    <i class="fas fa-file-certificate"></i>
+                    <h4>Degree Certificate</h4>
+                    <p>PDF, JPG, PNG</p>
+                    <span class="file-hint">Max 5MB</span>
+                    <input type="file" id="degreeCertificate" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png">
+                  </div>
+
+                  <!-- Portfolio / Projects -->
+                  <div class="file-upload-card" id="portfolioUploadCard">
+                    <i class="fas fa-folder-open"></i>
+                    <h4>Portfolio / Projects</h4>
+                    <p>PDF, ZIP, Images</p>
+                    <span class="file-hint">Max 10MB</span>
+                    <input type="file" id="projectFiles" class="file-upload-input" accept=".pdf,.zip,.rar,.jpg,.jpeg,.png">
+                  </div>
+
+                  <!-- Project Video (Optional) -->
+                  <div class="file-upload-card" id="videoUploadCard">
+                    <i class="fas fa-video"></i>
+                    <h4>Project Video</h4>
+                    <p>MP4, MOV, AVI</p>
+                    <span class="file-hint">Optional • Max 50MB</span>
+                    <input type="file" id="projectVideo" class="file-upload-input" accept=".mp4,.mov,.avi">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="submit-btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i>
+                Submit Application
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  
+
   <!-- Success Modal -->
   <div class="success-modal" id="successModal">
-    <div class="modal-content">
-      <div class="modal-icon">
+    <div class="success-card">
+      <div class="success-icon">
         <i class="fas fa-check-circle"></i>
       </div>
-      <h2>Application Submitted Successfully!</h2>
+      <h2>Application Sent!</h2>
       <p>
-        Thank you for applying to the Software Engineer position at BIGMAN OTHMAN Tech Ltd.
-        Your application has been received and is now under review.
+        Thank you for applying to the Software Engineer position at 
+        <strong style="color: var(--primary);">BIGMAN OTHMAN Tech Ltd</strong>.
       </p>
-      <p>
-        Invitation notifications will be sent through your account email.
-        Please check your inbox regularly for updates.
+      <div class="success-badge">
+        <i class="fas fa-clock"></i> Under Review
+      </div>
+      <p style="font-size: 0.9375rem;">
+        You'll receive a notification once the employer reviews your application.
+        Track its status in your dashboard.
       </p>
-      <strong>THANKS FOR USING ANGAZA</strong>
-      <button class="modal-btn" onclick="closeModal()">
-        <i class="fas fa-home"></i>
-        Return to Dashboard
-      </button>
-    </div>
-  </div>
-  
-  <!-- Confirm Logout Modal (kept for user functionality) -->
-  <div class="confirm-modal" id="confirmLogoutModal">
-    <div class="confirm-content">
-      <i class="fas fa-sign-out-alt" style="font-size: 3rem; color: #ef4444; margin-bottom: 15px;"></i>
-      <h3>Confirm Logout</h3>
-      <p style="margin: 15px 0; opacity: 0.8;">Are you sure you want to logout from your account?</p>
-      <div class="confirm-buttons">
-        <button class="confirm-btn cancel" id="cancelLogout">Cancel</button>
-        <button class="confirm-btn logout" id="confirmLogout">Logout</button>
+      <div class="success-actions">
+        <button class="btn btn-primary" onclick="window.location.href='worksd.html'">
+          <i class="fas fa-tachometer-alt"></i>
+          Go to Dashboard
+        </button>
+        <button class="btn btn-secondary" onclick="closeSuccessModal()">
+          <i class="fas fa-times"></i>
+          Close
+        </button>
       </div>
     </div>
   </div>
-  
+
   <!-- Toast Notification -->
   <div class="toast" id="toast">
-    <i class="fas fa-check-circle" style="color:#22c55e;"></i>
-    <span id="toastMessage">Action completed successfully!</span>
+    <i class="fas fa-check-circle"></i>
+    <div class="toast-content">
+      <div class="toast-title">Success</div>
+      <div class="toast-message" id="toastMessage">Application submitted successfully!</div>
+    </div>
+    <button class="toast-close" onclick="this.closest('.toast').classList.remove('show')">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
-  
+
+  <!-- ====== PRESERVED BACKEND FUNCTIONALITY ====== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
@@ -979,26 +1277,26 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     
-    // Cancel button functionality - return to works.html
+    // ===== CANCEL / CLOSE FUNCTIONALITY =====
     document.getElementById('cancelBtn').addEventListener('click', function() {
-      window.location.href = 'worksd.html'; // Changed to worksd.html as requested
+      window.location.href = 'worksd.html';
     });
     
-    // Close popup when clicking outside the form
-    document.querySelector('.popup-container').addEventListener('click', function(event) {
+    // Close on outside click
+    document.querySelector('.application-modal').addEventListener('click', function(event) {
       if (event.target === this) {
-        window.location.href = 'worksd.html'; // Changed to worksd.html as requested
+        window.location.href = 'worksd.html';
       }
     });
     
-    // ESC key to cancel
+    // ESC key
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
-        window.location.href = 'worksd.html'; // Changed to worksd.html as requested
+        window.location.href = 'worksd.html';
       }
     });
     
-    // ===== CRITICAL: APPLICATION SUBMISSION WITH ALL FIELD DATA =====
+    // ===== AUTH & PRE-FILL =====
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         // Uncomment in production: window.location.href = "/angaza/index.html";
@@ -1009,91 +1307,153 @@
       const snap = await getDocs(q);
       snap.forEach(doc => {
         const data = doc.data();
-        if (data.name) document.getElementById("fullName").value = data.name;
+        if (data.fullName) document.getElementById("fullName").value = data.fullName;
         if (data.email) document.getElementById("email").value = data.email;
         if (data.location) document.getElementById("location").value = data.location;
       });
     });
     
+    // ===== PROGRESS TRACKER =====
+    function updateProgress() {
+      const requiredFields = document.querySelectorAll('#applicationForm [required]');
+      let completed = 0;
+      
+      requiredFields.forEach(field => {
+        if (field.value && field.value.trim() !== '') {
+          completed++;
+        }
+      });
+      
+      const percentage = (completed / requiredFields.length) * 100;
+      const progressBar = document.getElementById('applicationProgress');
+      const progressText = document.getElementById('progressPercentage');
+      
+      progressBar.style.width = `${percentage}%`;
+      progressText.textContent = `${Math.round(percentage)}%`;
+    }
+    
+    // ===== FILE UPLOAD HANDLING =====
+    function setupFileUpload(cardId, inputId) {
+      const card = document.getElementById(cardId);
+      const input = document.getElementById(inputId);
+      
+      card.addEventListener('click', () => input.click());
+      
+      input.addEventListener('change', function() {
+        if (this.files.length > 0) {
+          card.classList.add('file-selected');
+          const icon = card.querySelector('i');
+          icon.className = 'fas fa-check-circle';
+          card.querySelector('h4').textContent = this.files[0].name.substring(0, 20) + '...';
+        } else {
+          card.classList.remove('file-selected');
+          // Reset icon based on card
+          if (cardId === 'degreeUploadCard') {
+            card.querySelector('i').className = 'fas fa-file-certificate';
+            card.querySelector('h4').textContent = 'Degree Certificate';
+          } else if (cardId === 'portfolioUploadCard') {
+            card.querySelector('i').className = 'fas fa-folder-open';
+            card.querySelector('h4').textContent = 'Portfolio / Projects';
+          } else if (cardId === 'videoUploadCard') {
+            card.querySelector('i').className = 'fas fa-video';
+            card.querySelector('h4').textContent = 'Project Video';
+          }
+        }
+      });
+    }
+    
+    // ===== TOAST NOTIFICATION =====
+    window.showToast = function(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastTitle = toast.querySelector('.toast-title');
+      const toastMessage = document.getElementById('toastMessage');
+      const toastIcon = toast.querySelector('i');
+      
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+      
+      if (type === 'success') {
+        toast.className = 'toast success';
+        toastIcon.className = 'fas fa-check-circle';
+      } else if (type === 'error') {
+        toast.className = 'toast error';
+        toastIcon.className = 'fas fa-exclamation-circle';
+      } else {
+        toast.className = 'toast';
+        toastIcon.className = 'fas fa-info-circle';
+      }
+      
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    };
+    
+    // ===== CLOSE SUCCESS MODAL =====
+    window.closeSuccessModal = function() {
+      document.getElementById('successModal').classList.remove('show');
+      window.location.href = 'worksd.html';
+    };
+    
+    // ===== INITIALIZE =====
     document.addEventListener('DOMContentLoaded', function() {
+      // Setup file uploads
+      setupFileUpload('degreeUploadCard', 'degreeCertificate');
+      setupFileUpload('portfolioUploadCard', 'projectFiles');
+      setupFileUpload('videoUploadCard', 'projectVideo');
+      
+      // Form submission
       const form = document.getElementById('applicationForm');
       const submitBtn = document.getElementById('submitBtn');
       const successModal = document.getElementById('successModal');
       
-      // ===== MAIN FORM SUBMISSION - SENDS ALL DATA TO FIRESTORE =====
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const originalBtnContent = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
+        submitBtn.innerHTML = '<span class="spinner"></span> Submitting...';
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
         
         try {
           const user = auth.currentUser;
-          if (!user) {
-            throw new Error("User not authenticated");
-          }
+          if (!user) throw new Error("User not authenticated");
           
-          // ===== COLLECT ALL FORM DATA =====
           const formData = {
-            // User identification
             userId: user.uid,
             userEmail: user.email,
-            
-            // Personal information (EXACTLY as user filled)
             fullName: document.getElementById('fullName').value.trim(),
             email: document.getElementById('email').value.trim(),
             phone: document.getElementById('phone').value.trim(),
             location: document.getElementById('location').value.trim() || 'Not specified',
-            
-            // Professional information (EXACTLY as user filled)
             summary: document.getElementById('summary').value.trim(),
             whyPosition: document.getElementById('whyPosition').value.trim(),
             portfolio: document.getElementById('portfolio').value.trim() || 'Not provided',
-            
-            // Job details
             company: 'BIGMAN OTHMAN Tech Ltd',
             position: 'Software Engineer',
-            
-            // Application status
-            status: 'Pending Review',  // This is the key field for dashboard filtering
+            status: 'Pending Review',
             submittedAt: serverTimestamp(),
             reviewedAt: null,
             reviewedBy: null,
-            
-            // Metadata
             applicationSource: 'ANGAZA Platform',
             isActive: true
           };
           
-          console.log("=== SUBMITTING APPLICATION ===");
-          console.log("Form Data:", formData);
-          
-          // Save to Firestore "applications" collection
+          console.log("Submitting application:", formData);
           const docRef = await addDoc(collection(db, "applications"), formData);
-          
-          console.log("=== APPLICATION SAVED SUCCESSFULLY ===");
-          console.log("Document ID:", docRef.id);
-          console.log("This application will now appear in the company dashboard!");
+          console.log("Application saved with ID:", docRef.id);
           
           setTimeout(() => {
-            successModal.style.display = 'flex';
+            successModal.classList.add('show');
             form.reset();
             submitBtn.innerHTML = originalBtnContent;
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
-            showToast('Application submitted successfully! The company will review it soon.');
+            showToast('Success', 'Application submitted successfully!', 'success');
           }, 1000);
           
         } catch (err) {
-          console.error("=== ERROR SUBMITTING APPLICATION ===");
           console.error("Error:", err);
-          console.error("Error message:", err.message);
-          console.error("Error code:", err.code);
-          
           setTimeout(() => {
-            showToast("Error submitting application: " + err.message + ". Please try again.");
+            showToast('Error', err.message || 'Failed to submit application', 'error');
             submitBtn.innerHTML = originalBtnContent;
             submitBtn.classList.remove('loading');
             submitBtn.disabled = false;
@@ -1101,95 +1461,15 @@
         }
       });
       
-      const inputs = document.querySelectorAll('.form-input');
+      // Progress tracking
+      const inputs = form.querySelectorAll('input, textarea');
       inputs.forEach(input => {
-        input.addEventListener('focus', function() {
-          this.parentElement.style.transform = 'translateY(-2px)';
-        });
-        input.addEventListener('blur', function() {
-          this.parentElement.style.transform = 'translateY(0)';
-        });
+        input.addEventListener('input', updateProgress);
       });
       
-      const fileInputs = document.querySelectorAll('.file-input');
-      fileInputs.forEach(input => {
-        input.addEventListener('change', function() {
-          const label = this.closest('.file-input-label');
-          if (this.files.length > 0) {
-            const fileName = this.files[0].name;
-            const span = label.querySelector('span');
-            span.innerHTML = `<i class="fas fa-check-circle" style="color: #22c55e; margin-right: 8px;"></i>${fileName}`;
-            label.style.borderColor = '#22c55e';
-            label.style.background = 'rgba(34, 197, 94, 0.1)';
-          } else {
-            const span = label.querySelector('span');
-            const icon = label.querySelector('i').className;
-            if (icon.includes('file-certificate')) {
-              span.textContent = 'Click to upload your degree certificate';
-            } else if (icon.includes('project-diagram')) {
-              span.textContent = 'Click to upload project certificates or portfolio';
-            } else if (icon.includes('video')) {
-              span.textContent = 'Click to upload a short project video';
-            }
-            label.style.borderColor = '';
-            label.style.background = '';
-          }
-        });
-      });
-      
-      const buttons = document.querySelectorAll('.submit-btn, .modal-btn, .cancel-btn, .confirm-btn');
-      buttons.forEach(button => {
-        button.addEventListener('mouseenter', function() {
-          if (!this.classList.contains('loading')) {
-            this.style.transform = 'translateY(-2px)';
-          }
-        });
-        button.addEventListener('mouseleave', function() {
-          if (!this.classList.contains('loading')) {
-            this.style.transform = 'translateY(0)';
-          }
-        });
-      });
-      
-      form.addEventListener('input', function() {
-        const requiredFields = form.querySelectorAll('[required]');
-        let completed = 0;
-        requiredFields.forEach(field => {
-          if (field.value.trim() !== '') {
-            completed++;
-          }
-        });
-        const progressPercentage = (completed / requiredFields.length) * 100;
-        const progressBar = document.getElementById('applicationProgress');
-        const progressText = document.getElementById('applicationProgressText');
-        progressBar.style.width = `${progressPercentage}%`;
-        if (progressPercentage < 33) {
-          progressText.textContent = 'Step 1 of 3';
-        } else if (progressPercentage < 66) {
-          progressText.textContent = 'Step 2 of 3';
-        } else {
-          progressText.textContent = 'Step 3 of 3';
-        }
-      });
-      
-      const progressBar = document.getElementById('applicationProgress');
-      progressBar.style.width = '33%';
+      // Initial progress
+      updateProgress();
     });
-    
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toastMessage');
-      toastMessage.textContent = message;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-    
-    window.closeModal = function() {
-      document.getElementById('successModal').style.display = 'none';
-      window.location.href = 'worksd.html'; // Changed to worksd.html as requested
-    };
   </script>
 </body>
 </html>
