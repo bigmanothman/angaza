@@ -126,92 +126,36 @@
         100% { opacity: 0.6; }
     }
 
-    /* ====== Header ====== */
-    .header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: var(--border);
-        z-index: 1000;
-        padding: 0.875rem 0;
-        box-shadow: var(--shadow-sm);
-        animation: slideDown 0.5s ease-out;
-    }
-
-    @keyframes slideDown {
-        from { transform: translateY(-100%); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-
-    .header-container {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        text-decoration: none;
-        transition: var(--transition-bounce);
-    }
-
-    .logo:hover {
-        transform: scale(1.02);
-    }
-
-    .logo-icon {
-        width: 36px;
-        height: 36px;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-        border-radius: var(--radius);
+    /* ====== Cancel Button - Professional X ====== */
+    .cancel-btn {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        background: white;
+        border: 1px solid var(--gray-200);
+        color: var(--gray-500);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 1.125rem;
-        box-shadow: var(--shadow-md);
+        cursor: pointer;
         transition: var(--transition-bounce);
+        z-index: 100;
+        box-shadow: var(--shadow-sm);
     }
 
-    .logo:hover .logo-icon {
-        transform: rotate(5deg) scale(1.1);
-        box-shadow: var(--shadow-lg);
-    }
-
-    .logo-text {
-        font-size: 1.375rem;
-        font-weight: 700;
+    .cancel-btn:hover {
+        background: var(--gray-50);
+        border-color: var(--gray-300);
         color: var(--gray-900);
-        letter-spacing: -0.015em;
+        transform: rotate(90deg) scale(1.1);
+        box-shadow: var(--shadow-md);
     }
 
-    .nav {
-        display: flex;
-        align-items: center;
-        gap: 2.5rem;
-    }
-
-    .nav-link {
-        color: var(--gray-600);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.9375rem;
-        transition: var(--transition);
-        position: relative;
-        padding: 0.5rem 0;
-    }
-
-    .nav-link:hover {
-        color: var(--primary);
+    .cancel-btn i {
+        font-size: 1.2rem;
     }
 
     /* ====== Signup Container ====== */
@@ -220,7 +164,7 @@
         z-index: 10;
         width: 100%;
         max-width: 700px;
-        margin: 80px auto 40px;
+        margin: 40px auto;
         animation: fadeIn 0.6s ease-out;
     }
 
@@ -249,30 +193,47 @@
         background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
     }
 
-    /* ====== Logo in Card ====== */
+    /* ====== Floating Circular Logo ====== */
     .card-logo {
         display: flex;
         justify-content: center;
         margin-bottom: 1.5rem;
     }
 
-    .card-logo-icon {
-        width: 64px;
-        height: 64px;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-        border-radius: var(--radius-lg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 2rem;
-        box-shadow: var(--shadow-md);
+    .floating-logo {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+        border: 3px solid white;
+        animation: float 4s ease-in-out infinite;
         transition: var(--transition-bounce);
     }
 
-    .card-logo-icon:hover {
-        transform: scale(1.05) rotate(5deg);
-        box-shadow: var(--shadow-lg);
+    .floating-logo:hover {
+        transform: scale(1.05);
+        border-color: var(--primary-light);
+        box-shadow: var(--shadow-xl);
+    }
+
+    .floating-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
     }
 
     /* ====== Form Header ====== */
@@ -1043,10 +1004,6 @@
 
     /* ====== Responsive ====== */
     @media (max-width: 768px) {
-        .header {
-            display: none;
-        }
-
         .signup-container {
             margin-top: 20px;
         }
@@ -1087,6 +1044,13 @@
             left: 20px;
             width: auto;
         }
+
+        .cancel-btn {
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+        }
     }
 
     @media (max-width: 480px) {
@@ -1098,10 +1062,9 @@
             padding: 1.25rem;
         }
 
-        .card-logo-icon {
-            width: 56px;
-            height: 56px;
-            font-size: 1.5rem;
+        .floating-logo {
+            width: 80px;
+            height: 80px;
         }
 
         .form-section {
@@ -1170,30 +1133,18 @@
         <div class="bg-glow"></div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">A</div>
-                <div class="logo-text">ANGAZA</div>
-            </a>
-            
-            <nav class="nav">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="works.html" class="nav-link">Find Work</a>
-                <a href="workers.html" class="nav-link">Find Workers</a>
-                <a href="shining_zone.html" class="nav-link">Shining Zone</a>
-            </nav>
-        </div>
-    </header>
-
     <!-- Main Signup Container -->
     <div class="signup-container">
         <div class="signup-card" id="signupCard">
-            <!-- Logo -->
+            <!-- Professional X Cancel Button -->
+            <button class="cancel-btn" id="cancelBtn" aria-label="Close and return">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Floating Circular Logo -->
             <div class="card-logo">
-                <div class="card-logo-icon">
-                    <i class="fas fa-building"></i>
+                <div class="floating-logo">
+                    <img src="angaza.png" alt="ANGAZA Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-building\' style=\'font-size: 2.5rem; color: var(--primary);\'></i>';">
                 </div>
             </div>
 
@@ -2170,6 +2121,10 @@
     </script>
 
     <script>
+        function el(id) {
+            return document.getElementById(id);
+        }
+
         function handleCancel() {
             if (document.referrer && document.referrer.includes(window.location.hostname)) {
                 window.history.back();
@@ -2179,6 +2134,18 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // ===== CANCEL BUTTON - RETURN TO PREVIOUS PAGE =====
+            const cancelBtn = document.getElementById('cancelBtn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', function() {
+                    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+                        window.history.back();
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+
             setTimeout(() => {
                 const fullName = el('fullName');
                 if (fullName) fullName.focus();
