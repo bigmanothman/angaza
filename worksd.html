@@ -2979,24 +2979,23 @@
             // File input change
             document.getElementById('profilePictureInput').addEventListener('change', handleProfilePictureUpload);
 
-            // Apply buttons functionality
-            const applyBtns = document.querySelectorAll('.apply-btn');
-            applyBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const companyName = this.dataset.company;
-                    showToast('Success', `Application started for ${companyName}`, 'success');
-                    
-                    const originalText = this.innerHTML;
-                    this.innerHTML = '<span class="spinner"></span> Processing...';
-                    this.disabled = true;
-                    
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="fas fa-check"></i> Applied';
-                        this.style.background = 'linear-gradient(135deg, var(--success) 0%, #0e9f6e 100%)';
-                        this.disabled = true;
-                    }, 1500);
-                });
-            });
+            
+           // Apply buttons functionality - OPENS THE APPLICATION MODAL
+const applyBtns = document.querySelectorAll('.apply-btn');
+applyBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const companyName = this.dataset.company;
+        
+        // Open the application form modal for BIGMAN OTHMAN Tech Ltd
+        if (companyName === 'BIGMAN OTHMAN Tech Ltd') {
+            window.location.href = 'bigmand.html';
+        } else {
+            // For other companies, show coming soon message
+            showToast('Coming Soon', `Applications for ${companyName} will open shortly`, 'info');
+        }
+    });
+});
 
             // Filter buttons functionality
             const filterBtns = document.querySelectorAll('.filter-btn');
