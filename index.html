@@ -1016,7 +1016,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js"; import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js"; const firebaseConfig = { apiKey: "AIzaSyBm4uimZ4UNhT_c-t0Dt0WLUwgmHHIMzzk",
         authDomain: "angazasystem.firebaseapp.com", projectId: "angazasystem", }; const app = initializeApp(firebaseConfig); const auth = getAuth(app); localStorage.setItem("redirectAfterLogin", window.location.href); onAuthStateChanged(auth, (user) =>
-        { if (user) { window.location.href = "dashboard.html"; } });
+        { if (user) { window.location.href = "jobseeker-dashboard.html"; } });
     </script>
 
     <script>
@@ -1167,3 +1167,4 @@
 </body>
 
 </html>
+
