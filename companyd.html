@@ -522,18 +522,43 @@
       z-index: 1;
     }
 
-    /* ====== BLUE-GOLD GRADIENT WELCOME TITLE ====== */
-    .welcome-title {
-      font-size: 1.875rem;
-      font-weight: 700;
-      margin-bottom: 0.75rem;
-      animation: slideRight 0.5s ease-out;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--gold) 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
+   /* ====== WELCOME TITLE WITH WAVING BLUE-GOLD ANIMATION ====== */
+.welcome-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    animation: slideRight 0.5s ease-out;
+    
+    /* Waving gradient background - text stays fixed, colors wave behind */
+    background: linear-gradient(
+        90deg,
+        #0066cc 0%,
+        #0066cc 20%,
+        #ffd700 40%,
+        #ffd700 60%,
+        #0066cc 80%,
+        #0066cc 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: waveColors 3s ease-in-out infinite, slideRight 0.5s ease-out;
+    display: inline-block;
+}
+
+/* Keyframes for the waving effect */
+@keyframes waveColors {
+    0% {
+        background-position: 0% 50%;
     }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
 
     .welcome-subtitle {
       font-size: 1rem;
